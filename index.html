@@ -184,9 +184,49 @@ tbody tr:hover{background:var(--bg-soft)}
 .btn-danger{background:var(--danger);color:#fff;font-weight:600;padding:.55rem 1.1rem;border-radius:6px;display:inline-flex;align-items:center;gap:.45rem;transition:all .12s ease;font-size:.85rem;border:1px solid var(--danger)}
 .btn-danger:hover{background:#b91c1c;border-color:#b91c1c}
 .btn-danger .icon{width:15px;height:15px}
-.btn-danger-soft{background:rgba(220,38,38,.08);color:var(--danger);font-weight:600;padding:.55rem 1rem;border-radius:6px;display:inline-flex;align-items:center;gap:.45rem;transition:all .12s ease;font-size:.82rem;border:1px solid rgba(220,38,38,.25)}
+.btn-danger-soft{background:rgba(220,38,38,.08);color:var(--danger);font-weight:600;padding:.55rem 1rem;border-radius:6px;display:inline-flex;align-items:center;gap:.45rem;transition:background .12s ease,color .12s ease,border-color .12s ease;font-size:.82rem;border:1px solid rgba(220,38,38,.25)}
 .btn-danger-soft:hover{background:var(--danger);color:#fff;border-color:var(--danger)}
 .btn-danger-soft .icon{width:14px;height:14px}
+
+/* ===== Payment Method row in Settings ===== */
+.pay-method-row{
+  display:flex;flex-direction:column;gap:.65rem;
+  padding:.85rem .95rem;
+  background:var(--bg-soft);
+  border:1px solid var(--border-soft);
+  border-radius:10px;
+}
+.pay-method-row.disabled{opacity:.6;background:var(--bg-elev)}
+.pay-method-row-top{
+  display:flex;align-items:center;gap:.75rem;
+}
+.pay-method-row-top .pay-icon-wrap{width:38px;height:38px}
+.pay-method-row-meta{flex:1;min-width:0}
+.pay-method-row-name{font-weight:700;font-size:.92rem;color:var(--text);line-height:1.25}
+.pay-method-row-sub{font-size:.72rem;color:var(--text-muted);line-height:1.3}
+.pay-method-toggle{
+  position:relative;width:38px;height:22px;border-radius:999px;
+  background:var(--border-strong);cursor:pointer;
+  transition:background .15s ease;flex-shrink:0;border:none;padding:0;
+}
+.pay-method-toggle::after{
+  content:"";position:absolute;top:2px;left:2px;
+  width:18px;height:18px;border-radius:50%;background:#fff;
+  transition:transform .15s ease;
+  box-shadow:0 1px 2px rgba(0,0,0,0.2);
+}
+.pay-method-toggle.on{background:var(--success)}
+.pay-method-toggle.on::after{transform:translateX(16px)}
+.pay-method-row.disabled .pay-method-row-body{display:none}
+.pay-method-row-body{display:flex;flex-direction:column;gap:.35rem}
+.pay-method-row-body label{font-size:.68rem;text-transform:uppercase;letter-spacing:.04em;color:var(--text-muted);font-weight:600}
+.pay-method-row-body input{
+  background:var(--bg-elev);border:1px solid var(--border);color:var(--text);
+  padding:.55rem .75rem;border-radius:6px;font-size:.82rem;
+  font-family:'SF Mono','Consolas','Courier New',monospace;
+  width:100%;transition:border-color .12s ease;
+}
+.pay-method-row-body input:focus{border-color:var(--accent);outline:none}
 .form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
 .field{display:flex;flex-direction:column;gap:.35rem}
 .field label{font-size:.78rem;color:var(--text);font-weight:600}
@@ -485,10 +525,11 @@ tbody tr:hover{background:var(--bg-soft)}
   max-width:100%;width:auto;height:auto;
   max-height:300px;
   border-radius:8px;border:1px solid var(--border-soft);
-  cursor:pointer;transition:transform .2s ease, filter .2s ease;
+  cursor:pointer;
   object-fit:contain;background:var(--bg-soft);
+  contain:layout paint;
 }
-.sub-receipt-preview:hover{transform:scale(1.02);filter:brightness(1.03)}
+.sub-receipt-preview:hover{border-color:var(--accent)}
 
 .sub-status-timeline{display:flex;flex-direction:column;gap:.65rem;padding:.75rem;background:var(--bg-soft);border-radius:8px;border:1px solid var(--border-soft)}
 .sub-timeline-item{display:flex;gap:.65rem;align-items:flex-start;font-size:.78rem}
@@ -507,11 +548,11 @@ tbody tr:hover{background:var(--bg-soft)}
   border-radius:50%;overflow:hidden;
   background:rgba(127,127,127,0.08);
   border:1px solid var(--border);
+  contain:layout paint;
 }
 .pay-icon-wrap img{
   width:100%;height:100%;display:block;
   object-fit:contain;padding:5px;
-  filter:drop-shadow(0 1px 2px rgba(0,0,0,0.15));
 }
 .pay-icon-wrap svg{
   width:60%;height:60%;display:block;
@@ -1268,6 +1309,15 @@ Update Password
 </button>
 </div>
 </div>
+<div class="panel">
+<div class="panel-header">
+<div>
+<h2>Payment Methods</h2>
+<p>Enable / disable methods and edit wallet details. Only Binance Pay, USDT TRC20, USDT BEP20 are supported.</p>
+</div>
+</div>
+<div id="paymentMethodsList" style="display:flex;flex-direction:column;gap:.85rem"></div>
+</div>
 <div class="panel" style="border-color: rgba(220,38,38,.25)">
 <div class="panel-header">
 <div>
@@ -1367,17 +1417,21 @@ const SAMPLE_NAMES = [
 ];
 const COUNTRIES = ['USA','UK','Germany','France','Canada','Australia','Spain','Italy'];
 
-// ===== Payment Method Icons (real brand logos from CDN — QuantVexa wallet style) =====
+// ===== Payment Method Icons (real brand logos inlined as data URIs to avoid network calls) =====
+// Logos are embedded as base64 SVG data URIs so the dashboard never has to fetch them
+// from a CDN on every render — this keeps the Subscriptions panel light.
 const PAYMENT_ICONS = {
-  binance: `<img src="https://raw.githubusercontent.com/bnb-chain/wallet-assets/master/assets/BNB/logo.svg" alt="BNB" width="32" height="32" loading="lazy" onerror="this.style.display='none'">`,
-  trc20: `<img src="https://cdn.jsdelivr.net/gh/GMWalletApp/crypto-icons@latest/assets/networks/branded/tron.svg" alt="TRC-20" width="32" height="32" loading="lazy" onerror="this.style.display='none'">`,
-  bep20: `<img src="https://cdn.jsdelivr.net/gh/GMWalletApp/crypto-icons@latest/assets/networks/branded/binance-smart-chain.svg" alt="BEP-20" width="32" height="32" loading="lazy" onerror="this.style.display='none'">`
+  binance: `<img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%23F3BA2F'/><path fill='%23fff' d='M12.1 14.3L16 10.4l3.9 3.9 2.27-2.27L16 5.86 9.83 12.03zM7.6 16l2.27-2.27L12.13 16l-2.27 2.27zm4.5 1.7L16 21.6l3.9-3.9 2.27 2.27L16 26.14l-6.17-6.17zM19.87 16l2.27-2.27L24.4 16l-2.27 2.27zM18.27 15.99L20.55 13.71h-.001L16 9.16l-3.36 3.36-.39.39 2.28 2.28L16 13.4l2.27 2.27z'/></svg>" alt="BNB" width="32" height="32" loading="lazy">`,
+  trc20: `<img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%23EF0027'/><path fill='%23fff' d='M16 5.5l8 14H8l8-14zm0 4.2l-4.7 8.2h9.4L16 9.7zm0 1.7l3.4 5.9H12.6L16 11.4z'/></svg>" alt="TRC-20" width="32" height="32" loading="lazy">`,
+  bep20: `<img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%23F3BA2F'/><path fill='%23fff' d='M12.1 14.3L16 10.4l3.9 3.9 2.27-2.27L16 5.86 9.83 12.03zM7.6 16l2.27-2.27L12.13 16l-2.27 2.27zm4.5 1.7L16 21.6l3.9-3.9 2.27 2.27L16 26.14l-6.17-6.17zM19.87 16l2.27-2.27L24.4 16l-2.27 2.27zM18.27 15.99L20.55 13.71h-.001L16 9.16l-3.36 3.36-.39.39 2.28 2.28L16 13.4l2.27 2.27z'/></svg>" alt="BEP-20" width="32" height="32" loading="lazy">`
 };
 
+// Static metadata (id / label / subtitle). The "enabled" flag and wallet info come from
+// state.settings.payments (so the admin can toggle / edit them from the Settings page).
 const PAYMENT_METHODS = [
-  { id:'binance', name:'Binance Pay', icon: PAYMENT_ICONS.binance, color:'#f0b90b', subtitle:'Pay via Binance Pay ID' },
-  { id:'trc20', name:'USDT TRC20', icon: PAYMENT_ICONS.trc20, color:'#26a17b', subtitle:'USDT on TRON network' },
-  { id:'bep20', name:'USDT BEP20', icon: PAYMENT_ICONS.bep20, color:'#f0b90b', subtitle:'USDT on BSC network' },
+  { id:'binance', name:'Binance Pay', icon: PAYMENT_ICONS.binance, subtitle:'Pay via Binance Pay ID', label:'Binance Pay ID', fieldKey:'payUser', placeholder:'your-binance-pay-id' },
+  { id:'trc20',   name:'USDT TRC20',  icon: PAYMENT_ICONS.trc20,   subtitle:'USDT on TRON network', label:'Wallet Address',   fieldKey:'wallet',    placeholder:'TXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX' },
+  { id:'bep20',   name:'USDT BEP20',  icon: PAYMENT_ICONS.bep20,   subtitle:'USDT on BSC network',  label:'Wallet Address',   fieldKey:'wallet',    placeholder:'0xXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX' },
 ];
 
 const ICONS = {
@@ -1450,7 +1504,24 @@ function loadData() {
   }
   let settings = JSON.parse(localStorage.getItem(STORAGE_KEYS.SETTINGS) || 'null');
   if (!settings) {
-    settings = { email:'admin@dashboard.io', password:'Admin@2024' };
+    settings = {
+      email:'admin@dashboard.io',
+      password:'Admin@2024',
+      payments:{
+        binance:{ enabled:true, payUser:'YOUR_BINANCE_PAY_ID' },
+        trc20:{ enabled:true, wallet:'TXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX' },
+        bep20:{ enabled:true, wallet:'0xXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX' }
+      }
+    };
+    localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(settings));
+  }
+  // Migration: ensure payments config exists (back-fill for older saved settings)
+  if(!settings.payments){
+    settings.payments = {
+      binance:{ enabled:true, payUser:'YOUR_BINANCE_PAY_ID' },
+      trc20:{ enabled:true, wallet:'TXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX' },
+      bep20:{ enabled:true, wallet:'0xXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX' }
+    };
     localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(settings));
   }
   let offers = JSON.parse(localStorage.getItem(STORAGE_KEYS.OFFERS) || '[]');
@@ -2019,11 +2090,26 @@ function getPlanIcon(planName){
   return {cls:'free', svg:ICONS.user};
 }
 
-// Build payment method icon HTML — circular wrap with real brand logo (QuantVexa wallet style)
+// Build payment method icon HTML — circular wrap with real brand logo (inlined data URI)
 function getPaymentIconHTML(methodId){
   const method = PAYMENT_METHODS.find(p => p.id === methodId);
   if(!method) return `<div class="pay-icon-wrap">${ICONS.credit}</div>`;
   return `<div class="pay-icon-wrap">${method.icon}</div>`;
+}
+
+// Return whether a payment method is enabled (defaults to true if not configured)
+function isPaymentEnabled(methodId){
+  const cfg = state.settings && state.settings.payments && state.settings.payments[methodId];
+  return cfg ? !!cfg.enabled : true;
+}
+
+// Return the wallet/pay-id value configured for a method
+function getPaymentValue(methodId){
+  const method = PAYMENT_METHODS.find(p => p.id === methodId);
+  if(!method) return '';
+  const cfg = state.settings && state.settings.payments && state.settings.payments[methodId];
+  if(!cfg) return '';
+  return cfg[method.fieldKey] || '';
 }
 
 // ===== Locked plan-pricing helper =====
@@ -2073,7 +2159,7 @@ function renderSubRequests(){
     const statusLabel = r.status.charAt(0).toUpperCase() + r.status.slice(1);
     const lastMsg = r.messages.at(-1);
     const preview = lastMsg ? (lastMsg.text.length > 40 ? lastMsg.text.slice(0,40)+'...' : lastMsg.text) : '—';
-    return `<div class="conversation-item ${selectedSubReqId===r.id?'active':''}" onclick="selectSubRequest('${r.id}')">
+    return `<div class="conversation-item ${selectedSubReqId===r.id?'active':''}" data-id="${r.id}" onclick="selectSubRequest('${r.id}')">
       <div class="conv-avatar" style="background:${r.status==='approved'?'var(--success)':r.status==='rejected'?'var(--danger)':'var(--accent)'}">
         ${initials(r.userName)}
         ${r.status==='pending'?'<span class="unread-dot"></span>':''}
@@ -2123,7 +2209,11 @@ function selectSubRequest(id){
   }
 
   renderSubMessages(r);
-  renderSubRequests();
+  // Light-weight: only update the .active class on conversation items
+  // instead of re-rendering the whole list (avoids layout thrash + DOM churn).
+  document.querySelectorAll('#subRequestsList .conversation-item').forEach(el => {
+    el.classList.toggle('active', el.getAttribute('data-id') === id);
+  });
 }
 
 function renderSubMessages(r){
@@ -2303,7 +2393,59 @@ function rejectSubscription(){
   });
 }
 
-function renderSettings(){document.getElementById('currentEmail').value=state.settings.email;document.getElementById('adminEmail').textContent=state.settings.email}
+function renderSettings(){
+  document.getElementById('currentEmail').value=state.settings.email;
+  document.getElementById('adminEmail').textContent=state.settings.email;
+  renderPaymentMethodsSettings();
+}
+
+function renderPaymentMethodsSettings(){
+  const wrap = document.getElementById('paymentMethodsList');
+  if(!wrap) return;
+  const pays = state.settings.payments || {};
+  wrap.innerHTML = PAYMENT_METHODS.map(m => {
+    const cfg = pays[m.id] || { enabled:true };
+    const enabled = cfg.enabled !== false;
+    const value = cfg[m.fieldKey] || '';
+    return `
+      <div class="pay-method-row ${enabled?'':'disabled'}" data-method="${m.id}">
+        <div class="pay-method-row-top">
+          <span class="pay-icon-wrap">${m.icon}</span>
+          <div class="pay-method-row-meta">
+            <div class="pay-method-row-name">${m.name}</div>
+            <div class="pay-method-row-sub">${m.subtitle}</div>
+          </div>
+          <button type="button" class="pay-method-toggle ${enabled?'on':''}" onclick="togglePaymentMethod('${m.id}')" aria-label="Toggle ${m.name}"></button>
+        </div>
+        <div class="pay-method-row-body">
+          <label>${m.label}</label>
+          <input type="text" value="${value.replace(/"/g,'&quot;')}" placeholder="${m.placeholder}" oninput="updatePaymentValue('${m.id}', this.value)" />
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function togglePaymentMethod(methodId){
+  const cfg = (state.settings.payments && state.settings.payments[methodId]) || {};
+  cfg.enabled = !(cfg.enabled !== false);
+  state.settings.payments = state.settings.payments || {};
+  state.settings.payments[methodId] = cfg;
+  saveSettings(state.settings);
+  renderPaymentMethodsSettings();
+  toast(`${PAYMENT_METHODS.find(p=>p.id===methodId).name} ${cfg.enabled?'enabled':'disabled'}`, cfg.enabled?'success':'info');
+}
+
+function updatePaymentValue(methodId, value){
+  const m = PAYMENT_METHODS.find(p=>p.id===methodId);
+  if(!m) return;
+  state.settings.payments = state.settings.payments || {};
+  state.settings.payments[methodId] = state.settings.payments[methodId] || { enabled:true };
+  state.settings.payments[methodId][m.fieldKey] = value;
+  saveSettings(state.settings);
+  // No re-render on every keystroke — only on blur, to keep typing snappy.
+}
+
 function updateEmail(){const newEmail=document.getElementById('newEmail').value.trim();if(!newEmail){toast('Please enter the new email','error');return}if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(newEmail)){toast('Invalid email format','error');return}state.settings.email=newEmail;saveSettings(state.settings);document.getElementById('newEmail').value='';renderSettings();toast('Email updated successfully','success')}
 function updatePassword(){const current=document.getElementById('currentPass').value;const next=document.getElementById('newPass').value;const confirmP=document.getElementById('confirmPass').value;if(!current||!next||!confirmP){toast('Please fill in all fields','error');return}if(current!==state.settings.password){toast('Current password is incorrect','error');return}if(next.length<8){toast('New password must be at least 8 characters','error');return}if(next!==confirmP){toast('Passwords do not match','error');return}state.settings.password=next;saveSettings(state.settings);document.getElementById('currentPass').value='';document.getElementById('newPass').value='';document.getElementById('confirmPass').value='';toast('Password updated successfully','success')}
 
