@@ -120,6 +120,9 @@ tbody tr:hover{background:var(--bg-soft)}
 [data-theme="dark"] .badge.premium{color:var(--warning);background:rgba(251,191,36,.12);border-color:var(--warning)}
 .badge.user{color:var(--text-muted);background:var(--bg-soft);border-color:var(--border)}
 .badge.admin{color:#fff;background:var(--accent);border-color:var(--accent)}
+.badge.pending{color:var(--warning);background:rgba(217,119,6,.08);border-color:var(--warning)}
+.badge.approved{color:var(--success);background:rgba(22,163,74,.08);border-color:var(--success)}
+.badge.rejected{color:var(--danger);background:rgba(220,38,38,.08);border-color:var(--danger)}
 .actions{display:inline-flex;gap:.25rem;align-items:center;flex-wrap:nowrap;position:relative}
 .icon-btn{width:30px;height:30px;display:inline-grid;place-items:center;border-radius:6px;transition:all .12s ease;border:1px solid;flex-shrink:0}
 .icon-btn:disabled{opacity:.35;cursor:not-allowed}
@@ -175,6 +178,12 @@ tbody tr:hover{background:var(--bg-soft)}
 .btn-ghost{color:var(--text-muted);padding:.4rem .65rem;border-radius:6px;font-size:.75rem;font-weight:600;border:1px solid var(--border);display:inline-flex;align-items:center;gap:.35rem;transition:all .12s ease}
 .btn-ghost:hover{color:var(--text);border-color:var(--text)}
 .btn-ghost .icon{width:13px;height:13px}
+.btn-success{background:var(--success);color:#fff;font-weight:600;padding:.55rem 1.1rem;border-radius:6px;display:inline-flex;align-items:center;gap:.45rem;transition:all .12s ease;font-size:.85rem;border:1px solid var(--success)}
+.btn-success:hover{background:#15803d;border-color:#15803d}
+.btn-success .icon{width:15px;height:15px}
+.btn-danger{background:var(--danger);color:#fff;font-weight:600;padding:.55rem 1.1rem;border-radius:6px;display:inline-flex;align-items:center;gap:.45rem;transition:all .12s ease;font-size:.85rem;border:1px solid var(--danger)}
+.btn-danger:hover{background:#b91c1c;border-color:#b91c1c}
+.btn-danger .icon{width:15px;height:15px}
 .form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
 .field{display:flex;flex-direction:column;gap:.35rem}
 .field label{font-size:.78rem;color:var(--text);font-weight:600}
@@ -367,7 +376,6 @@ tbody tr:hover{background:var(--bg-soft)}
 .subheader{display:flex;justify-content:space-between;align-items:center;background:var(--bg-soft);padding:.75rem 1rem;border-radius:8px;margin-bottom:1rem;border:1px solid var(--border)}
 .subheader h2{font-size:.9rem;font-weight:600}
 .theme-btn-mobile{display:none}
-/* ===================== CHARTS (4 charts: 1 big + 1 small donut + 3 plans in 1 row) ===================== */
 .charts-grid{display:grid;grid-template-columns:2fr 1fr;gap:1rem;margin-bottom:1.25rem;align-items:stretch}
 .charts-grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin-bottom:1.25rem}
 .chart-card{background:var(--bg-elev);border:1px solid var(--border);border-radius:10px;padding:1.25rem;transition:border-color .2s ease;display:flex;flex-direction:column}
@@ -399,6 +407,38 @@ tbody tr:hover{background:var(--bg-soft)}
 .chart-trend.down{color:var(--danger);background:rgba(220,38,38,.1)}
 @media (max-width:1100px){.charts-grid{grid-template-columns:1fr}.charts-grid-3{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:600px){.charts-grid-3{grid-template-columns:1fr}.chart-wrap{height:220px}.chart-wrap.donut{min-height:180px;max-height:220px}}
+
+/* ===== SUBSCRIPTIONS SECTION ===== */
+.sub-plan-card{background:var(--bg-elev);border:1px solid var(--border);border-radius:10px;padding:1rem;display:flex;align-items:center;gap:.85rem;transition:all .2s ease;cursor:pointer}
+.sub-plan-card:hover{border-color:var(--accent);transform:translateY(-1px)}
+.sub-plan-card.selected{border-color:var(--accent);background:var(--accent-soft)}
+.sub-plan-icon{width:44px;height:44px;border-radius:10px;display:grid;place-items:center;flex-shrink:0}
+.sub-plan-icon.free{background:rgba(100,116,139,.1);color:#64748b}
+.sub-plan-icon.pro{background:rgba(245,158,11,.1);color:#f59e0b}
+.sub-plan-icon.enterprise{background:rgba(239,68,68,.1);color:#ef4444}
+.sub-plan-icon .icon{width:22px;height:22px}
+.sub-plan-info{flex:1;min-width:0}
+.sub-plan-name{font-size:.95rem;font-weight:700;margin-bottom:.15rem}
+.sub-plan-price{font-size:.78rem;color:var(--text-muted)}
+.sub-plan-price strong{color:var(--text);font-size:1rem;font-weight:700}
+.sub-plan-users{font-size:.7rem;color:var(--text-faint);margin-top:.15rem}
+
+.sub-payment-method{display:inline-flex;align-items:center;gap:.4rem;padding:.35rem .65rem;background:var(--bg-soft);border:1px solid var(--border);border-radius:6px;font-size:.78rem;font-weight:600;color:var(--text)}
+.sub-payment-method .icon{width:14px;height:14px}
+
+.sub-receipt-preview{width:100%;max-width:280px;border-radius:8px;border:1px solid var(--border);cursor:pointer;transition:transform .2s ease}
+.sub-receipt-preview:hover{transform:scale(1.02)}
+
+.sub-status-timeline{display:flex;flex-direction:column;gap:.65rem;padding:.75rem;background:var(--bg-soft);border-radius:8px;border:1px solid var(--border-soft)}
+.sub-timeline-item{display:flex;gap:.65rem;align-items:flex-start;font-size:.78rem}
+.sub-timeline-dot{width:8px;height:8px;border-radius:50%;margin-top:6px;flex-shrink:0}
+.sub-timeline-dot.pending{background:var(--warning)}
+.sub-timeline-dot.approved{background:var(--success)}
+.sub-timeline-dot.rejected{background:var(--danger)}
+.sub-timeline-content{flex:1;min-width:0}
+.sub-timeline-title{font-weight:600;color:var(--text)}
+.sub-timeline-meta{color:var(--text-faint);font-size:.7rem;margin-top:.1rem}
+
 .mobile-header{display:none;position:sticky;top:0;background:var(--bg);padding:.75rem 1rem;border-bottom:1px solid var(--border);z-index:50;justify-content:space-between;align-items:center}
 .mobile-header-brand{display:flex;align-items:center;gap:.55rem;font-weight:700;font-size:.95rem}
 .mobile-header-brand .brand-logo{width:30px;height:30px;border-radius:7px;font-size:.82rem}
@@ -463,7 +503,7 @@ tbody tr:hover{background:var(--bg-soft)}
 .image-modal img{max-width:95vw;max-height:80vh}
 .user-info{grid-template-columns:1fr 1fr;gap:.65rem;padding:.75rem}
 .code-preview{font-size:1.15rem;padding:.85rem 1rem}
-.btn-primary,.btn-outline{width:100%;justify-content:center}
+.btn-primary,.btn-outline,.btn-success,.btn-danger{width:100%;justify-content:center}
 .icon-btn-view{display:none}
 }
 @media (max-width:480px){
@@ -488,7 +528,7 @@ tbody tr:hover{background:var(--bg-soft)}
 <div class="field">
 <label>Password</label>
 <div class="password-input-wrap">
-<button type="button" class="password-toggle" onclick="togglePassword('loginPassword', this)" title="Show password" aria-label="Toggle password visibility">
+<button type="button" class="password-toggle" onclick="togglePassword('loginPassword', this)" title="Show password">
 <svg class="icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
 </button>
 <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password" required />
@@ -587,8 +627,6 @@ Settings
 </div>
 </div>
 <div class="stats-grid" id="statsGrid"></div>
-
-<!-- Row 1: Big line chart + small donut -->
 <div class="charts-grid">
 <div class="chart-card">
 <div class="chart-card-header">
@@ -616,8 +654,6 @@ Settings
 <div class="chart-legend" id="statusLegend"></div>
 </div>
 </div>
-
-<!-- Row 2: 3 plan charts in ONE row -->
 <div class="charts-grid-3">
 <div class="chart-card">
 <div class="chart-card-header">
@@ -659,7 +695,6 @@ Settings
 <div class="chart-legend" id="enterprisePlanLegend"></div>
 </div>
 </div>
-
 <div class="panel">
 <div class="panel-header">
 <div>
@@ -966,10 +1001,23 @@ Add Plan
 <section class="tab-content" id="tab-support">
 <div class="page-header">
 <div class="page-header-text">
-<h1>Support Messages</h1>
-<p>Reply to user conversations — text and images supported</p>
+<h1>Support Center</h1>
+<p>Manage user conversations and subscription payment requests</p>
 </div>
 </div>
+<div class="subsection-tabs">
+<button class="subsection-tab active" onclick="switchSupportTab('messages', this)">
+<svg class="icon sm" viewBox="0 0 24 24" style="margin-right:4px"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+Support Messages
+</button>
+<button class="subsection-tab" onclick="switchSupportTab('subscriptions', this)">
+<svg class="icon sm" viewBox="0 0 24 24" style="margin-right:4px"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+Subscriptions & Payments
+</button>
+</div>
+
+<!-- Support Messages Section -->
+<div id="supportMessagesSection">
 <div class="chat-layout">
 <div class="conversations-panel">
 <div class="conversations-header">
@@ -1013,6 +1061,56 @@ Mark Resolved
 </label>
 <button class="chat-send" onclick="sendReply()" id="sendBtn">
 <svg class="icon" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Subscriptions & Payments Section -->
+<div id="supportSubscriptionsSection" style="display:none">
+<div class="chat-layout">
+<div class="conversations-panel">
+<div class="conversations-header">
+<span>Payment Requests</span>
+<span id="subReqCount" style="color:var(--text-muted);font-size:.78rem">0</span>
+</div>
+<div class="conversations-list" id="subRequestsList"></div>
+</div>
+<div class="chat-view-wrap" id="subViewWrap">
+<div class="empty-state" id="subEmpty">
+<svg class="icon xl" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+<p>Select a payment request to review</p>
+<small>Verify receipts and approve or reject user subscriptions</small>
+</div>
+<div id="subView" style="display:none;flex-direction:column;height:100%">
+<div class="chat-header">
+<div class="chat-header-user">
+<div class="conv-avatar" id="subHeaderAvatar">?</div>
+<div>
+<strong id="subHeaderName">—</strong>
+<div><small id="subHeaderEmail">—</small></div>
+</div>
+</div>
+<div id="subStatusBadge"></div>
+</div>
+<div class="chat-messages" id="subMessages" style="padding:1rem 1.1rem"></div>
+<div style="border-top:1px solid var(--border);padding:.85rem 1.1rem;background:var(--bg-elev)">
+<div style="margin-bottom:.65rem">
+<label style="font-size:.72rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;display:block;margin-bottom:.35rem">Admin Note (optional)</label>
+<textarea id="subAdminNote" placeholder="Add a message to the user..." rows="2" style="width:100%;resize:none;background:var(--bg-soft);border:1px solid var(--border);color:var(--text);padding:.55rem .75rem;border-radius:8px;font-size:.85rem;font-family:inherit;transition:border-color .15s ease"></textarea>
+</div>
+<div style="display:flex;gap:.5rem;flex-wrap:wrap">
+<button class="btn-success" onclick="approveSubscription()" id="approveBtn">
+<svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+Verify Payment & Upgrade
+</button>
+<button class="btn-danger" onclick="rejectSubscription()" id="rejectBtn">
+<svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+Reject Payment
 </button>
 </div>
 </div>
@@ -1164,49 +1262,11 @@ Confirm
 </div>
 </div>
 </div>
-<div class="modal-overlay" id="sendMessageModal" onclick="if(event.target===this) closeSendMessageModal()">
-<div class="modal-card">
-<button class="modal-close" onclick="closeSendMessageModal()" title="Close">
-<svg class="icon sm" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-</button>
-<div class="modal-header">
-<div class="modal-icon">
-<svg class="icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-</div>
-<div class="modal-title">Send Direct Message</div>
-<div class="modal-subtitle">This message will appear in the user's notifications</div>
-</div>
-<div class="modal-recipient">
-<div class="user-avatar" id="modalRecipientAvatar">?</div>
-<div class="modal-recipient-info">
-<strong id="modalRecipientName">—</strong>
-<small id="modalRecipientEmail">—</small>
-</div>
-<span class="id-code" id="modalRecipientId">—</span>
-</div>
-<div class="form-grid">
-<div class="field" style="grid-column: 1 / -1">
-<label>Message Title</label>
-<input type="text" id="sendMessageTitle" placeholder="e.g. Important account update" maxlength="80" />
-</div>
-<div class="field" style="grid-column: 1 / -1">
-<label>Message Body</label>
-<textarea id="sendMessageBody" placeholder="Write your message here..."></textarea>
-</div>
-</div>
-<div style="margin-top:1.25rem;display:flex;gap:.5rem;justify-content:flex-end">
-<button class="btn-outline" onclick="closeSendMessageModal()">Cancel</button>
-<button class="btn-primary" onclick="sendDirectMessage()">
-<svg class="icon" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-Send Message
-</button>
-</div>
-</div>
-</div>
 <script>
 const chartInstances = {};
 let selectedUserId = null;
 let selectedConvoId = null;
+let selectedSubReqId = null;
 let pendingImage = null;
 let pendingConfirmAction = null;
 
@@ -1214,6 +1274,7 @@ const STORAGE_KEYS = {
   USERS: 'ad_users', NOTIFS: 'ad_notifications', PROMOS: 'ad_promos',
   SETTINGS: 'ad_settings', OFFERS: 'ad_offers', PLANS: 'ad_plans',
   CONVOS: 'ad_convos', SUBSCRIPTIONS: 'ad_subscriptions',
+  SUB_REQUESTS: 'ad_sub_requests',
 };
 const SAMPLE_NAMES = [
   'James','Sarah','Michael','Emma','John','Olivia','David','Sophia',
@@ -1221,12 +1282,15 @@ const SAMPLE_NAMES = [
   'Matthew','Amelia','Andrew','Harper','Christopher','Evelyn','Thomas','Abigail',
 ];
 const COUNTRIES = ['USA','UK','Germany','France','Canada','Australia','Spain','Italy'];
+const PAYMENT_METHODS = [
+  { id:'paypal', name:'PayPal', icon:'<svg class="icon" viewBox="0 0 24 24"><path d="M7 4h7a5 5 0 0 1 0 10h-3l-2 6H5L7 4z"/></svg>' },
+  { id:'binance', name:'Binance Pay', icon:'<svg class="icon" viewBox="0 0 24 24"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/><line x1="12" y1="22" x2="12" y2="15.5"/><polyline points="22 8.5 12 15.5 2 8.5"/></svg>' },
+  { id:'usdt', name:'USDT (TRC20)', icon:'<svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="12" y1="8" x2="12" y2="18"/></svg>' },
+];
 
 const ICONS = {
   ban:'<svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>',
   unban:'<svg class="icon" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>',
-  promote:'<svg class="icon" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
-  demote:'<svg class="icon" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>',
   view:'<svg class="icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>',
   trash:'<svg class="icon" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>',
   check:'<svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>',
@@ -1244,6 +1308,8 @@ const ICONS = {
   crown:'<svg class="icon" viewBox="0 0 24 24"><path d="M2 19h20l-2-9-4 4-4-7-4 7-4-4-2 9zM4 21h16"/></svg>',
   user:'<svg class="icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
   message:'<svg class="icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
+  dollar:'<svg class="icon" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>',
+  alert:'<svg class="icon" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
 };
 
 function uid() { return 'usr_' + Math.random().toString(36).slice(2,10) + Date.now().toString(36).slice(-4); }
@@ -1321,17 +1387,14 @@ function loadData() {
     convos = [
       { id:'c1', userId:u1.id, userName:u1.name, userEmail:u1.email, status:'open', unread:true, messages:[
         { from:'user', text:'Hi, I have trouble accessing my account. The dashboard shows a blank screen.', image:null, at:new Date(Date.now()-7200000).toISOString() },
-        { from:'user', text:'Here is a screenshot of what I see:', image:'data:image/svg+xml;base64,'+btoa('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="200"><rect width="400" height="200" fill="#fafafa"/><text x="200" y="100" text-anchor="middle" font-family="monospace" font-size="14" fill="#737373">[Screenshot: blank page]</text></svg>'), at:new Date(Date.now()-7100000).toISOString() },
       ]},
       { id:'c2', userId:u2.id, userName:u2.name, userEmail:u2.email, status:'open', unread:false, messages:[
         { from:'user', text:'How do I upgrade to the premium plan?', image:null, at:new Date(Date.now()-3600000).toISOString() },
-        { from:'admin', text:'Hi '+u2.name+'! Go to Settings → Subscription → Upgrade. Use code VIP2024 for 25% off your first month.', image:null, at:new Date(Date.now()-3500000).toISOString() },
-        { from:'user', text:'Thank you! Just upgraded. The discount worked perfectly.', image:null, at:new Date(Date.now()-3000000).toISOString() },
+        { from:'admin', text:'Hi '+u2.name+'! Go to Settings → Subscription → Upgrade.', image:null, at:new Date(Date.now()-3500000).toISOString() },
       ]},
       { id:'c3', userId:u3.id, userName:u3.name, userEmail:u3.email, status:'resolved', unread:false, messages:[
         { from:'user', text:'Why was my account banned?', image:null, at:new Date(Date.now()-86400000).toISOString() },
-        { from:'admin', text:'Your account was flagged for unusual activity. Please verify your identity by sending a government-issued ID.', image:null, at:new Date(Date.now()-86300000).toISOString() },
-        { from:'user', text:'OK, I uploaded the document. Please check.', image:null, at:new Date(Date.now()-86000000).toISOString() },
+        { from:'admin', text:'Your account was flagged for unusual activity.', image:null, at:new Date(Date.now()-86300000).toISOString() },
       ]},
     ];
     localStorage.setItem(STORAGE_KEYS.CONVOS, JSON.stringify(convos));
@@ -1358,7 +1421,73 @@ function loadData() {
     };
     localStorage.setItem(STORAGE_KEYS.SUBSCRIPTIONS, JSON.stringify(subscriptions));
   }
-  return { users, notifs, promos, settings, offers, plans, convos, subscriptions };
+  // Subscription payment requests
+  let subRequests = JSON.parse(localStorage.getItem(STORAGE_KEYS.SUB_REQUESTS) || 'null');
+  if (!subRequests) {
+    subRequests = [
+      {
+        id: 'sr1',
+        userId: users[0].id,
+        userName: users[0].name,
+        userEmail: users[0].email,
+        planId: 'pl2',
+        planName: 'Pro',
+        planPrice: 19.99,
+        paymentMethod: 'paypal',
+        paymentMethodLabel: 'PayPal',
+        amount: 19.99,
+        transactionId: 'PP-' + Math.random().toString(36).slice(2,10).toUpperCase(),
+        receiptImage: 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="260"><rect width="400" height="260" fill="#f8fafc"/><rect x="20" y="20" width="360" height="220" fill="#fff" stroke="#e2e8f0" stroke-width="2" rx="8"/><text x="200" y="60" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold" fill="#0f172a">Payment Receipt</text><text x="200" y="90" text-anchor="middle" font-family="Arial" font-size="12" fill="#64748b">PayPal Transaction</text><line x1="40" y1="105" x2="360" y2="105" stroke="#e2e8f0"/><text x="40" y="135" font-family="Arial" font-size="13" fill="#475569">Amount:</text><text x="360" y="135" text-anchor="end" font-family="Arial" font-size="13" font-weight="bold" fill="#0f172a">$19.99</text><text x="40" y="165" font-family="Arial" font-size="13" fill="#475569">Plan:</text><text x="360" y="165" text-anchor="end" font-family="Arial" font-size="13" font-weight="bold" fill="#0f172a">Pro (Monthly)</text><text x="40" y="195" font-family="Arial" font-size="13" fill="#475569">Transaction ID:</text><text x="360" y="195" text-anchor="end" font-family="Arial" font-size="12" font-weight="bold" fill="#0f172a">PP-A8F3K9X2</text><circle cx="200" cy="225" r="8" fill="#16a34a"/><path d="M196 225 L199 228 L205 222" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg>'),
+        status: 'pending',
+        requestedAt: new Date(Date.now() - 1800000).toISOString(),
+        messages: [
+          { from: 'user', text: 'Hi, I have just completed the payment for the Pro plan via PayPal. Here is my receipt. Please verify and upgrade my account. Thank you!', at: new Date(Date.now() - 1800000).toISOString() }
+        ]
+      },
+      {
+        id: 'sr2',
+        userId: users[1].id,
+        userName: users[1].name,
+        userEmail: users[1].email,
+        planId: 'pl3',
+        planName: 'Enterprise',
+        planPrice: 99.99,
+        paymentMethod: 'usdt',
+        paymentMethodLabel: 'USDT (TRC20)',
+        amount: 99.99,
+        transactionId: 'TRX' + Math.random().toString(36).slice(2,14).toUpperCase(),
+        receiptImage: 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="260"><rect width="400" height="260" fill="#f8fafc"/><rect x="20" y="20" width="360" height="220" fill="#fff" stroke="#e2e8f0" stroke-width="2" rx="8"/><text x="200" y="60" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold" fill="#0f172a">USDT Payment</text><text x="200" y="90" text-anchor="middle" font-family="Arial" font-size="12" fill="#64748b">TRC20 Transfer</text><line x1="40" y1="105" x2="360" y2="105" stroke="#e2e8f0"/><text x="40" y="135" font-family="Arial" font-size="13" fill="#475569">Amount:</text><text x="360" y="135" text-anchor="end" font-family="Arial" font-size="13" font-weight="bold" fill="#0f172a">99.99 USDT</text><text x="40" y="165" font-family="Arial" font-size="13" fill="#475569">Plan:</text><text x="360" y="165" text-anchor="end" font-family="Arial" font-size="13" font-weight="bold" fill="#0f172a">Enterprise (Monthly)</text><text x="40" y="195" font-family="Arial" font-size="13" fill="#475569">TX Hash:</text><text x="360" y="195" text-anchor="end" font-family="Arial" font-size="10" font-weight="bold" fill="#0f172a">0x8f3a...b2c1</text><circle cx="200" cy="225" r="8" fill="#f59e0b"/><text x="200" y="230" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="#fff">!</text></svg>'),
+        status: 'pending',
+        requestedAt: new Date(Date.now() - 7200000).toISOString(),
+        messages: [
+          { from: 'user', text: 'Payment sent via USDT TRC20. Please check the receipt attached.', at: new Date(Date.now() - 7200000).toISOString() }
+        ]
+      },
+      {
+        id: 'sr3',
+        userId: users[4].id,
+        userName: users[4].name,
+        userEmail: users[4].email,
+        planId: 'pl2',
+        planName: 'Pro',
+        planPrice: 19.99,
+        paymentMethod: 'binance',
+        paymentMethodLabel: 'Binance Pay',
+        amount: 19.99,
+        transactionId: 'BNB' + Math.random().toString(36).slice(2,10).toUpperCase(),
+        receiptImage: 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="260"><rect width="400" height="260" fill="#f8fafc"/><rect x="20" y="20" width="360" height="220" fill="#fff" stroke="#e2e8f0" stroke-width="2" rx="8"/><text x="200" y="60" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold" fill="#0f172a">Binance Pay</text><text x="200" y="90" text-anchor="middle" font-family="Arial" font-size="12" fill="#64748b">Order Confirmation</text><line x1="40" y1="105" x2="360" y2="105" stroke="#e2e8f0"/><text x="40" y="135" font-family="Arial" font-size="13" fill="#475569">Amount:</text><text x="360" y="135" text-anchor="end" font-family="Arial" font-size="13" font-weight="bold" fill="#0f172a">$19.99</text><text x="40" y="165" font-family="Arial" font-size="13" fill="#475569">Plan:</text><text x="360" y="165" text-anchor="end" font-family="Arial" font-size="13" font-weight="bold" fill="#0f172a">Pro (Monthly)</text><text x="40" y="195" font-family="Arial" font-size="13" fill="#475569">Order ID:</text><text x="360" y="195" text-anchor="end" font-family="Arial" font-size="12" font-weight="bold" fill="#0f172a">BP-92837465</text><circle cx="200" cy="225" r="8" fill="#16a34a"/><path d="M196 225 L199 228 L205 222" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg>'),
+        status: 'approved',
+        requestedAt: new Date(Date.now() - 86400000).toISOString(),
+        resolvedAt: new Date(Date.now() - 82800000).toISOString(),
+        messages: [
+          { from: 'user', text: 'Payment completed via Binance Pay. Please verify.', at: new Date(Date.now() - 86400000).toISOString() },
+          { from: 'admin', text: 'Payment verified. You have been upgraded to the Pro plan. Enjoy your new features!', at: new Date(Date.now() - 82800000).toISOString() }
+        ]
+      }
+    ];
+    localStorage.setItem(STORAGE_KEYS.SUB_REQUESTS, JSON.stringify(subRequests));
+  }
+  return { users, notifs, promos, settings, offers, plans, convos, subscriptions, subRequests };
 }
 
 function saveUsers(u){localStorage.setItem(STORAGE_KEYS.USERS,JSON.stringify(u))}
@@ -1369,6 +1498,7 @@ function saveOffers(o){localStorage.setItem(STORAGE_KEYS.OFFERS,JSON.stringify(o
 function savePlans(p){localStorage.setItem(STORAGE_KEYS.PLANS,JSON.stringify(p))}
 function saveConvos(c){localStorage.setItem(STORAGE_KEYS.CONVOS,JSON.stringify(c))}
 function saveSubscriptions(s){localStorage.setItem(STORAGE_KEYS.SUBSCRIPTIONS,JSON.stringify(s))}
+function saveSubRequests(r){localStorage.setItem(STORAGE_KEYS.SUB_REQUESTS,JSON.stringify(r))}
 
 const state = loadData();
 
@@ -1438,7 +1568,7 @@ function goTo(tab){
   if(tab==='notifications')renderNotifHistory();
   if(tab==='promo')renderPromos();
   if(tab==='offers'){renderOffers();renderPlans()}
-  if(tab==='support')renderConversations();
+  if(tab==='support'){renderConversations();renderSubRequests()}
   if(tab==='settings')renderSettings();
   window.scrollTo({top:0,behavior:'smooth'});
 }
@@ -1610,7 +1740,6 @@ function openSendMessageModal(userId){
   setTimeout(()=>selectConversation(convo.id),150);
   toast(`Opening chat with ${u.name}`,'info');
 }
-function closeSendMessageModal(){document.getElementById('sendMessageModal').classList.remove('show')}
 document.addEventListener('keydown',(e)=>{if(e.key==='Escape'){closeAllDropdowns();closeImageModal()}});
 function searchUsers(){
   const q=document.getElementById('userSearch').value.trim().toLowerCase();
@@ -1696,7 +1825,7 @@ function deletePromo(id){
 function promoCardHTML(p){const pct=Math.min(100,Math.round((p.activated/p.maxUsers)*100));const audLabels={ALL:'All Users',PREMIUM:'Premium Members',NEW:'New Users'};const isFull=p.activated>=p.maxUsers;return`<div class="promo-card"><div class="promo-code">${p.code}</div><div class="promo-meta">${audLabels[p.audience]} · ${p.discountPct}% off</div><div class="promo-progress"><div class="promo-progress-bar" style="width:${pct}%"></div></div><div class="promo-stats"><span>${p.activated} / ${p.maxUsers} activated</span><span>${isFull?'Complete':pct+'%'}</span></div><div style="margin-top:.85rem;display:flex;justify-content:space-between;align-items:center"><small style="color:var(--text-faint);font-size:.7rem">${formatDate(p.createdAt)}</small><button class="btn-ghost" onclick="deletePromo('${p.id}')">${ICONS.trash}Delete</button></div></div>`}
 function renderPromos(){const grid=document.getElementById('promosGrid');if(state.promos.length===0){grid.innerHTML=`<div class="empty" style="grid-column:1/-1">${ICONS.tag}<div>No promo codes yet</div></div>`;return}grid.innerHTML=state.promos.map(promoCardHTML).join('')}
 
-function switchOfferTab(which,btn){document.querySelectorAll('.subsection-tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');document.getElementById('offersSubsection').style.display=which==='offers'?'block':'none';document.getElementById('plansSubsection').style.display=which==='plans'?'block':'none'}
+function switchOfferTab(which,btn){document.querySelectorAll('#tab-offers .subsection-tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');document.getElementById('offersSubsection').style.display=which==='offers'?'block':'none';document.getElementById('plansSubsection').style.display=which==='plans'?'block':'none'}
 function clearOfferForm(){document.getElementById('offerTitle').value='';document.getElementById('offerBody').value=''}
 function addOffer(){const title=document.getElementById('offerTitle').value.trim();const body=document.getElementById('offerBody').value.trim();if(!title){toast('Please enter an offer title','error');return}if(!body){toast('Please enter offer description','error');return}state.offers.unshift({id:'o'+Date.now(),title,body,active:true,createdAt:new Date().toISOString()});saveOffers(state.offers);clearOfferForm();toast('Offer created successfully','success');renderOffers()}
 function toggleOffer(id){const o=state.offers.find(x=>x.id===id);if(!o)return;o.active=!o.active;saveOffers(state.offers);toast(`Offer ${o.active?'activated':'disabled'}`,'info');renderOffers()}
@@ -1707,20 +1836,343 @@ function addPlan(){const name=document.getElementById('planName').value.trim();c
 function deletePlan(id){const p=state.plans.find(x=>x.id===id);if(!p)return;showConfirmCard({title:'Delete plan?',message:`Plan "${p.name}" ($${Number(p.price).toFixed(2)}) will be permanently removed.`,icon:'danger',confirmText:'Delete Plan',onConfirm:()=>{state.plans=state.plans.filter(x=>x.id!==id);savePlans(state.plans);toast(`Plan ${p.name} deleted`,'info');renderPlans()}})}
 function renderPlans(){const grid=document.getElementById('plansGrid');if(state.plans.length===0){grid.innerHTML=`<div class="empty" style="grid-column:1/-1">${ICONS.credit}<div>No plans yet — create one above</div></div>`;return}const cycleLabels={month:'/mo',year:'/yr',week:'/wk'};grid.innerHTML=state.plans.map(p=>`<div class="plan-card ${p.featured?'featured':''}"><div class="plan-name">${p.name}</div><div class="plan-price">$${Number(p.price).toFixed(2)} <small>${cycleLabels[p.duration]||''}</small></div><div class="plan-duration">${p.duration==='month'?'Billed monthly':p.duration==='year'?'Billed annually':'Billed weekly'}</div><ul class="plan-features">${p.features.map(f=>`<li>${ICONS.check}<span>${f}</span></li>`).join('')}</ul><div class="plan-actions"><button class="btn-ghost" onclick="deletePlan('${p.id}')">${ICONS.trash}Delete</button></div></div>`).join('')}
 
-function renderConversations(){const list=document.getElementById('conversationsList');document.getElementById('convCount').textContent=state.convos.length;if(state.convos.length===0){list.innerHTML=`<div class="empty">${ICONS.bell2}<div>No conversations yet</div></div>`;return}const sorted=[...state.convos].sort((a,b)=>{if(a.unread!==b.unread)return a.unread?-1:1;return new Date(b.messages.at(-1)?.at||0)-new Date(a.messages.at(-1)?.at||0)});list.innerHTML=sorted.map(c=>{const last=c.messages.at(-1);const preview=last?(last.image?'📎 Image attachment':last.text):'—';return`<div class="conversation-item ${selectedConvoId===c.id?'active':''}" onclick="selectConversation('${c.id}')"><div class="conv-avatar">${initials(c.userName)}${c.unread?'<span class="unread-dot"></span>':''}</div><div class="conv-info"><div class="conv-name">${c.userName}</div><div class="conv-preview">${preview}</div></div><div class="conv-time">${last?formatShortTime(last.at):''}</div></div>`}).join('')}
-function selectConversation(id){const c=state.convos.find(x=>x.id===id);if(!c)return;selectedConvoId=id;c.unread=false;saveConvos(state.convos);document.getElementById('chatEmpty').style.display='none';document.getElementById('chatView').style.display='flex';document.getElementById('chatHeaderAvatar').textContent=initials(c.userName);document.getElementById('chatHeaderName').textContent=c.userName;document.getElementById('chatHeaderEmail').textContent=c.userEmail;const statusBadge=document.getElementById('chatStatusBadge');const resolveBtn=document.getElementById('resolveBtn');if(c.status==='resolved'){statusBadge.className='chat-status resolved';statusBadge.textContent='Resolved';resolveBtn.innerHTML=ICONS.unban+'Reopen'}else{statusBadge.className='chat-status open';statusBadge.textContent='Open';resolveBtn.innerHTML=ICONS.check+'Mark Resolved'}renderMessages(c);renderConversations()}
-function renderMessages(c){const box=document.getElementById('chatMessages');box.innerHTML=c.messages.map(m=>{const fromLabel=m.from==='admin'?'A':initials(c.userName);const imgHTML=m.image?`<img class="message-image" src="${m.image}" alt="attachment" onclick="openImageModal(this.src)" />`:'';return`<div class="message ${m.from==='admin'?'admin':''}"><div class="message-avatar">${fromLabel}</div><div><div class="message-bubble">${escapeHTML(m.text)}${imgHTML}</div><div class="message-meta">${formatShortTime(m.at)}</div></div></div>`}).join('');setTimeout(()=>{box.scrollTop=box.scrollHeight},50)}
-function sendReply(){if(!selectedConvoId)return;const c=state.convos.find(x=>x.id===selectedConvoId);if(!c)return;const text=document.getElementById('replyText').value.trim();if(!text&&!pendingImage){toast('Type a message or attach an image first','error');return}c.messages.push({from:'admin',text:text||'',image:pendingImage,at:new Date().toISOString()});saveConvos(state.convos);document.getElementById('replyText').value='';pendingImage=null;document.getElementById('imagePreviewBar').innerHTML='';renderMessages(c);renderConversations();toast('Reply sent','success')}
-function handleImageAttach(e){const file=e.target.files[0];if(!file)return;if(!file.type.startsWith('image/')){toast('Please select an image file','error');return}if(file.size>2*1024*1024){toast('Image too large (max 2MB)','error');return}const reader=new FileReader();reader.onload=function(ev){pendingImage=ev.target.result;const bar=document.getElementById('imagePreviewBar');bar.innerHTML=`<div class="image-preview"><img src="${pendingImage}" alt="preview" /><div class="image-preview-remove" onclick="removePendingImage()">×</div></div>`};reader.readAsDataURL(file);e.target.value=''}
+/* ===== SUPPORT TAB SWITCHING ===== */
+function switchSupportTab(which, btn){
+  document.querySelectorAll('#tab-support .subsection-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('supportMessagesSection').style.display = which==='messages' ? 'block' : 'none';
+  document.getElementById('supportSubscriptionsSection').style.display = which==='subscriptions' ? 'block' : 'none';
+  if(which==='subscriptions') renderSubRequests();
+  else renderConversations();
+}
+
+/* ===== SUPPORT MESSAGES ===== */
+function renderConversations(){
+  const list=document.getElementById('conversationsList');
+  document.getElementById('convCount').textContent=state.convos.length;
+  if(state.convos.length===0){list.innerHTML=`<div class="empty">${ICONS.bell2}<div>No conversations yet</div></div>`;return}
+  const sorted=[...state.convos].sort((a,b)=>{if(a.unread!==b.unread)return a.unread?-1:1;return new Date(b.messages.at(-1)?.at||0)-new Date(a.messages.at(-1)?.at||0)});
+  list.innerHTML=sorted.map(c=>{const last=c.messages.at(-1);const preview=last?(last.image?'📎 Image attachment':last.text):'—';return`<div class="conversation-item ${selectedConvoId===c.id?'active':''}" onclick="selectConversation('${c.id}')"><div class="conv-avatar">${initials(c.userName)}${c.unread?'<span class="unread-dot"></span>':''}</div><div class="conv-info"><div class="conv-name">${c.userName}</div><div class="conv-preview">${preview}</div></div><div class="conv-time">${last?formatShortTime(last.at):''}</div></div>`}).join('');
+}
+function selectConversation(id){
+  const c=state.convos.find(x=>x.id===id);if(!c)return;
+  selectedConvoId=id;c.unread=false;saveConvos(state.convos);
+  document.getElementById('chatEmpty').style.display='none';
+  document.getElementById('chatView').style.display='flex';
+  document.getElementById('chatHeaderAvatar').textContent=initials(c.userName);
+  document.getElementById('chatHeaderName').textContent=c.userName;
+  document.getElementById('chatHeaderEmail').textContent=c.userEmail;
+  const statusBadge=document.getElementById('chatStatusBadge');
+  const resolveBtn=document.getElementById('resolveBtn');
+  if(c.status==='resolved'){statusBadge.className='chat-status resolved';statusBadge.textContent='Resolved';resolveBtn.innerHTML=ICONS.unban+'Reopen'}
+  else{statusBadge.className='chat-status open';statusBadge.textContent='Open';resolveBtn.innerHTML=ICONS.check+'Mark Resolved'}
+  renderMessages(c);renderConversations();
+}
+function renderMessages(c){
+  const box=document.getElementById('chatMessages');
+  box.innerHTML=c.messages.map(m=>{const fromLabel=m.from==='admin'?'A':initials(c.userName);const imgHTML=m.image?`<img class="message-image" src="${m.image}" alt="attachment" onclick="openImageModal(this.src)" />`:'';return`<div class="message ${m.from==='admin'?'admin':''}"><div class="message-avatar">${fromLabel}</div><div><div class="message-bubble">${escapeHTML(m.text)}${imgHTML}</div><div class="message-meta">${formatShortTime(m.at)}</div></div></div>`}).join('');
+  setTimeout(()=>{box.scrollTop=box.scrollHeight},50);
+}
+function sendReply(){
+  if(!selectedConvoId)return;
+  const c=state.convos.find(x=>x.id===selectedConvoId);if(!c)return;
+  const text=document.getElementById('replyText').value.trim();
+  if(!text&&!pendingImage){toast('Type a message or attach an image first','error');return}
+  c.messages.push({from:'admin',text:text||'',image:pendingImage,at:new Date().toISOString()});
+  saveConvos(state.convos);
+  document.getElementById('replyText').value='';pendingImage=null;document.getElementById('imagePreviewBar').innerHTML='';
+  renderMessages(c);renderConversations();toast('Reply sent','success');
+}
+function handleImageAttach(e){
+  const file=e.target.files[0];if(!file)return;
+  if(!file.type.startsWith('image/')){toast('Please select an image file','error');return}
+  if(file.size>2*1024*1024){toast('Image too large (max 2MB)','error');return}
+  const reader=new FileReader();
+  reader.onload=function(ev){
+    pendingImage=ev.target.result;
+    const bar=document.getElementById('imagePreviewBar');
+    bar.innerHTML=`<div class="image-preview"><img src="${pendingImage}" alt="preview" /><div class="image-preview-remove" onclick="removePendingImage()">×</div></div>`;
+  };
+  reader.readAsDataURL(file);e.target.value='';
+}
 function removePendingImage(){pendingImage=null;document.getElementById('imagePreviewBar').innerHTML=''}
 function openImageModal(src){document.getElementById('imageModalImg').src=src;document.getElementById('imageModal').classList.add('show')}
 function closeImageModal(){document.getElementById('imageModal').classList.remove('show')}
-function toggleConversationStatus(){if(!selectedConvoId)return;const c=state.convos.find(x=>x.id===selectedConvoId);if(!c)return;c.status=c.status==='resolved'?'open':'resolved';saveConvos(state.convos);selectConversation(selectedConvoId);toast(`Conversation marked as ${c.status}`,'info')}
+function toggleConversationStatus(){
+  if(!selectedConvoId)return;
+  const c=state.convos.find(x=>x.id===selectedConvoId);if(!c)return;
+  c.status=c.status==='resolved'?'open':'resolved';
+  saveConvos(state.convos);selectConversation(selectedConvoId);
+  toast(`Conversation marked as ${c.status}`,'info');
+}
+
+/* ===== SUBSCRIPTIONS & PAYMENTS ===== */
+function getPlanIcon(planName){
+  const n = (planName||'').toLowerCase();
+  if(n.includes('enterprise')) return {cls:'enterprise', svg:ICONS.shield};
+  if(n.includes('pro')) return {cls:'pro', svg:ICONS.star};
+  return {cls:'free', svg:ICONS.user};
+}
+function getPaymentMethodIcon(methodId){
+  const m = PAYMENT_METHODS.find(p=>p.id===methodId);
+  return m ? m.icon : ICONS.credit;
+}
+
+function renderSubRequests(){
+  const list = document.getElementById('subRequestsList');
+  const reqs = state.subRequests || [];
+  document.getElementById('subReqCount').textContent = reqs.length;
+  if(reqs.length===0){
+    list.innerHTML = `<div class="empty">${ICONS.credit}<div>No payment requests yet</div></div>`;
+    return;
+  }
+  const sorted = [...reqs].sort((a,b)=>{
+    const statusOrder = {pending:0, approved:1, rejected:2};
+    if(statusOrder[a.status] !== statusOrder[b.status]) return statusOrder[a.status] - statusOrder[b.status];
+    return new Date(b.requestedAt) - new Date(a.requestedAt);
+  });
+  list.innerHTML = sorted.map(r=>{
+    const planIcon = getPlanIcon(r.planName);
+    const statusClass = r.status;
+    const statusLabel = r.status.charAt(0).toUpperCase() + r.status.slice(1);
+    const lastMsg = r.messages.at(-1);
+    const preview = lastMsg ? (lastMsg.text.length > 40 ? lastMsg.text.slice(0,40)+'...' : lastMsg.text) : '—';
+    return `<div class="conversation-item ${selectedSubReqId===r.id?'active':''}" onclick="selectSubRequest('${r.id}')">
+      <div class="conv-avatar" style="background:${r.status==='approved'?'var(--success)':r.status==='rejected'?'var(--danger)':'var(--accent)'}">
+        ${initials(r.userName)}
+        ${r.status==='pending'?'<span class="unread-dot"></span>':''}
+      </div>
+      <div class="conv-info">
+        <div class="conv-name" style="display:flex;align-items:center;gap:.35rem">
+          ${r.userName}
+          <span class="badge ${statusClass}" style="font-size:.58rem;padding:.1rem .35rem">${statusLabel}</span>
+        </div>
+        <div class="conv-preview">${r.planName} · $${r.amount} · ${preview}</div>
+      </div>
+      <div class="conv-time">${formatShortTime(r.requestedAt)}</div>
+    </div>`;
+  }).join('');
+}
+
+function selectSubRequest(id){
+  const r = (state.subRequests||[]).find(x=>x.id===id);
+  if(!r) return;
+  selectedSubReqId = id;
+  document.getElementById('subEmpty').style.display='none';
+  document.getElementById('subView').style.display='flex';
+  document.getElementById('subHeaderAvatar').textContent = initials(r.userName);
+  document.getElementById('subHeaderName').textContent = r.userName;
+  document.getElementById('subHeaderEmail').textContent = r.userEmail;
+
+  // Status badge
+  const statusBadge = document.getElementById('subStatusBadge');
+  const statusLabel = r.status.charAt(0).toUpperCase() + r.status.slice(1);
+  statusBadge.innerHTML = `<span class="badge ${r.status}">${r.status==='approved'?ICONS.check:r.status==='rejected'?ICONS.ban:ICONS.info}<span>${statusLabel}</span></span>`;
+
+  // Buttons state
+  const approveBtn = document.getElementById('approveBtn');
+  const rejectBtn = document.getElementById('rejectBtn');
+  if(r.status !== 'pending'){
+    approveBtn.disabled = true;
+    rejectBtn.disabled = true;
+    approveBtn.style.opacity = '0.5';
+    rejectBtn.style.opacity = '0.5';
+    approveBtn.style.cursor = 'not-allowed';
+    rejectBtn.style.cursor = 'not-allowed';
+  } else {
+    approveBtn.disabled = false;
+    rejectBtn.disabled = false;
+    approveBtn.style.opacity = '1';
+    rejectBtn.style.opacity = '1';
+    approveBtn.style.cursor = 'pointer';
+    rejectBtn.style.cursor = 'pointer';
+  }
+
+  renderSubMessages(r);
+  renderSubRequests();
+}
+
+function renderSubMessages(r){
+  const box = document.getElementById('subMessages');
+  const planIcon = getPlanIcon(r.planName);
+  const paymentIcon = getPaymentMethodIcon(r.paymentMethod);
+
+  // Build messages HTML
+  let messagesHTML = '';
+
+  // 1. Plan selection card (system message)
+  messagesHTML += `
+    <div style="display:flex;justify-content:center;margin-bottom:.5rem">
+      <div style="background:var(--bg-soft);border:1px solid var(--border);border-radius:10px;padding:.85rem;max-width:340px;width:100%">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text-faint);font-weight:600;margin-bottom:.5rem;text-align:center">Selected Plan</div>
+        <div style="display:flex;align-items:center;gap:.65rem">
+          <div class="sub-plan-icon ${planIcon.cls}">${planIcon.svg}</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-weight:700;font-size:.92rem">${r.planName}</div>
+            <div style="color:var(--text-muted);font-size:.78rem"><strong style="color:var(--text);font-size:1rem">$${r.amount.toFixed(2)}</strong> / month</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // 2. Payment method card
+  messagesHTML += `
+    <div style="display:flex;justify-content:center;margin-bottom:.5rem">
+      <div style="background:var(--bg-soft);border:1px solid var(--border);border-radius:10px;padding:.85rem;max-width:340px;width:100%">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text-faint);font-weight:600;margin-bottom:.5rem;text-align:center">Payment Method</div>
+        <div style="display:flex;align-items:center;gap:.65rem">
+          <div style="width:40px;height:40px;border-radius:8px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;flex-shrink:0">
+            ${paymentIcon}
+          </div>
+          <div style="flex:1;min-width:0">
+            <div style="font-weight:700;font-size:.88rem">${r.paymentMethodLabel}</div>
+            <div style="color:var(--text-faint);font-size:.7rem;font-family:'SF Mono','Consolas',monospace">${r.transactionId}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // 3. Receipt image
+  if(r.receiptImage){
+    messagesHTML += `
+      <div style="display:flex;justify-content:center;margin-bottom:.5rem">
+        <div style="max-width:340px;width:100%">
+          <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text-faint);font-weight:600;margin-bottom:.35rem;text-align:center">Payment Receipt</div>
+          <img src="${r.receiptImage}" class="sub-receipt-preview" onclick="openImageModal(this.src)" alt="Payment receipt" />
+        </div>
+      </div>
+    `;
+  }
+
+  // 4. User messages
+  r.messages.forEach(m=>{
+    const fromLabel = m.from==='admin' ? 'A' : initials(r.userName);
+    messagesHTML += `
+      <div class="message ${m.from==='admin'?'admin':''}">
+        <div class="message-avatar">${fromLabel}</div>
+        <div>
+          <div class="message-bubble">${escapeHTML(m.text)}</div>
+          <div class="message-meta">${formatShortTime(m.at)}</div>
+        </div>
+      </div>
+    `;
+  });
+
+  // 5. Timeline (if resolved)
+  if(r.status !== 'pending'){
+    const timelineItems = [
+      { dot:'pending', title:'Payment request submitted', meta:formatDateTime(r.requestedAt) }
+    ];
+    if(r.status === 'approved'){
+      timelineItems.push({ dot:'approved', title:'Payment verified — Account upgraded to '+r.planName, meta:r.resolvedAt?formatDateTime(r.resolvedAt):'' });
+    } else if(r.status === 'rejected'){
+      timelineItems.push({ dot:'rejected', title:'Payment rejected — Warning issued', meta:r.resolvedAt?formatDateTime(r.resolvedAt):'' });
+    }
+    messagesHTML += `
+      <div style="margin-top:.5rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text-faint);font-weight:600;margin-bottom:.5rem">Status Timeline</div>
+        <div class="sub-status-timeline">
+          ${timelineItems.map(t=>`
+            <div class="sub-timeline-item">
+              <div class="sub-timeline-dot ${t.dot}"></div>
+              <div class="sub-timeline-content">
+                <div class="sub-timeline-title">${t.title}</div>
+                <div class="sub-timeline-meta">${t.meta}</div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  box.innerHTML = messagesHTML;
+  setTimeout(()=>{box.scrollTop = box.scrollHeight},50);
+}
+
+function approveSubscription(){
+  const r = (state.subRequests||[]).find(x=>x.id===selectedSubReqId);
+  if(!r || r.status !== 'pending') return;
+
+  const adminNote = document.getElementById('subAdminNote').value.trim();
+  const successMsg = `Payment verified successfully. You have been upgraded to the ${r.planName} plan. Enjoy your new features and benefits!`;
+  const fullMsg = adminNote ? successMsg + '\n\nAdmin note: ' + adminNote : successMsg;
+
+  showConfirmCard({
+    title: 'Verify Payment & Upgrade?',
+    message: `Confirm payment of $${r.amount.toFixed(2)} via ${r.paymentMethodLabel} for ${r.userName}. The user will be upgraded to ${r.planName} and notified.`,
+    icon: 'success',
+    confirmText: 'Verify & Upgrade',
+    user: { name: r.userName, email: r.userEmail },
+    onConfirm: () => {
+      r.status = 'approved';
+      r.resolvedAt = new Date().toISOString();
+      r.messages.push({ from:'admin', text: fullMsg, at: new Date().toISOString() });
+      saveSubRequests(state.subRequests);
+
+      // Notify user
+      state.notifs.unshift({
+        id: 'n'+Date.now(),
+        title: `Payment Verified — Upgraded to ${r.planName}`,
+        body: `Hello ${r.userName}, your payment of $${r.amount.toFixed(2)} has been verified. You have been upgraded to the ${r.planName} plan. Enjoy your new features!`,
+        channel: 'USER_ID',
+        target: r.userId,
+        sentAt: new Date().toISOString(),
+        sentCount: 1,
+      });
+      saveNotifs(state.notifs);
+
+      document.getElementById('subAdminNote').value = '';
+      toast(`Payment verified — ${r.userName} upgraded to ${r.planName}`, 'success');
+      selectSubRequest(r.id);
+    }
+  });
+}
+
+function rejectSubscription(){
+  const r = (state.subRequests||[]).find(x=>x.id===selectedSubReqId);
+  if(!r || r.status !== 'pending') return;
+
+  const adminNote = document.getElementById('subAdminNote').value.trim();
+  const rejectMsg = `Your payment has been rejected. Please note: this is your final warning. On the next occurrence, your account will be banned and you will no longer be able to access our services.`;
+  const fullMsg = adminNote ? rejectMsg + '\n\nAdmin note: ' + adminNote : rejectMsg;
+
+  showConfirmCard({
+    title: 'Reject Payment & Issue Warning?',
+    message: `Reject the payment of $${r.amount.toFixed(2)} from ${r.userName}. A warning will be issued: next time, the account will be banned and access to services will be revoked.`,
+    icon: 'danger',
+    confirmText: 'Reject & Warn',
+    user: { name: r.userName, email: r.userEmail },
+    onConfirm: () => {
+      r.status = 'rejected';
+      r.resolvedAt = new Date().toISOString();
+      r.messages.push({ from:'admin', text: fullMsg, at: new Date().toISOString() });
+      saveSubRequests(state.subRequests);
+
+      // Notify user
+      state.notifs.unshift({
+        id: 'n'+Date.now(),
+        title: 'Payment Rejected — Final Warning',
+        body: `Hello ${r.userName}, your payment has been rejected. This is your final warning. On the next occurrence, your account will be banned and you will no longer be able to access our services. Please contact support for more details.`,
+        channel: 'USER_ID',
+        target: r.userId,
+        sentAt: new Date().toISOString(),
+        sentCount: 1,
+      });
+      saveNotifs(state.notifs);
+
+      document.getElementById('subAdminNote').value = '';
+      toast(`Payment rejected — Warning issued to ${r.userName}`, 'error');
+      selectSubRequest(r.id);
+    }
+  });
+}
 
 function renderSettings(){document.getElementById('currentEmail').value=state.settings.email;document.getElementById('adminEmail').textContent=state.settings.email}
 function updateEmail(){const newEmail=document.getElementById('newEmail').value.trim();if(!newEmail){toast('Please enter the new email','error');return}if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(newEmail)){toast('Invalid email format','error');return}state.settings.email=newEmail;saveSettings(state.settings);document.getElementById('newEmail').value='';renderSettings();toast('Email updated successfully','success')}
 function updatePassword(){const current=document.getElementById('currentPass').value;const next=document.getElementById('newPass').value;const confirmP=document.getElementById('confirmPass').value;if(!current||!next||!confirmP){toast('Please fill in all fields','error');return}if(current!==state.settings.password){toast('Current password is incorrect','error');return}if(next.length<8){toast('New password must be at least 8 characters','error');return}if(next!==confirmP){toast('Passwords do not match','error');return}state.settings.password=next;saveSettings(state.settings);document.getElementById('currentPass').value='';document.getElementById('newPass').value='';document.getElementById('confirmPass').value='';toast('Password updated successfully','success')}
-function sendDirectMessage(){toast('Feature available via chat','info');closeSendMessageModal()}
 
 const savedTheme = localStorage.getItem('ad_theme') || 'light';
 applyTheme(savedTheme);
