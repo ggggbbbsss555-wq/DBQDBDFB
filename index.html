@@ -418,6 +418,7 @@ tbody tr:hover{background:var(--bg-soft)}
   background:var(--bg-elev);
   border:1px solid var(--border);
   margin-bottom:.65rem;
+  flex-shrink:0;
 }
 .sub-detail-header{
   display:flex;align-items:center;gap:.7rem;
@@ -425,15 +426,19 @@ tbody tr:hover{background:var(--bg-soft)}
   background:linear-gradient(135deg,rgba(37,99,235,0.07),rgba(37,99,235,0.01));
   border-bottom:1px solid var(--border-soft);
 }
-.sub-detail-header .pay-icon-wrap{width:34px;height:34px}
-.sub-detail-title{font-weight:700;font-size:.92rem;color:var(--text);flex:0 1 auto;min-width:0}
-.sub-detail-subtitle{margin-left:auto;font-size:.72rem;color:var(--text-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sub-detail-header .pay-icon-wrap{width:34px;height:34px;flex-shrink:0}
+.sub-detail-header-text{
+  flex:1;min-width:0;
+  display:flex;flex-direction:column;gap:.1rem;
+}
+.sub-detail-title{font-weight:700;font-size:.92rem;color:var(--text);line-height:1.25}
+.sub-detail-subtitle{font-size:.72rem;color:var(--text-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.3}
 .sub-detail-body{padding:.6rem .9rem .75rem;display:flex;flex-direction:column;gap:.45rem}
 .sub-detail-row{
-  display:flex;justify-content:space-between;align-items:center;gap:.65rem;
+  display:flex;justify-content:space-between;align-items:center;gap:.85rem;
   padding:.55rem .75rem;
   background:var(--bg-soft);border:1px solid var(--border-soft);
-  border-radius:8px;
+  border-radius:8px;min-width:0;
 }
 .sub-detail-row.summary{
   background:rgba(37,99,235,0.05);
@@ -446,10 +451,17 @@ tbody tr:hover{background:var(--bg-soft)}
   color:var(--text-muted);font-weight:600;flex-shrink:0;
 }
 .sub-detail-value{
+  display:block;
   font-size:.82rem;font-weight:600;color:var(--text);
-  text-align:right;word-break:break-all;max-width:60%;
+  text-align:right;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  min-width:0;flex:1 1 auto;max-width:100%;
 }
 .sub-detail-value.mono{font-family:'SF Mono','Consolas','Courier New',monospace;font-size:.74rem}
+/* Wrap-friendly variant for very long IDs (kept as fallback) */
+.sub-detail-value.wrap{
+  white-space:normal;word-break:break-all;
+}
 
 /* Receipt image card (full-width, framed) */
 .sub-receipt-block{
@@ -457,21 +469,26 @@ tbody tr:hover{background:var(--bg-soft)}
   background:var(--bg-elev);
   border:1px solid var(--border);
   border-radius:12px;overflow:hidden;
+  flex-shrink:0;
 }
 .sub-receipt-caption{
   font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;
   color:var(--text-faint);font-weight:600;
-  padding:.55rem .9rem 0;text-align:left;
+  padding:.6rem .9rem .35rem;text-align:left;
+}
+.sub-receipt-img-wrap{
+  padding:0 .9rem .75rem;
+  display:flex;justify-content:center;align-items:center;
 }
 .sub-receipt-preview{
-  width:100%;display:block;
-  border-radius:0;border:none;
+  display:block;
+  max-width:100%;width:auto;height:auto;
+  max-height:300px;
+  border-radius:8px;border:1px solid var(--border-soft);
   cursor:pointer;transition:transform .2s ease, filter .2s ease;
-  padding:.5rem .9rem .75rem;
-  object-fit:contain;max-height:340px;
-  background:transparent;
+  object-fit:contain;background:var(--bg-soft);
 }
-.sub-receipt-preview:hover{transform:scale(1.01);filter:brightness(1.03)}
+.sub-receipt-preview:hover{transform:scale(1.02);filter:brightness(1.03)}
 
 .sub-status-timeline{display:flex;flex-direction:column;gap:.65rem;padding:.75rem;background:var(--bg-soft);border-radius:8px;border:1px solid var(--border-soft)}
 .sub-timeline-item{display:flex;gap:.65rem;align-items:flex-start;font-size:.78rem}
@@ -2123,12 +2140,15 @@ function renderSubMessages(r){
   //    so the displayed price is always the plan's actual price (50 / 75 / 100).
   const paymentIconInner = paymentIconHTML.replace(/^<div class="pay-icon-wrap">([\s\S]*?)<\/div>$/, '$1');
   const planAmount = getPlanAmount(r);
+  const paymentSubtitle = paymentMethod && paymentMethod.subtitle ? paymentMethod.subtitle : '';
   messagesHTML += `
     <div class="sub-detail-card">
       <div class="sub-detail-header">
         <span class="pay-icon-wrap">${paymentIconInner}</span>
-        <span class="sub-detail-title">${paymentName}</span>
-        <span class="sub-detail-subtitle">${paymentMethod && paymentMethod.subtitle ? paymentMethod.subtitle : ''}</span>
+        <div class="sub-detail-header-text">
+          <span class="sub-detail-title">${paymentName}</span>
+          ${paymentSubtitle ? `<span class="sub-detail-subtitle">${paymentSubtitle}</span>` : ''}
+        </div>
       </div>
       <div class="sub-detail-body">
         <div class="sub-detail-row summary">
@@ -2137,7 +2157,7 @@ function renderSubMessages(r){
         </div>
         <div class="sub-detail-row">
           <span class="sub-detail-label">Transaction ID</span>
-          <span class="sub-detail-value mono">${r.transactionId}</span>
+          <span class="sub-detail-value mono" title="${r.transactionId}">${r.transactionId}</span>
         </div>
         <div class="sub-detail-row">
           <span class="sub-detail-label">Amount</span>
@@ -2152,7 +2172,9 @@ function renderSubMessages(r){
     messagesHTML += `
       <div class="sub-receipt-block">
         <div class="sub-receipt-caption">Payment Receipt</div>
-        <img src="${r.receiptImage}" class="sub-receipt-preview" onclick="openImageModal(this.src)" alt="Payment receipt" />
+        <div class="sub-receipt-img-wrap">
+          <img src="${r.receiptImage}" class="sub-receipt-preview" onclick="openImageModal(this.src)" alt="Payment receipt" />
+        </div>
       </div>
     `;
   }
