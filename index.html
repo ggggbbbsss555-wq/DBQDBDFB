@@ -367,7 +367,7 @@ tbody tr:hover{background:var(--bg-soft)}
 .subheader{display:flex;justify-content:space-between;align-items:center;background:var(--bg-soft);padding:.75rem 1rem;border-radius:8px;margin-bottom:1rem;border:1px solid var(--border)}
 .subheader h2{font-size:.9rem;font-weight:600}
 .theme-btn-mobile{display:none}
-/* ===================== CHARTS (UPDATED - 4 charts only) ===================== */
+/* ===================== CHARTS (4 charts: 1 big + 1 small donut + 3 plans in 1 row) ===================== */
 .charts-grid{display:grid;grid-template-columns:2fr 1fr;gap:1rem;margin-bottom:1.25rem;align-items:stretch}
 .charts-grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin-bottom:1.25rem}
 .chart-card{background:var(--bg-elev);border:1px solid var(--border);border-radius:10px;padding:1.25rem;transition:border-color .2s ease;display:flex;flex-direction:column}
@@ -380,8 +380,8 @@ tbody tr:hover{background:var(--bg-soft)}
 .chart-card-header .chart-icon.green{background:rgba(22,163,74,.1);color:var(--success)}
 .chart-card-header .chart-icon.orange{background:rgba(217,119,6,.1);color:var(--warning)}
 .chart-card-header .chart-icon.red{background:rgba(220,38,38,.1);color:var(--danger)}
+.chart-card-header .chart-icon.purple{background:rgba(139,92,246,.1);color:#8b5cf6}
 .chart-wrap{position:relative;height:260px;width:100%;flex:1;min-height:0}
-/* Smaller donut card — fits the circle nicely */
 .chart-card.donut-card{padding:1rem}
 .chart-card.donut-card .chart-card-header{margin-bottom:.75rem}
 .chart-card.donut-card .chart-card-header h3{font-size:.88rem}
@@ -588,7 +588,7 @@ Settings
 </div>
 <div class="stats-grid" id="statsGrid"></div>
 
-<!-- 4 Charts: 1 big line chart + 1 small donut -->
+<!-- Row 1: Big line chart + small donut -->
 <div class="charts-grid">
 <div class="chart-card">
 <div class="chart-card-header">
@@ -617,8 +617,8 @@ Settings
 </div>
 </div>
 
-<!-- 2 more charts: Free Plan + Pro Plan (small) -->
-<div class="charts-grid-3" style="grid-template-columns:1fr 1fr">
+<!-- Row 2: 3 plan charts in ONE row -->
+<div class="charts-grid-3">
 <div class="chart-card">
 <div class="chart-card-header">
 <div>
@@ -644,6 +644,19 @@ Settings
 </div>
 <div class="chart-wrap"><canvas id="proPlanChart"></canvas></div>
 <div class="chart-legend" id="proPlanLegend"></div>
+</div>
+<div class="chart-card">
+<div class="chart-card-header">
+<div>
+<h3>Enterprise Plan</h3>
+<p>Business tier subscribers</p>
+</div>
+<div class="chart-icon red">
+<svg class="icon" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+</div>
+</div>
+<div class="chart-wrap"><canvas id="enterprisePlanChart"></canvas></div>
+<div class="chart-legend" id="enterprisePlanLegend"></div>
 </div>
 </div>
 
@@ -1328,6 +1341,7 @@ function loadData() {
     const total = users.filter(u => u.status === 'ACTIVE').length;
     const freeCount = Math.floor(total * 0.55);
     const proCount = Math.floor(total * 0.30);
+    const enterpriseCount = Math.max(1, total - freeCount - proCount);
     const genHistory = (base, variance) => {
       const arr = [];
       for (let i = 13; i >= 0; i--) {
@@ -1340,6 +1354,7 @@ function loadData() {
     subscriptions = {
       free: { total: freeCount, history: genHistory(Math.floor(freeCount*0.08), 3) },
       pro: { total: proCount, history: genHistory(Math.floor(proCount*0.12), 2) },
+      enterprise: { total: enterpriseCount, history: genHistory(Math.floor(enterpriseCount*0.15), 1) },
     };
     localStorage.setItem(STORAGE_KEYS.SUBSCRIPTIONS, JSON.stringify(subscriptions));
   }
@@ -1435,6 +1450,7 @@ function renderAllCharts(){
   renderStatusDonutChart();
   renderPlanChart('free','freePlanChart','freePlanLegend','#10b981','Free Plan');
   renderPlanChart('pro','proPlanChart','proPlanLegend','#f59e0b','Pro Plan');
+  renderPlanChart('enterprise','enterprisePlanChart','enterprisePlanLegend','#ef4444','Enterprise Plan');
 }
 function renderUserGrowthChart(){
   destroyChart('userGrowth');
