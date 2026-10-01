@@ -229,7 +229,7 @@ tbody tr:hover{background:var(--bg-soft)}
 .promo-stats{display:flex;justify-content:space-between;font-size:.72rem;color:var(--text-muted)}
 .code-preview{background:var(--text);color:var(--bg);padding:1rem 1.25rem;border-radius:8px;font-family:'SF Mono','Consolas','Courier New',monospace;font-size:1.4rem;font-weight:700;letter-spacing:3px;text-align:center;margin:.5rem 0 1.25rem}
 .subsection-tabs{display:flex;gap:.35rem;margin-bottom:1.25rem;border-bottom:1px solid var(--border)}
-.subsection-tab{padding:.55rem 1rem;color:var(--text-muted);font-size:.85rem;font-weight:600;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s ease}
+.subsection-tab{padding:.55rem 1rem;color:var(--text-muted);font-size:.85rem;font-weight:600;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s ease;display:inline-flex;align-items:center}
 .subsection-tab:hover{color:var(--text)}
 .subsection-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
 .offers-list{display:flex;flex-direction:column;gap:.65rem}
@@ -439,6 +439,29 @@ tbody tr:hover{background:var(--bg-soft)}
 .sub-timeline-title{font-weight:600;color:var(--text)}
 .sub-timeline-meta{color:var(--text-faint);font-size:.7rem;margin-top:.1rem}
 
+/* ===== Payment Method Icon Styles ===== */
+.payment-icon-box{
+  width:56px;height:56px;border-radius:12px;
+  display:grid;place-items:center;flex-shrink:0;
+  position:relative;
+}
+.payment-icon-box.paypal{
+  background:linear-gradient(135deg,#003087 0%,#009cde 100%);
+  box-shadow:0 4px 12px rgba(0,48,135,.25);
+}
+.payment-icon-box.binance{
+  background:linear-gradient(135deg,#f0b90b 0%,#fcd535 100%);
+  box-shadow:0 4px 12px rgba(240,185,11,.25);
+}
+.payment-icon-box.usdt{
+  background:linear-gradient(135deg,#26a17b 0%,#50d1a6 100%);
+  box-shadow:0 4px 12px rgba(38,161,123,.25);
+}
+.payment-icon-box svg{width:30px;height:30px}
+.payment-icon-box.paypal svg{stroke:#fff;fill:none;stroke-width:2}
+.payment-icon-box.binance svg{stroke:#000;fill:none;stroke-width:2.2}
+.payment-icon-box.usdt svg{stroke:#fff;fill:none;stroke-width:2}
+
 .mobile-header{display:none;position:sticky;top:0;background:var(--bg);padding:.75rem 1rem;border-bottom:1px solid var(--border);z-index:50;justify-content:space-between;align-items:center}
 .mobile-header-brand{display:flex;align-items:center;gap:.55rem;font-weight:700;font-size:.95rem}
 .mobile-header-brand .brand-logo{width:30px;height:30px;border-radius:7px;font-size:.82rem}
@@ -505,6 +528,8 @@ tbody tr:hover{background:var(--bg-soft)}
 .code-preview{font-size:1.15rem;padding:.85rem 1rem}
 .btn-primary,.btn-outline,.btn-success,.btn-danger{width:100%;justify-content:center}
 .icon-btn-view{display:none}
+.payment-icon-box{width:48px;height:48px}
+.payment-icon-box svg{width:26px;height:26px}
 }
 @media (max-width:480px){
 .mobile-nav-item .label{display:none}
@@ -1282,10 +1307,32 @@ const SAMPLE_NAMES = [
   'Matthew','Amelia','Andrew','Harper','Christopher','Evelyn','Thomas','Abigail',
 ];
 const COUNTRIES = ['USA','UK','Germany','France','Canada','Australia','Spain','Italy'];
+
+// Payment method icons (SVG) - matching QuantVexa style
+const PAYMENT_ICONS = {
+  paypal: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 4h7a5 5 0 0 1 0 10h-3l-2 6H5L7 4z" fill="rgba(255,255,255,0.15)"/>
+    <path d="M7 4h7a5 5 0 0 1 0 10h-3l-2 6H5L7 4z"/>
+  </svg>`,
+  binance: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="12 2 15.5 5.5 12 9 8.5 5.5 12 2"/>
+    <polygon points="5.5 8.5 9 12 5.5 15.5 2 12 5.5 8.5"/>
+    <polygon points="18.5 8.5 22 12 18.5 15.5 15 12 18.5 8.5"/>
+    <polygon points="12 15 15.5 18.5 12 22 8.5 18.5 12 15"/>
+    <rect x="10.5" y="10.5" width="3" height="3" fill="currentColor" stroke="none"/>
+  </svg>`,
+  usdt: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <ellipse cx="12" cy="7" rx="8" ry="3"/>
+    <line x1="12" y1="7" x2="12" y2="21"/>
+    <line x1="9" y1="21" x2="15" y2="21"/>
+    <path d="M8 11.5c0 .8 1.8 1.5 4 1.5s4-.7 4-1.5"/>
+  </svg>`
+};
+
 const PAYMENT_METHODS = [
-  { id:'paypal', name:'PayPal', icon:'<svg class="icon" viewBox="0 0 24 24"><path d="M7 4h7a5 5 0 0 1 0 10h-3l-2 6H5L7 4z"/></svg>' },
-  { id:'binance', name:'Binance Pay', icon:'<svg class="icon" viewBox="0 0 24 24"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/><line x1="12" y1="22" x2="12" y2="15.5"/><polyline points="22 8.5 12 15.5 2 8.5"/></svg>' },
-  { id:'usdt', name:'USDT (TRC20)', icon:'<svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="12" y1="8" x2="12" y2="18"/></svg>' },
+  { id:'paypal', name:'PayPal', icon: PAYMENT_ICONS.paypal, color:'#003087' },
+  { id:'binance', name:'Binance Pay', icon: PAYMENT_ICONS.binance, color:'#f0b90b' },
+  { id:'usdt', name:'USDT (TRC20)', icon: PAYMENT_ICONS.usdt, color:'#26a17b' },
 ];
 
 const ICONS = {
@@ -1308,8 +1355,6 @@ const ICONS = {
   crown:'<svg class="icon" viewBox="0 0 24 24"><path d="M2 19h20l-2-9-4 4-4-7-4 7-4-4-2 9zM4 21h16"/></svg>',
   user:'<svg class="icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
   message:'<svg class="icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
-  dollar:'<svg class="icon" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>',
-  alert:'<svg class="icon" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
 };
 
 function uid() { return 'usr_' + Math.random().toString(36).slice(2,10) + Date.now().toString(36).slice(-4); }
@@ -1366,8 +1411,8 @@ function loadData() {
   let offers = JSON.parse(localStorage.getItem(STORAGE_KEYS.OFFERS) || '[]');
   if (offers.length === 0) {
     offers = [
-      { id:'o'+Date.now(), title:'Summer Mega Sale — 50% Off', body:'Beat the heat with our biggest summer sale! Get 50% off all annual plans, valid until August 31st. Use code SUMMER50 at checkout.', active:true, createdAt:new Date(Date.now()-3*86400000).toISOString() },
-      { id:'o'+(Date.now()+1), title:'Refer a Friend — Both Get 1 Month Free', body:'Invite friends to the platform. When they subscribe, both of you receive 1 month of premium access for free.', active:true, createdAt:new Date(Date.now()-86400000).toISOString() },
+      { id:'o'+Date.now(), title:'Summer Mega Sale — 50% Off', body:'Beat the heat with our biggest summer sale! Get 50% off all annual plans.', active:true, createdAt:new Date(Date.now()-3*86400000).toISOString() },
+      { id:'o'+(Date.now()+1), title:'Refer a Friend — Both Get 1 Month Free', body:'Invite friends to the platform.', active:true, createdAt:new Date(Date.now()-86400000).toISOString() },
       { id:'o'+(Date.now()+2), title:'Black Friday Preview', body:'Coming soon — exclusive Black Friday deals for premium members only.', active:false, createdAt:new Date(Date.now()-7*86400000).toISOString() },
     ];
     localStorage.setItem(STORAGE_KEYS.OFFERS, JSON.stringify(offers));
@@ -1376,8 +1421,8 @@ function loadData() {
   if (plans.length === 0) {
     plans = [
       { id:'pl1', name:'Free', price:0, duration:'month', features:['Up to 100 users','Basic analytics','Email support'], featured:false, active:true, createdAt:new Date(Date.now()-86400000).toISOString() },
-      { id:'pl2', name:'Pro', price:19.99, duration:'month', features:['Up to 5,000 users','Advanced analytics','Priority support','Custom branding','API access'], featured:true, active:true, createdAt:new Date(Date.now()-43200000).toISOString() },
-      { id:'pl3', name:'Enterprise', price:99.99, duration:'month', features:['Unlimited users','White-label dashboard','Dedicated manager','24/7 phone support','Custom integrations'], featured:false, active:true, createdAt:new Date(Date.now()-7200000).toISOString() },
+      { id:'pl2', name:'Pro', price:50, duration:'month', features:['Up to 5,000 users','Advanced analytics','Priority support','Custom branding','API access'], featured:true, active:true, createdAt:new Date(Date.now()-43200000).toISOString() },
+      { id:'pl3', name:'Enterprise', price:100, duration:'month', features:['Unlimited users','White-label dashboard','Dedicated manager','24/7 phone support','Custom integrations'], featured:false, active:true, createdAt:new Date(Date.now()-7200000).toISOString() },
     ];
     localStorage.setItem(STORAGE_KEYS.PLANS, JSON.stringify(plans));
   }
@@ -1386,15 +1431,14 @@ function loadData() {
     const u1=users[0], u2=users[1], u3=users.find(x=>x.status==='BANNED')||users[5];
     convos = [
       { id:'c1', userId:u1.id, userName:u1.name, userEmail:u1.email, status:'open', unread:true, messages:[
-        { from:'user', text:'Hi, I have trouble accessing my account. The dashboard shows a blank screen.', image:null, at:new Date(Date.now()-7200000).toISOString() },
+        { from:'user', text:'Hi, I have trouble accessing my account.', image:null, at:new Date(Date.now()-7200000).toISOString() },
       ]},
       { id:'c2', userId:u2.id, userName:u2.name, userEmail:u2.email, status:'open', unread:false, messages:[
         { from:'user', text:'How do I upgrade to the premium plan?', image:null, at:new Date(Date.now()-3600000).toISOString() },
-        { from:'admin', text:'Hi '+u2.name+'! Go to Settings → Subscription → Upgrade.', image:null, at:new Date(Date.now()-3500000).toISOString() },
+        { from:'admin', text:'Go to Settings → Subscription → Upgrade.', image:null, at:new Date(Date.now()-3500000).toISOString() },
       ]},
       { id:'c3', userId:u3.id, userName:u3.name, userEmail:u3.email, status:'resolved', unread:false, messages:[
         { from:'user', text:'Why was my account banned?', image:null, at:new Date(Date.now()-86400000).toISOString() },
-        { from:'admin', text:'Your account was flagged for unusual activity.', image:null, at:new Date(Date.now()-86300000).toISOString() },
       ]},
     ];
     localStorage.setItem(STORAGE_KEYS.CONVOS, JSON.stringify(convos));
@@ -1421,7 +1465,7 @@ function loadData() {
     };
     localStorage.setItem(STORAGE_KEYS.SUBSCRIPTIONS, JSON.stringify(subscriptions));
   }
-  // Subscription payment requests
+  // Subscription payment requests with 50, 75, 100 prices
   let subRequests = JSON.parse(localStorage.getItem(STORAGE_KEYS.SUB_REQUESTS) || 'null');
   if (!subRequests) {
     subRequests = [
@@ -1432,12 +1476,12 @@ function loadData() {
         userEmail: users[0].email,
         planId: 'pl2',
         planName: 'Pro',
-        planPrice: 19.99,
+        planPrice: 50,
         paymentMethod: 'paypal',
         paymentMethodLabel: 'PayPal',
-        amount: 19.99,
+        amount: 50,
         transactionId: 'PP-' + Math.random().toString(36).slice(2,10).toUpperCase(),
-        receiptImage: 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="260"><rect width="400" height="260" fill="#f8fafc"/><rect x="20" y="20" width="360" height="220" fill="#fff" stroke="#e2e8f0" stroke-width="2" rx="8"/><text x="200" y="60" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold" fill="#0f172a">Payment Receipt</text><text x="200" y="90" text-anchor="middle" font-family="Arial" font-size="12" fill="#64748b">PayPal Transaction</text><line x1="40" y1="105" x2="360" y2="105" stroke="#e2e8f0"/><text x="40" y="135" font-family="Arial" font-size="13" fill="#475569">Amount:</text><text x="360" y="135" text-anchor="end" font-family="Arial" font-size="13" font-weight="bold" fill="#0f172a">$19.99</text><text x="40" y="165" font-family="Arial" font-size="13" fill="#475569">Plan:</text><text x="360" y="165" text-anchor="end" font-family="Arial" font-size="13" font-weight="bold" fill="#0f172a">Pro (Monthly)</text><text x="40" y="195" font-family="Arial" font-size="13" fill="#475569">Transaction ID:</text><text x="360" y="195" text-anchor="end" font-family="Arial" font-size="12" font-weight="bold" fill="#0f172a">PP-A8F3K9X2</text><circle cx="200" cy="225" r="8" fill="#16a34a"/><path d="M196 225 L199 228 L205 222" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg>'),
+        receiptImage: 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="260"><rect width="400" height="260" fill="#f8fafc"/><rect x="20" y="20" width="360" height="220" fill="#fff" stroke="#e2e8f0" stroke-width="2" rx="8"/><text x="200" y="60" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold" fill="#0f172a">Payment Receipt</text><text x="200" y="90" text-anchor="middle" font-family="Arial" font-size="12" fill="#64748b">PayPal Transaction</text><line x1="40" y1="105" x2="360" y2="105" stroke="#e2e8f0"/><text x="40" y="135" font-family="Arial" font-size="13" fill="#475569">Amount:</text><text x="360" y="135" text-anchor="end" font-family="Arial" font-size="13" font-weight="bold" fill="#0f172a">$50.00</text><text x="40" y="165" font-family="Arial" font-size="13" fill="#475569">Plan:</text><text x="360" y="165" text-anchor="end" font-family="Arial" font-size="13" font-weight="bold" fill="#0f172a">Pro (Monthly)</text><text x="40" y="195" font-family="Arial" font-size="13" fill="#475569">Transaction ID:</text><text x="360" y="195" text-anchor="end" font-family="Arial" font-size="12" font-weight="bold" fill="#0f172a">PP-A8F3K9X2</text><circle cx="200" cy="225" r="8" fill="#16a34a"/><path d="M196 225 L199 228 L205 222" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg>'),
         status: 'pending',
         requestedAt: new Date(Date.now() - 1800000).toISOString(),
         messages: [
@@ -1451,12 +1495,12 @@ function loadData() {
         userEmail: users[1].email,
         planId: 'pl3',
         planName: 'Enterprise',
-        planPrice: 99.99,
+        planPrice: 100,
         paymentMethod: 'usdt',
         paymentMethodLabel: 'USDT (TRC20)',
-        amount: 99.99,
+        amount: 100,
         transactionId: 'TRX' + Math.random().toString(36).slice(2,14).toUpperCase(),
-        receiptImage: 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="260"><rect width="400" height="260" fill="#f8fafc"/><rect x="20" y="20" width="360" height="220" fill="#fff" stroke="#e2e8f0" stroke-width="2" rx="8"/><text x="200" y="60" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold" fill="#0f172a">USDT Payment</text><text x="200" y="90" text-anchor="middle" font-family="Arial" font-size="12" fill="#64748b">TRC20 Transfer</text><line x1="40" y1="105" x2="360" y2="105" stroke="#e2e8f0"/><text x="40" y="135" font-family="Arial" font-size="13" fill="#475569">Amount:</text><text x="360" y="135" text-anchor="end" font-family="Arial" font-size="13" font-weight="bold" fill="#0f172a">99.99 USDT</text><text x="40" y="165" font-family="Arial" font-size="13" fill="#475569">Plan:</text><text x="360" y="165" text-anchor="end" font-family="Arial" font-size="13" font-weight="bold" fill="#0f172a">Enterprise (Monthly)</text><text x="40" y="195" font-family="Arial" font-size="13" fill="#475569">TX Hash:</text><text x="360" y="195" text-anchor="end" font-family="Arial" font-size="10" font-weight="bold" fill="#0f172a">0x8f3a...b2c1</text><circle cx="200" cy="225" r="8" fill="#f59e0b"/><text x="200" y="230" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="#fff">!</text></svg>'),
+        receiptImage: 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="260"><rect width="400" height="260" fill="#f8fafc"/><rect x="20" y="20" width="360" height="220" fill="#fff" stroke="#e2e8f0" stroke-width="2" rx="8"/><text x="200" y="60" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold" fill="#0f172a">USDT Payment</text><text x="200" y="90" text-anchor="middle" font-family="Arial" font-size="12" fill="#64748b">TRC20 Transfer</text><line x1="40" y1="105" x2="360" y2="105" stroke="#e2e8f0"/><text x="40" y="135" font-family="Arial" font-size="13" fill="#475569">Amount:</text><text x="360" y="135" text-anchor="end" font-family="Arial" font-size="13" font-weight="bold" fill="#0f172a">100 USDT</text><text x="40" y="165" font-family="Arial" font-size="13" fill="#475569">Plan:</text><text x="360" y="165" text-anchor="end" font-family="Arial" font-size="13" font-weight="bold" fill="#0f172a">Enterprise (Monthly)</text><text x="40" y="195" font-family="Arial" font-size="13" fill="#475569">TX Hash:</text><text x="360" y="195" text-anchor="end" font-family="Arial" font-size="10" font-weight="bold" fill="#0f172a">0x8f3a...b2c1</text><circle cx="200" cy="225" r="8" fill="#f59e0b"/><text x="200" y="230" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="#fff">!</text></svg>'),
         status: 'pending',
         requestedAt: new Date(Date.now() - 7200000).toISOString(),
         messages: [
@@ -1470,12 +1514,12 @@ function loadData() {
         userEmail: users[4].email,
         planId: 'pl2',
         planName: 'Pro',
-        planPrice: 19.99,
+        planPrice: 75,
         paymentMethod: 'binance',
         paymentMethodLabel: 'Binance Pay',
-        amount: 19.99,
+        amount: 75,
         transactionId: 'BNB' + Math.random().toString(36).slice(2,10).toUpperCase(),
-        receiptImage: 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="260"><rect width="400" height="260" fill="#f8fafc"/><rect x="20" y="20" width="360" height="220" fill="#fff" stroke="#e2e8f0" stroke-width="2" rx="8"/><text x="200" y="60" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold" fill="#0f172a">Binance Pay</text><text x="200" y="90" text-anchor="middle" font-family="Arial" font-size="12" fill="#64748b">Order Confirmation</text><line x1="40" y1="105" x2="360" y2="105" stroke="#e2e8f0"/><text x="40" y="135" font-family="Arial" font-size="13" fill="#475569">Amount:</text><text x="360" y="135" text-anchor="end" font-family="Arial" font-size="13" font-weight="bold" fill="#0f172a">$19.99</text><text x="40" y="165" font-family="Arial" font-size="13" fill="#475569">Plan:</text><text x="360" y="165" text-anchor="end" font-family="Arial" font-size="13" font-weight="bold" fill="#0f172a">Pro (Monthly)</text><text x="40" y="195" font-family="Arial" font-size="13" fill="#475569">Order ID:</text><text x="360" y="195" text-anchor="end" font-family="Arial" font-size="12" font-weight="bold" fill="#0f172a">BP-92837465</text><circle cx="200" cy="225" r="8" fill="#16a34a"/><path d="M196 225 L199 228 L205 222" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg>'),
+        receiptImage: 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="260"><rect width="400" height="260" fill="#f8fafc"/><rect x="20" y="20" width="360" height="220" fill="#fff" stroke="#e2e8f0" stroke-width="2" rx="8"/><text x="200" y="60" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold" fill="#0f172a">Binance Pay</text><text x="200" y="90" text-anchor="middle" font-family="Arial" font-size="12" fill="#64748b">Order Confirmation</text><line x1="40" y1="105" x2="360" y2="105" stroke="#e2e8f0"/><text x="40" y="135" font-family="Arial" font-size="13" fill="#475569">Amount:</text><text x="360" y="135" text-anchor="end" font-family="Arial" font-size="13" font-weight="bold" fill="#0f172a">$75.00</text><text x="40" y="165" font-family="Arial" font-size="13" fill="#475569">Plan:</text><text x="360" y="165" text-anchor="end" font-family="Arial" font-size="13" font-weight="bold" fill="#0f172a">Pro (Monthly)</text><text x="40" y="195" font-family="Arial" font-size="13" fill="#475569">Order ID:</text><text x="360" y="195" text-anchor="end" font-family="Arial" font-size="12" font-weight="bold" fill="#0f172a">BP-92837465</text><circle cx="200" cy="225" r="8" fill="#16a34a"/><path d="M196 225 L199 228 L205 222" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg>'),
         status: 'approved',
         requestedAt: new Date(Date.now() - 86400000).toISOString(),
         resolvedAt: new Date(Date.now() - 82800000).toISOString(),
@@ -1913,9 +1957,13 @@ function getPlanIcon(planName){
   if(n.includes('pro')) return {cls:'pro', svg:ICONS.star};
   return {cls:'free', svg:ICONS.user};
 }
-function getPaymentMethodIcon(methodId){
-  const m = PAYMENT_METHODS.find(p=>p.id===methodId);
-  return m ? m.icon : ICONS.credit;
+
+// Build payment method icon HTML with colored box
+function getPaymentIconHTML(methodId){
+  const method = PAYMENT_METHODS.find(p => p.id === methodId);
+  if(!method) return '<div class="payment-icon-box" style="background:var(--bg-soft)">'+ICONS.credit+'</div>';
+  const cls = method.id;
+  return `<div class="payment-icon-box ${cls}">${method.icon}</div>`;
 }
 
 function renderSubRequests(){
@@ -1932,7 +1980,6 @@ function renderSubRequests(){
     return new Date(b.requestedAt) - new Date(a.requestedAt);
   });
   list.innerHTML = sorted.map(r=>{
-    const planIcon = getPlanIcon(r.planName);
     const statusClass = r.status;
     const statusLabel = r.status.charAt(0).toUpperCase() + r.status.slice(1);
     const lastMsg = r.messages.at(-1);
@@ -1964,12 +2011,10 @@ function selectSubRequest(id){
   document.getElementById('subHeaderName').textContent = r.userName;
   document.getElementById('subHeaderEmail').textContent = r.userEmail;
 
-  // Status badge
   const statusBadge = document.getElementById('subStatusBadge');
   const statusLabel = r.status.charAt(0).toUpperCase() + r.status.slice(1);
   statusBadge.innerHTML = `<span class="badge ${r.status}">${r.status==='approved'?ICONS.check:r.status==='rejected'?ICONS.ban:ICONS.info}<span>${statusLabel}</span></span>`;
 
-  // Buttons state
   const approveBtn = document.getElementById('approveBtn');
   const rejectBtn = document.getElementById('rejectBtn');
   if(r.status !== 'pending'){
@@ -1995,12 +2040,13 @@ function selectSubRequest(id){
 function renderSubMessages(r){
   const box = document.getElementById('subMessages');
   const planIcon = getPlanIcon(r.planName);
-  const paymentIcon = getPaymentMethodIcon(r.paymentMethod);
+  const paymentIconHTML = getPaymentIconHTML(r.paymentMethod);
+  const paymentMethod = PAYMENT_METHODS.find(p => p.id === r.paymentMethod);
+  const paymentName = paymentMethod ? paymentMethod.name : r.paymentMethodLabel;
 
-  // Build messages HTML
   let messagesHTML = '';
 
-  // 1. Plan selection card (system message)
+  // 1. Selected Plan card
   messagesHTML += `
     <div style="display:flex;justify-content:center;margin-bottom:.5rem">
       <div style="background:var(--bg-soft);border:1px solid var(--border);border-radius:10px;padding:.85rem;max-width:340px;width:100%">
@@ -2009,25 +2055,23 @@ function renderSubMessages(r){
           <div class="sub-plan-icon ${planIcon.cls}">${planIcon.svg}</div>
           <div style="flex:1;min-width:0">
             <div style="font-weight:700;font-size:.92rem">${r.planName}</div>
-            <div style="color:var(--text-muted);font-size:.78rem"><strong style="color:var(--text);font-size:1rem">$${r.amount.toFixed(2)}</strong> / month</div>
+            <div style="color:var(--text-muted);font-size:.78rem"><strong style="color:var(--text);font-size:1rem">$${r.amount}</strong> / month</div>
           </div>
         </div>
       </div>
     </div>
   `;
 
-  // 2. Payment method card
+  // 2. Payment Method card with BIG colored icon
   messagesHTML += `
     <div style="display:flex;justify-content:center;margin-bottom:.5rem">
       <div style="background:var(--bg-soft);border:1px solid var(--border);border-radius:10px;padding:.85rem;max-width:340px;width:100%">
         <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text-faint);font-weight:600;margin-bottom:.5rem;text-align:center">Payment Method</div>
-        <div style="display:flex;align-items:center;gap:.65rem">
-          <div style="width:40px;height:40px;border-radius:8px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;flex-shrink:0">
-            ${paymentIcon}
-          </div>
+        <div style="display:flex;align-items:center;gap:.85rem">
+          ${paymentIconHTML}
           <div style="flex:1;min-width:0">
-            <div style="font-weight:700;font-size:.88rem">${r.paymentMethodLabel}</div>
-            <div style="color:var(--text-faint);font-size:.7rem;font-family:'SF Mono','Consolas',monospace">${r.transactionId}</div>
+            <div style="font-weight:700;font-size:.95rem">${paymentName}</div>
+            <div style="color:var(--text-faint);font-size:.72rem;font-family:'SF Mono','Consolas',monospace;margin-top:.15rem">${r.transactionId}</div>
           </div>
         </div>
       </div>
@@ -2060,7 +2104,7 @@ function renderSubMessages(r){
     `;
   });
 
-  // 5. Timeline (if resolved)
+  // 5. Timeline
   if(r.status !== 'pending'){
     const timelineItems = [
       { dot:'pending', title:'Payment request submitted', meta:formatDateTime(r.requestedAt) }
@@ -2102,7 +2146,7 @@ function approveSubscription(){
 
   showConfirmCard({
     title: 'Verify Payment & Upgrade?',
-    message: `Confirm payment of $${r.amount.toFixed(2)} via ${r.paymentMethodLabel} for ${r.userName}. The user will be upgraded to ${r.planName} and notified.`,
+    message: `Confirm payment of $${r.amount} via ${r.paymentMethodLabel} for ${r.userName}. The user will be upgraded to ${r.planName} and notified.`,
     icon: 'success',
     confirmText: 'Verify & Upgrade',
     user: { name: r.userName, email: r.userEmail },
@@ -2112,11 +2156,10 @@ function approveSubscription(){
       r.messages.push({ from:'admin', text: fullMsg, at: new Date().toISOString() });
       saveSubRequests(state.subRequests);
 
-      // Notify user
       state.notifs.unshift({
         id: 'n'+Date.now(),
         title: `Payment Verified — Upgraded to ${r.planName}`,
-        body: `Hello ${r.userName}, your payment of $${r.amount.toFixed(2)} has been verified. You have been upgraded to the ${r.planName} plan. Enjoy your new features!`,
+        body: `Hello ${r.userName}, your payment of $${r.amount} has been verified. You have been upgraded to the ${r.planName} plan. Enjoy your new features!`,
         channel: 'USER_ID',
         target: r.userId,
         sentAt: new Date().toISOString(),
@@ -2141,7 +2184,7 @@ function rejectSubscription(){
 
   showConfirmCard({
     title: 'Reject Payment & Issue Warning?',
-    message: `Reject the payment of $${r.amount.toFixed(2)} from ${r.userName}. A warning will be issued: next time, the account will be banned and access to services will be revoked.`,
+    message: `Reject the payment of $${r.amount} from ${r.userName}. A warning will be issued: next time, the account will be banned and access to services will be revoked.`,
     icon: 'danger',
     confirmText: 'Reject & Warn',
     user: { name: r.userName, email: r.userEmail },
@@ -2151,7 +2194,6 @@ function rejectSubscription(){
       r.messages.push({ from:'admin', text: fullMsg, at: new Date().toISOString() });
       saveSubRequests(state.subRequests);
 
-      // Notify user
       state.notifs.unshift({
         id: 'n'+Date.now(),
         title: 'Payment Rejected — Final Warning',
