@@ -184,6 +184,9 @@ tbody tr:hover{background:var(--bg-soft)}
 .btn-danger{background:var(--danger);color:#fff;font-weight:600;padding:.55rem 1.1rem;border-radius:6px;display:inline-flex;align-items:center;gap:.45rem;transition:all .12s ease;font-size:.85rem;border:1px solid var(--danger)}
 .btn-danger:hover{background:#b91c1c;border-color:#b91c1c}
 .btn-danger .icon{width:15px;height:15px}
+.btn-danger-soft{background:rgba(220,38,38,.08);color:var(--danger);font-weight:600;padding:.55rem 1rem;border-radius:6px;display:inline-flex;align-items:center;gap:.45rem;transition:all .12s ease;font-size:.82rem;border:1px solid rgba(220,38,38,.25)}
+.btn-danger-soft:hover{background:var(--danger);color:#fff;border-color:var(--danger)}
+.btn-danger-soft .icon{width:14px;height:14px}
 .form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
 .field{display:flex;flex-direction:column;gap:.35rem}
 .field label{font-size:.78rem;color:var(--text);font-weight:600}
@@ -252,7 +255,7 @@ tbody tr:hover{background:var(--bg-soft)}
 .plan-features li{font-size:.8rem;color:var(--text-muted);padding:.25rem 0;display:flex;align-items:flex-start;gap:.5rem}
 .plan-features li .icon{color:var(--accent);margin-top:2px}
 .plan-actions{display:flex;gap:.35rem}
-.chat-layout{display:grid;grid-template-columns:280px 1fr;gap:1rem;height:calc(100vh - 220px);min-height:480px}
+.chat-layout{display:grid;grid-template-columns:260px 1fr;gap:1rem;height:calc(100vh - 170px);min-height:540px}
 @media (max-width:800px){.chat-layout{grid-template-columns:1fr;height:auto}}
 .conversations-panel{background:var(--bg-elev);border:1px solid var(--border);border-radius:10px;overflow:hidden;display:flex;flex-direction:column}
 .conversations-header{padding:.85rem 1rem;border-bottom:1px solid var(--border);font-size:.85rem;font-weight:600;display:flex;justify-content:space-between;align-items:center}
@@ -426,8 +429,14 @@ tbody tr:hover{background:var(--bg-soft)}
 .sub-payment-method{display:inline-flex;align-items:center;gap:.4rem;padding:.35rem .65rem;background:var(--bg-soft);border:1px solid var(--border);border-radius:6px;font-size:.78rem;font-weight:600;color:var(--text)}
 .sub-payment-method .icon{width:14px;height:14px}
 
-.sub-receipt-preview{width:100%;max-width:280px;border-radius:8px;border:1px solid var(--border);cursor:pointer;transition:transform .2s ease}
+.sub-receipt-preview{width:100%;max-width:520px;border-radius:8px;border:1px solid var(--border);cursor:pointer;transition:transform .2s ease}
 .sub-receipt-preview:hover{transform:scale(1.02)}
+
+/* ===== Wider inner cards for Subscriptions & Payments section ===== */
+#supportSubscriptionsSection .chat-messages{padding:1.25rem 1.5rem}
+#supportSubscriptionsSection .sub-receipt-preview{max-width:520px}
+#supportSubscriptionsSection .sub-plan-card-wide,
+#supportSubscriptionsSection .sub-payment-card-wide{max-width:560px;width:100%}
 
 .sub-status-timeline{display:flex;flex-direction:column;gap:.65rem;padding:.75rem;background:var(--bg-soft);border-radius:8px;border:1px solid var(--border-soft)}
 .sub-timeline-item{display:flex;gap:.65rem;align-items:flex-start;font-size:.78rem}
@@ -980,7 +989,11 @@ Add Offer
 </div>
 <div class="field">
 <label>Price (USD)</label>
-<input type="number" id="planPrice" min="0" step="0.01" placeholder="50" />
+<select id="planPrice">
+<option value="50">$50 / month</option>
+<option value="75">$75 / month</option>
+<option value="100">$100 / month</option>
+</select>
 </div>
 <div class="field">
 <label>Billing Cycle</label>
@@ -1411,15 +1424,21 @@ function loadData() {
     ];
     localStorage.setItem(STORAGE_KEYS.OFFERS, JSON.stringify(offers));
   }
-  // ===== PLANS WITH PRICES: 50, 75, 100 =====
+  // ===== PLANS WITH PRICES: 50, 75, 100 (locked tiers) =====
+  const PLANS_VERSION = 'v2-50-75-100';
+  const ALLOWED_PLAN_PRICES = [50, 75, 100];
+  let plansVersion = localStorage.getItem(STORAGE_KEYS.PLANS + '_version');
   let plans = JSON.parse(localStorage.getItem(STORAGE_KEYS.PLANS) || '[]');
-  if (plans.length === 0) {
+  // Reset to defaults if first load OR version mismatch OR existing plans contain invalid prices
+  const hasInvalidPrice = plans.length > 0 && plans.some(p => !ALLOWED_PLAN_PRICES.includes(Number(p.price)));
+  if (plans.length === 0 || plansVersion !== PLANS_VERSION || hasInvalidPrice) {
     plans = [
-      { id:'pl1', name:'Free', price:0, duration:'month', features:['Up to 100 users','Basic analytics','Email support'], featured:false, active:true, createdAt:new Date(Date.now()-86400000).toISOString() },
-      { id:'pl2', name:'Pro', price:50, duration:'month', features:['Up to 5,000 users','Advanced analytics','Priority support','Custom branding','API access'], featured:true, active:true, createdAt:new Date(Date.now()-43200000).toISOString() },
-      { id:'pl3', name:'Enterprise', price:100, duration:'month', features:['Unlimited users','White-label dashboard','Dedicated manager','24/7 phone support','Custom integrations'], featured:false, active:true, createdAt:new Date(Date.now()-7200000).toISOString() },
+      { id:'pl1', name:'Starter', price:50, duration:'month', features:['Up to 1,000 users','Basic analytics','Email support','Standard reports'], featured:false, active:true, createdAt:new Date(Date.now()-86400000).toISOString() },
+      { id:'pl2', name:'Pro', price:75, duration:'month', features:['Up to 10,000 users','Advanced analytics','Priority support','Custom branding','API access'], featured:true, active:true, createdAt:new Date(Date.now()-43200000).toISOString() },
+      { id:'pl3', name:'Enterprise', price:100, duration:'month', features:['Unlimited users','White-label dashboard','Dedicated manager','24/7 phone support','Custom integrations','SLA guarantee'], featured:false, active:true, createdAt:new Date(Date.now()-7200000).toISOString() },
     ];
     localStorage.setItem(STORAGE_KEYS.PLANS, JSON.stringify(plans));
+    localStorage.setItem(STORAGE_KEYS.PLANS + '_version', PLANS_VERSION);
   }
   let convos = JSON.parse(localStorage.getItem(STORAGE_KEYS.CONVOS) || '[]');
   if (convos.length === 0) {
@@ -1870,10 +1889,10 @@ function addOffer(){const title=document.getElementById('offerTitle').value.trim
 function toggleOffer(id){const o=state.offers.find(x=>x.id===id);if(!o)return;o.active=!o.active;saveOffers(state.offers);toast(`Offer ${o.active?'activated':'disabled'}`,'info');renderOffers()}
 function deleteOffer(id){const o=state.offers.find(x=>x.id===id);if(!o)return;showConfirmCard({title:'Delete offer?',message:`"${o.title}" will be permanently removed.`,icon:'danger',confirmText:'Delete Offer',onConfirm:()=>{state.offers=state.offers.filter(x=>x.id!==id);saveOffers(state.offers);toast('Offer deleted','info');renderOffers()}})}
 function renderOffers(){const list=document.getElementById('offersList');if(state.offers.length===0){list.innerHTML=`<div class="empty">${ICONS.gift}<div>No offers yet — create one above</div></div>`;return}list.innerHTML=state.offers.map(o=>`<div class="offer-item ${o.active?'':'disabled'}"><div class="stat-icon" style="margin-bottom:0">${ICONS.gift.replace('class="icon"','class="icon lg"')}</div><div class="offer-body"><div class="offer-title">${o.title}</div><div class="offer-text">${o.body}</div><div class="offer-meta"><span>${formatDate(o.createdAt)}</span><span>${o.active?'<span class="badge active">'+ICONS.check+'<span>Active</span></span>':'<span class="badge banned">'+ICONS.ban+'<span>Disabled</span></span>'}</span></div></div><div class="actions"><button class="icon-btn icon-btn-view" onclick="toggleOffer('${o.id}')" title="${o.active?'Disable':'Activate'}">${o.active?ICONS.ban:ICONS.unban}</button><button class="icon-btn icon-btn-ban" onclick="deleteOffer('${o.id}')" title="Delete">${ICONS.trash}</button></div></div>`).join('')}
-function clearPlanForm(){document.getElementById('planName').value='';document.getElementById('planPrice').value='';document.getElementById('planFeatures').value='';document.getElementById('planFeatured').value='false'}
-function addPlan(){const name=document.getElementById('planName').value.trim();const price=parseFloat(document.getElementById('planPrice').value);const duration=document.getElementById('planDuration').value;const featured=document.getElementById('planFeatured').value==='true';const featuresRaw=document.getElementById('planFeatures').value;const features=featuresRaw.split('\n').map(s=>s.trim()).filter(Boolean);if(!name){toast('Please enter a plan name','error');return}if(isNaN(price)||price<0){toast('Please enter a valid price','error');return}if(features.length===0){toast('Please add at least one feature','error');return}state.plans.unshift({id:'pl'+Date.now(),name,price,duration,features,featured,active:true,createdAt:new Date().toISOString()});savePlans(state.plans);clearPlanForm();toast('Subscription plan added','success');renderPlans()}
+function clearPlanForm(){document.getElementById('planName').value='';document.getElementById('planPrice').value='50';document.getElementById('planFeatures').value='';document.getElementById('planFeatured').value='false'}
+function addPlan(){const name=document.getElementById('planName').value.trim();const price=parseFloat(document.getElementById('planPrice').value);const duration=document.getElementById('planDuration').value;const featured=document.getElementById('planFeatured').value==='true';const featuresRaw=document.getElementById('planFeatures').value;const features=featuresRaw.split('\n').map(s=>s.trim()).filter(Boolean);if(!name){toast('Please enter a plan name','error');return}if(![50,75,100].includes(price)){toast('Price must be $50, $75, or $100','error');return}if(features.length===0){toast('Please add at least one feature','error');return}state.plans.unshift({id:'pl'+Date.now(),name,price,duration,features,featured,active:true,createdAt:new Date().toISOString()});savePlans(state.plans);clearPlanForm();toast('Subscription plan added','success');renderPlans()}
 function deletePlan(id){const p=state.plans.find(x=>x.id===id);if(!p)return;showConfirmCard({title:'Delete plan?',message:`Plan "${p.name}" ($${Number(p.price).toFixed(2)}) will be permanently removed.`,icon:'danger',confirmText:'Delete Plan',onConfirm:()=>{state.plans=state.plans.filter(x=>x.id!==id);savePlans(state.plans);toast(`Plan ${p.name} deleted`,'info');renderPlans()}})}
-function renderPlans(){const grid=document.getElementById('plansGrid');if(state.plans.length===0){grid.innerHTML=`<div class="empty" style="grid-column:1/-1">${ICONS.credit}<div>No plans yet — create one above</div></div>`;return}const cycleLabels={month:'/mo',year:'/yr',week:'/wk'};grid.innerHTML=state.plans.map(p=>`<div class="plan-card ${p.featured?'featured':''}"><div class="plan-name">${p.name}</div><div class="plan-price">$${Number(p.price).toFixed(2)} <small>${cycleLabels[p.duration]||''}</small></div><div class="plan-duration">${p.duration==='month'?'Billed monthly':p.duration==='year'?'Billed annually':'Billed weekly'}</div><ul class="plan-features">${p.features.map(f=>`<li>${ICONS.check}<span>${f}</span></li>`).join('')}</ul><div class="plan-actions"><button class="btn-ghost" onclick="deletePlan('${p.id}')">${ICONS.trash}Delete</button></div></div>`).join('')}
+function renderPlans(){const grid=document.getElementById('plansGrid');if(state.plans.length===0){grid.innerHTML=`<div class="empty" style="grid-column:1/-1">${ICONS.credit}<div>No plans yet — create one above</div></div>`;return}const cycleLabels={month:'/mo',year:'/yr',week:'/wk'};grid.innerHTML=state.plans.map(p=>`<div class="plan-card ${p.featured?'featured':''}"><div class="plan-name">${p.name}</div><div class="plan-price">$${Number(p.price).toFixed(2)} <small>${cycleLabels[p.duration]||''}</small></div><div class="plan-duration">${p.duration==='month'?'Billed monthly':p.duration==='year'?'Billed annually':'Billed weekly'}</div><ul class="plan-features">${p.features.map(f=>`<li>${ICONS.check}<span>${f}</span></li>`).join('')}</ul><div class="plan-actions"><button class="btn-danger-soft" onclick="deletePlan('${p.id}')" style="flex:1;justify-content:center">${ICONS.trash}<span style="margin-left:.35rem">Delete Plan</span></button></div></div>`).join('')}
 
 /* ===== SUPPORT TAB SWITCHING ===== */
 function switchSupportTab(which, btn){
@@ -2043,13 +2062,13 @@ function renderSubMessages(r){
   // 1. Selected Plan card
   messagesHTML += `
     <div style="display:flex;justify-content:center;margin-bottom:.5rem">
-      <div style="background:var(--bg-soft);border:1px solid var(--border);border-radius:10px;padding:.85rem;max-width:340px;width:100%">
-        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text-faint);font-weight:600;margin-bottom:.5rem;text-align:center">Selected Plan</div>
-        <div style="display:flex;align-items:center;gap:.65rem">
+      <div class="sub-plan-card-wide" style="background:var(--bg-soft);border:1px solid var(--border);border-radius:10px;padding:1rem 1.15rem;width:100%">
+        <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text-faint);font-weight:600;margin-bottom:.6rem;text-align:center">Selected Plan</div>
+        <div style="display:flex;align-items:center;gap:.85rem">
           <div class="sub-plan-icon ${planIcon.cls}">${planIcon.svg}</div>
           <div style="flex:1;min-width:0">
-            <div style="font-weight:700;font-size:.92rem">${r.planName}</div>
-            <div style="color:var(--text-muted);font-size:.78rem"><strong style="color:var(--text);font-size:1rem">$${r.amount}</strong> / month</div>
+            <div style="font-weight:700;font-size:1rem">${r.planName}</div>
+            <div style="color:var(--text-muted);font-size:.82rem"><strong style="color:var(--text);font-size:1.1rem">$${r.amount}</strong> / month</div>
           </div>
         </div>
       </div>
@@ -2059,13 +2078,13 @@ function renderSubMessages(r){
   // 2. Payment Method card with BIG colored gradient icon (QuantVexa style)
   messagesHTML += `
     <div style="display:flex;justify-content:center;margin-bottom:.5rem">
-      <div style="background:var(--bg-soft);border:1px solid var(--border);border-radius:10px;padding:.85rem;max-width:340px;width:100%">
-        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text-faint);font-weight:600;margin-bottom:.5rem;text-align:center">Payment Method</div>
-        <div style="display:flex;align-items:center;gap:.85rem">
+      <div class="sub-payment-card-wide" style="background:var(--bg-soft);border:1px solid var(--border);border-radius:10px;padding:1rem 1.15rem;width:100%">
+        <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text-faint);font-weight:600;margin-bottom:.6rem;text-align:center">Payment Method</div>
+        <div style="display:flex;align-items:center;gap:1rem">
           ${paymentIconHTML}
           <div style="flex:1;min-width:0">
-            <div style="font-weight:700;font-size:.95rem">${paymentName}</div>
-            <div style="color:var(--text-faint);font-size:.72rem;font-family:'SF Mono','Consolas',monospace;margin-top:.15rem">${r.transactionId}</div>
+            <div style="font-weight:700;font-size:1rem">${paymentName}</div>
+            <div style="color:var(--text-faint);font-size:.74rem;font-family:'SF Mono','Consolas',monospace;margin-top:.2rem">${r.transactionId}</div>
           </div>
         </div>
       </div>
@@ -2076,8 +2095,8 @@ function renderSubMessages(r){
   if(r.receiptImage){
     messagesHTML += `
       <div style="display:flex;justify-content:center;margin-bottom:.5rem">
-        <div style="max-width:340px;width:100%">
-          <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text-faint);font-weight:600;margin-bottom:.35rem;text-align:center">Payment Receipt</div>
+        <div style="max-width:560px;width:100%">
+          <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text-faint);font-weight:600;margin-bottom:.45rem;text-align:center">Payment Receipt</div>
           <img src="${r.receiptImage}" class="sub-receipt-preview" onclick="openImageModal(this.src)" alt="Payment receipt" />
         </div>
       </div>
