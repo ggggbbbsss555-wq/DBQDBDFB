@@ -1081,7 +1081,7 @@ border: 1px solid var(--border);
 .subheader h2 { font-size: .9rem; font-weight: 600; }
 /* Theme button (mobile) */
 .theme-btn-mobile { display: none; }
-/* ===================== CHARTS PANELS (NEW) ===================== */
+/* ===================== CHARTS PANELS ===================== */
 .charts-grid {
 display: grid;
 grid-template-columns: 2fr 1fr;
@@ -1157,22 +1157,6 @@ flex: 1;
 font-weight: 700;
 color: var(--text);
 font-size: .82rem;
-}
-.chart-big-number {
-display: flex; flex-direction: column;
-align-items: center; justify-content: center;
-margin-top: .5rem;
-}
-.chart-big-number strong {
-font-size: 2rem; font-weight: 800;
-letter-spacing: -0.03em;
-line-height: 1;
-color: var(--text);
-}
-.chart-big-number small {
-color: var(--text-muted);
-font-size: .75rem;
-margin-top: .25rem;
 }
 .chart-trend {
 display: inline-flex; align-items: center; gap: .25rem;
@@ -1476,7 +1460,7 @@ Settings
 </div>
 <div class="stats-grid" id="statsGrid"></div>
 
-<!-- NEW: Charts Row 1 - User Growth Line Chart + Stats Donut -->
+<!-- Charts Row 1 - User Growth Line Chart + Stats Donut -->
 <div class="charts-grid">
 <div class="chart-card">
 <div class="chart-card-header">
@@ -1504,7 +1488,7 @@ Settings
 </div>
 </div>
 
-<!-- NEW: Charts Row 2 - Subscription Plans (3 charts, one per plan) -->
+<!-- Charts Row 2 - Subscription Plans (3 charts, one per plan) -->
 <div class="charts-grid-3">
 <div class="chart-card">
 <div class="chart-card-header">
@@ -1547,7 +1531,7 @@ Settings
 </div>
 </div>
 
-<!-- NEW: Charts Row 3 - Activity Bar + Country Donut + Revenue Line -->
+<!-- Charts Row 3 - Activity Bar + Country Donut + Revenue Line -->
 <div class="charts-grid-3">
 <div class="chart-card">
 <div class="chart-card-header">
@@ -2145,37 +2129,9 @@ Send Message
 </div>
 <script>
 /* ============================================================
-*  THEME
+*  GLOBAL VARIABLES - DEFINED FIRST
 * ============================================================ */
-function applyTheme(theme) {
-document.documentElement.setAttribute('data-theme', theme);
-const isDark = theme === 'dark';
-document.getElementById('themeLabel').textContent = isDark ? 'Light Mode' : 'Dark Mode';
-document.getElementById('themeIcon').innerHTML = isDark
-? '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>'
-: '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
-const mobileIcon = document.getElementById('mobileThemeIcon');
-if (mobileIcon) {
-mobileIcon.innerHTML = isDark
-? '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>'
-: '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
-}
-localStorage.setItem('ad_theme', theme);
-// Re-render charts with new theme colors
-if (typeof renderAllCharts === 'function' && document.getElementById('tab-dashboard').classList.contains('active')) {
-renderAllCharts();
-}
-}
-function toggleTheme() {
-const current = document.documentElement.getAttribute('data-theme');
-applyTheme(current === 'dark' ? 'light' : 'dark');
-}
-document.getElementById('themeToggle').addEventListener('click', toggleTheme);
-const savedTheme = localStorage.getItem('ad_theme') || 'light';
-applyTheme(savedTheme);
-/* ============================================================
-*  DATA LAYER
-* ============================================================ */
+const chartInstances = {};
 const STORAGE_KEYS = {
 USERS: 'ad_users',
 NOTIFS: 'ad_notifications',
@@ -2192,6 +2148,47 @@ const SAMPLE_NAMES = [
 'Matthew', 'Amelia', 'Andrew', 'Harper', 'Christopher', 'Evelyn', 'Thomas', 'Abigail',
 ];
 const COUNTRIES = ['USA', 'UK', 'Germany', 'France', 'Canada', 'Australia', 'Spain', 'Italy'];
+let state = loadData();
+let selectedUserId = null;
+let selectedConvoId = null;
+let pendingImage = null;
+let pendingConfirmAction = null;
+
+/* ============================================================
+*  THEME
+* ============================================================ */
+function applyTheme(theme) {
+document.documentElement.setAttribute('data-theme', theme);
+const isDark = theme === 'dark';
+document.getElementById('themeLabel').textContent = isDark ? 'Light Mode' : 'Dark Mode';
+document.getElementById('themeIcon').innerHTML = isDark
+? '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>'
+: '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+const mobileIcon = document.getElementById('mobileThemeIcon');
+if (mobileIcon) {
+mobileIcon.innerHTML = isDark
+? '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>'
+: '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+}
+localStorage.setItem('ad_theme', theme);
+// Re-render charts with new theme colors (only if dashboard is active)
+if (typeof renderAllCharts === 'function' && document.getElementById('tab-dashboard').classList.contains('active')) {
+setTimeout(() => {
+try { renderAllCharts(); } catch(e) { console.warn('Chart render error:', e); }
+}, 50);
+}
+}
+function toggleTheme() {
+const current = document.documentElement.getAttribute('data-theme');
+applyTheme(current === 'dark' ? 'light' : 'dark');
+}
+document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+const savedTheme = localStorage.getItem('ad_theme') || 'light';
+applyTheme(savedTheme);
+
+/* ============================================================
+*  DATA LAYER
+* ============================================================ */
 function uid() {
 return 'usr_' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-4);
 }
@@ -2295,12 +2292,10 @@ localStorage.setItem(STORAGE_KEYS.CONVOS, JSON.stringify(convos));
 // Subscriptions data (simulated)
 let subscriptions = JSON.parse(localStorage.getItem(STORAGE_KEYS.SUBSCRIPTIONS) || 'null');
 if (!subscriptions) {
-// Distribute users across 3 plans realistically
 const total = users.filter(u => u.status === 'ACTIVE').length;
 const freeCount = Math.floor(total * 0.55);
 const proCount = Math.floor(total * 0.30);
 const enterpriseCount = total - freeCount - proCount;
-// Generate 14 days of history for each plan
 const genHistory = (base, variance) => {
 const arr = [];
 for (let i = 13; i >= 0; i--) {
@@ -2331,8 +2326,7 @@ function saveOffers(o) { localStorage.setItem(STORAGE_KEYS.OFFERS, JSON.stringif
 function savePlans(p) { localStorage.setItem(STORAGE_KEYS.PLANS, JSON.stringify(p)); }
 function saveConvos(c) { localStorage.setItem(STORAGE_KEYS.CONVOS, JSON.stringify(c)); }
 function saveSubscriptions(s) { localStorage.setItem(STORAGE_KEYS.SUBSCRIPTIONS, JSON.stringify(s)); }
-let state = loadData();
-let selectedUserId = null;
+
 /* ============================================================
 *  AUTH
 * ============================================================ */
@@ -2400,10 +2394,10 @@ toast('Signed out successfully', 'info');
 }
 });
 }
+
 /* ============================================================
 *  CONFIRMATION CARD SYSTEM
 * ============================================================ */
-let pendingConfirmAction = null;
 function showConfirmCard({ title, message, icon = 'info', confirmText = 'Confirm', confirmClass = 'btn-primary', onConfirm, user = null }) {
 document.getElementById('confirmTitle').textContent = title;
 document.getElementById('confirmMessage').textContent = message;
@@ -2447,6 +2441,7 @@ if (e.key === 'Escape') {
 if (document.getElementById('confirmModal').classList.contains('show')) cancelConfirm();
 }
 });
+
 /* ============================================================
 *  ICON SVGs
 * ============================================================ */
@@ -2481,6 +2476,7 @@ arrowDn:'<svg class="icon" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="
 user:   '<svg class="icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
 message:'<svg class="icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
 };
+
 /* ============================================================
 *  TABS
 * ============================================================ */
@@ -2500,6 +2496,7 @@ if (tab === 'support') renderConversations();
 if (tab === 'settings') renderSettings();
 window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+
 /* ============================================================
 *  TOAST
 * ============================================================ */
@@ -2511,6 +2508,7 @@ el.innerHTML = (ICONS[iconKey] || ICONS.info) + '<span>' + msg + '</span>';
 document.getElementById('toastContainer').appendChild(el);
 setTimeout(() => { el.style.opacity = '0'; el.style.transition = 'opacity .3s'; setTimeout(() => el.remove(), 300); }, 2800);
 }
+
 /* ============================================================
 *  HELPERS
 * ============================================================ */
@@ -2536,10 +2534,10 @@ if (status === 'BANNED') return `<span class="badge banned">${ICONS.ban}<span>Ba
 return `<span class="badge active">${ICONS.check}<span>Active</span></span>`;
 }
 function initials(name) { return (name || '?').trim().slice(0, 1).toUpperCase(); }
+
 /* ============================================================
-*  CHARTS (NEW)
+*  CHARTS
 * ============================================================ */
-let chartInstances = {};
 function getChartColors() {
 const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
 return {
@@ -2569,7 +2567,6 @@ destroyChart('userGrowth');
 const ctx = document.getElementById('userGrowthChart');
 if (!ctx) return;
 const colors = getChartColors();
-// Generate 14 days of user growth data
 const labels = [];
 const data = [];
 for (let i = 13; i >= 0; i--) {
@@ -2758,7 +2755,6 @@ beginAtZero: true
 interaction: { mode: 'index', intersect: false }
 }
 });
-// Legend with stats
 const prevCount = planData.history[0].count;
 const currCount = planData.history[planData.history.length - 1].count;
 const change = currCount - prevCount;
@@ -2848,7 +2844,6 @@ const ctx = document.getElementById('countryDonutChart');
 const legendEl = document.getElementById('countryLegend');
 if (!ctx) return;
 const colors = getChartColors();
-// Count users by country
 const countryCount = {};
 state.users.forEach(u => {
 const c = u.country || 'Other';
@@ -2970,6 +2965,7 @@ const g = parseInt(h.substring(2, 4), 16);
 const b = parseInt(h.substring(4, 6), 16);
 return `${r}, ${g}, ${b}`;
 }
+
 /* ============================================================
 *  DASHBOARD
 * ============================================================ */
@@ -3023,6 +3019,7 @@ document.getElementById('activePromos').innerHTML = activeP.length === 0
 // Render charts
 setTimeout(renderAllCharts, 50);
 }
+
 /* ============================================================
 *  USERS
 * ============================================================ */
@@ -3382,6 +3379,7 @@ function clearSelectedUser() {
 selectedUserId = null;
 document.getElementById('userDetail').style.display = 'none';
 }
+
 /* ============================================================
 *  NOTIFICATIONS
 * ============================================================ */
@@ -3445,6 +3443,7 @@ return `
 `;
 }).join('');
 }
+
 /* ============================================================
 *  PROMO
 * ============================================================ */
@@ -3527,6 +3526,7 @@ return;
 }
 grid.innerHTML = state.promos.map(promoCardHTML).join('');
 }
+
 /* ============================================================
 *  OFFERS & PLANS
 * ============================================================ */
@@ -3658,11 +3658,10 @@ ${p.features.map(f => `<li>${ICONS.check}<span>${f}</span></li>`).join('')}
 </div>
 `).join('');
 }
+
 /* ============================================================
 *  SUPPORT CHAT
 * ============================================================ */
-let selectedConvoId = null;
-let pendingImage = null;
 function renderConversations() {
 const list = document.getElementById('conversationsList');
 document.getElementById('convCount').textContent = state.convos.length;
@@ -3829,6 +3828,7 @@ document.getElementById('newPass').value = '';
 document.getElementById('confirmPass').value = '';
 toast('Password updated successfully', 'success');
 }
+
 /* ============================================================
 *  INIT
 * ============================================================ */
