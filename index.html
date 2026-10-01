@@ -367,9 +367,10 @@ tbody tr:hover{background:var(--bg-soft)}
 .subheader{display:flex;justify-content:space-between;align-items:center;background:var(--bg-soft);padding:.75rem 1rem;border-radius:8px;margin-bottom:1rem;border:1px solid var(--border)}
 .subheader h2{font-size:.9rem;font-weight:600}
 .theme-btn-mobile{display:none}
-.charts-grid{display:grid;grid-template-columns:2fr 1fr;gap:1rem;margin-bottom:1.25rem}
+/* ===================== CHARTS (UPDATED - 4 charts only) ===================== */
+.charts-grid{display:grid;grid-template-columns:2fr 1fr;gap:1rem;margin-bottom:1.25rem;align-items:stretch}
 .charts-grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin-bottom:1.25rem}
-.chart-card{background:var(--bg-elev);border:1px solid var(--border);border-radius:10px;padding:1.25rem;transition:border-color .2s ease}
+.chart-card{background:var(--bg-elev);border:1px solid var(--border);border-radius:10px;padding:1.25rem;transition:border-color .2s ease;display:flex;flex-direction:column}
 .chart-card:hover{border-color:var(--accent)}
 .chart-card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;gap:.5rem}
 .chart-card-header h3{font-size:.95rem;font-weight:600;letter-spacing:-0.01em}
@@ -379,9 +380,16 @@ tbody tr:hover{background:var(--bg-soft)}
 .chart-card-header .chart-icon.green{background:rgba(22,163,74,.1);color:var(--success)}
 .chart-card-header .chart-icon.orange{background:rgba(217,119,6,.1);color:var(--warning)}
 .chart-card-header .chart-icon.red{background:rgba(220,38,38,.1);color:var(--danger)}
-.chart-wrap{position:relative;height:220px;width:100%}
-.chart-wrap.donut{height:240px;display:flex;align-items:center;justify-content:center}
-.chart-legend{display:flex;flex-direction:column;gap:.5rem;margin-top:.85rem;padding-top:.85rem;border-top:1px solid var(--border-soft)}
+.chart-wrap{position:relative;height:260px;width:100%;flex:1;min-height:0}
+/* Smaller donut card — fits the circle nicely */
+.chart-card.donut-card{padding:1rem}
+.chart-card.donut-card .chart-card-header{margin-bottom:.75rem}
+.chart-card.donut-card .chart-card-header h3{font-size:.88rem}
+.chart-card.donut-card .chart-card-header p{font-size:.7rem}
+.chart-card.donut-card .chart-card-header .chart-icon{width:32px;height:32px}
+.chart-card.donut-card .chart-card-header .chart-icon .icon{width:16px;height:16px}
+.chart-wrap.donut{height:auto;flex:1;display:flex;align-items:center;justify-content:center;min-height:180px;max-height:240px}
+.chart-legend{display:flex;flex-direction:column;gap:.4rem;margin-top:.75rem;padding-top:.75rem;border-top:1px solid var(--border-soft)}
 .chart-legend-item{display:flex;align-items:center;gap:.55rem;font-size:.78rem}
 .chart-legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
 .chart-legend-label{color:var(--text-muted);flex:1}
@@ -390,7 +398,7 @@ tbody tr:hover{background:var(--bg-soft)}
 .chart-trend.up{color:var(--success);background:rgba(22,163,74,.1)}
 .chart-trend.down{color:var(--danger);background:rgba(220,38,38,.1)}
 @media (max-width:1100px){.charts-grid{grid-template-columns:1fr}.charts-grid-3{grid-template-columns:repeat(2,1fr)}}
-@media (max-width:600px){.charts-grid-3{grid-template-columns:1fr}.chart-wrap{height:200px}.chart-wrap.donut{height:220px}}
+@media (max-width:600px){.charts-grid-3{grid-template-columns:1fr}.chart-wrap{height:220px}.chart-wrap.donut{min-height:180px;max-height:220px}}
 .mobile-header{display:none;position:sticky;top:0;background:var(--bg);padding:.75rem 1rem;border-bottom:1px solid var(--border);z-index:50;justify-content:space-between;align-items:center}
 .mobile-header-brand{display:flex;align-items:center;gap:.55rem;font-weight:700;font-size:.95rem}
 .mobile-header-brand .brand-logo{width:30px;height:30px;border-radius:7px;font-size:.82rem}
@@ -579,6 +587,8 @@ Settings
 </div>
 </div>
 <div class="stats-grid" id="statsGrid"></div>
+
+<!-- 4 Charts: 1 big line chart + 1 small donut -->
 <div class="charts-grid">
 <div class="chart-card">
 <div class="chart-card-header">
@@ -592,7 +602,7 @@ Settings
 </div>
 <div class="chart-wrap"><canvas id="userGrowthChart"></canvas></div>
 </div>
-<div class="chart-card">
+<div class="chart-card donut-card">
 <div class="chart-card-header">
 <div>
 <h3>Account Status</h3>
@@ -603,9 +613,12 @@ Settings
 </div>
 </div>
 <div class="chart-wrap donut"><canvas id="statusDonutChart"></canvas></div>
+<div class="chart-legend" id="statusLegend"></div>
 </div>
 </div>
-<div class="charts-grid-3">
+
+<!-- 2 more charts: Free Plan + Pro Plan (small) -->
+<div class="charts-grid-3" style="grid-template-columns:1fr 1fr">
 <div class="chart-card">
 <div class="chart-card-header">
 <div>
@@ -632,59 +645,8 @@ Settings
 <div class="chart-wrap"><canvas id="proPlanChart"></canvas></div>
 <div class="chart-legend" id="proPlanLegend"></div>
 </div>
-<div class="chart-card">
-<div class="chart-card-header">
-<div>
-<h3>Enterprise Plan</h3>
-<p>Business tier subscribers</p>
 </div>
-<div class="chart-icon red">
-<svg class="icon" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-</div>
-</div>
-<div class="chart-wrap"><canvas id="enterprisePlanChart"></canvas></div>
-<div class="chart-legend" id="enterprisePlanLegend"></div>
-</div>
-</div>
-<div class="charts-grid-3">
-<div class="chart-card">
-<div class="chart-card-header">
-<div>
-<h3>Weekly Activity</h3>
-<p>Logins and actions per day</p>
-</div>
-<div class="chart-icon">
-<svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-</div>
-</div>
-<div class="chart-wrap"><canvas id="activityChart"></canvas></div>
-</div>
-<div class="chart-card">
-<div class="chart-card-header">
-<div>
-<h3>Users by Country</h3>
-<p>Geographic distribution</p>
-</div>
-<div class="chart-icon green">
-<svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-</div>
-</div>
-<div class="chart-wrap donut"><canvas id="countryDonutChart"></canvas></div>
-<div class="chart-legend" id="countryLegend"></div>
-</div>
-<div class="chart-card">
-<div class="chart-card-header">
-<div>
-<h3>Revenue Trend</h3>
-<p>Estimated monthly revenue</p>
-</div>
-<div class="chart-icon orange">
-<svg class="icon" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-</div>
-</div>
-<div class="chart-wrap"><canvas id="revenueChart"></canvas></div>
-</div>
-</div>
+
 <div class="panel">
 <div class="panel-header">
 <div>
@@ -1229,9 +1191,6 @@ Send Message
 </div>
 </div>
 <script>
-/* ============================================================
- * STEP 1: Define ALL global variables FIRST (before any function uses them)
- * ============================================================ */
 const chartInstances = {};
 let selectedUserId = null;
 let selectedConvoId = null;
@@ -1274,9 +1233,6 @@ const ICONS = {
   message:'<svg class="icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
 };
 
-/* ============================================================
- * STEP 2: Data loading functions
- * ============================================================ */
 function uid() { return 'usr_' + Math.random().toString(36).slice(2,10) + Date.now().toString(36).slice(-4); }
 function randomPhone() { return '+1' + Math.floor(2000000000 + Math.random() * 7999999999).toString().slice(1); }
 
@@ -1372,7 +1328,6 @@ function loadData() {
     const total = users.filter(u => u.status === 'ACTIVE').length;
     const freeCount = Math.floor(total * 0.55);
     const proCount = Math.floor(total * 0.30);
-    const enterpriseCount = total - freeCount - proCount;
     const genHistory = (base, variance) => {
       const arr = [];
       for (let i = 13; i >= 0; i--) {
@@ -1385,7 +1340,6 @@ function loadData() {
     subscriptions = {
       free: { total: freeCount, history: genHistory(Math.floor(freeCount*0.08), 3) },
       pro: { total: proCount, history: genHistory(Math.floor(proCount*0.12), 2) },
-      enterprise: { total: enterpriseCount, history: genHistory(Math.floor(enterpriseCount*0.15), 1) },
     };
     localStorage.setItem(STORAGE_KEYS.SUBSCRIPTIONS, JSON.stringify(subscriptions));
   }
@@ -1401,14 +1355,8 @@ function savePlans(p){localStorage.setItem(STORAGE_KEYS.PLANS,JSON.stringify(p))
 function saveConvos(c){localStorage.setItem(STORAGE_KEYS.CONVOS,JSON.stringify(c))}
 function saveSubscriptions(s){localStorage.setItem(STORAGE_KEYS.SUBSCRIPTIONS,JSON.stringify(s))}
 
-/* ============================================================
- * STEP 3: NOW initialize state (after loadData is defined)
- * ============================================================ */
 const state = loadData();
 
-/* ============================================================
- * STEP 4: All helper functions
- * ============================================================ */
 function formatDate(iso){const d=new Date(iso);return d.toLocaleDateString('en-US',{day:'2-digit',month:'short',year:'numeric'})}
 function formatDateTime(iso){const d=new Date(iso);return d.toLocaleString('en-US',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}
 function formatShortTime(iso){const d=new Date(iso);const now=new Date();const diff=(now-d)/1000;if(diff<60)return'now';if(diff<3600)return Math.floor(diff/60)+'m';if(diff<86400)return Math.floor(diff/3600)+'h';if(diff<604800)return Math.floor(diff/86400)+'d';return d.toLocaleDateString('en-US',{day:'2-digit',month:'short'})}
@@ -1420,9 +1368,6 @@ function hexToRgb(hex){const h=hex.replace('#','');const r=parseInt(h.substring(
 
 function toast(msg,type='info'){const el=document.createElement('div');el.className='toast '+type;const iconKey=type==='success'?'check':type==='error'?'x':'info';el.innerHTML=(ICONS[iconKey]||ICONS.info)+'<span>'+msg+'</span>';document.getElementById('toastContainer').appendChild(el);setTimeout(()=>{el.style.opacity='0';el.style.transition='opacity .3s';setTimeout(()=>el.remove(),300)},2800)}
 
-/* ============================================================
- * STEP 5: Theme (no longer calls renderAllCharts at load time)
- * ============================================================ */
 function applyTheme(theme){
   document.documentElement.setAttribute('data-theme',theme);
   const isDark=theme==='dark';
@@ -1431,7 +1376,6 @@ function applyTheme(theme){
   const mobileIcon=document.getElementById('mobileThemeIcon');
   if(mobileIcon){mobileIcon.innerHTML=isDark?'<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>':'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>'}
   localStorage.setItem('ad_theme',theme);
-  // Re-render charts only if dashboard is currently active
   if(document.getElementById('tab-dashboard').classList.contains('active') && typeof renderAllCharts==='function'){
     setTimeout(()=>{try{renderAllCharts()}catch(e){console.warn(e)}},50);
   }
@@ -1439,9 +1383,6 @@ function applyTheme(theme){
 function toggleTheme(){const c=document.documentElement.getAttribute('data-theme');applyTheme(c==='dark'?'light':'dark')}
 document.getElementById('themeToggle').addEventListener('click',toggleTheme);
 
-/* ============================================================
- * STEP 6: Auth
- * ============================================================ */
 function isLoggedIn(){return localStorage.getItem('ad_session')==='yes'}
 function showLogin(){document.getElementById('loginOverlay').classList.remove('hidden');const s=JSON.parse(localStorage.getItem(STORAGE_KEYS.SETTINGS)||'{}');if(s.email)document.getElementById('loginEmail').value=s.email;setTimeout(()=>document.getElementById('loginPassword').focus(),50)}
 function hideLogin(){document.getElementById('loginOverlay').classList.add('hidden')}
@@ -1449,9 +1390,6 @@ function togglePassword(inputId,btn){const input=document.getElementById(inputId
 function doLogin(e){e.preventDefault();const btn=document.getElementById('loginSubmit');const content=document.getElementById('loginBtnContent');btn.classList.add('loading');const orig=content.innerHTML;content.innerHTML='<span class="spinner"></span><span>Signing in...</span>';setTimeout(()=>{const email=document.getElementById('loginEmail').value.trim();const pass=document.getElementById('loginPassword').value;if(email!==state.settings.email){btn.classList.remove('loading');content.innerHTML=orig;toast('Invalid email','error');return}if(pass!==state.settings.password){btn.classList.remove('loading');content.innerHTML=orig;toast('Invalid password','error');return}localStorage.setItem('ad_session','yes');hideLogin();toast('Welcome back, Administrator','success');renderDashboard();btn.classList.remove('loading');content.innerHTML=orig},900);return false}
 function doLogout(){showConfirmCard({title:'Sign out of dashboard?',message:'You will need to sign in again to access the admin panel.',icon:'info',confirmText:'Sign Out',onConfirm:()=>{localStorage.removeItem('ad_session');document.getElementById('loginPassword').value='';showLogin();toast('Signed out successfully','info')}})}
 
-/* ============================================================
- * STEP 7: Confirmation system
- * ============================================================ */
 function showConfirmCard({title,message,icon='info',confirmText='Confirm',onConfirm,user=null}){
   document.getElementById('confirmTitle').textContent=title;
   document.getElementById('confirmMessage').textContent=message;
@@ -1475,9 +1413,6 @@ function executeConfirm(){document.getElementById('confirmModal').classList.remo
 function cancelConfirm(){document.getElementById('confirmModal').classList.remove('show');pendingConfirmAction=null}
 document.addEventListener('keydown',(e)=>{if(e.key==='Escape'){if(document.getElementById('confirmModal').classList.contains('show'))cancelConfirm()}});
 
-/* ============================================================
- * STEP 8: Tabs
- * ============================================================ */
 document.querySelectorAll('.nav-item').forEach(btn=>{btn.addEventListener('click',()=>goTo(btn.dataset.tab))});
 function goTo(tab){
   document.querySelectorAll('.nav-item').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));
@@ -1493,22 +1428,79 @@ function goTo(tab){
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-/* ============================================================
- * STEP 9: Charts
- * ============================================================ */
 function getChartColors(){const isDark=document.documentElement.getAttribute('data-theme')==='dark';return{text:isDark?'#a3a3a3':'#525252',grid:isDark?'rgba(255,255,255,0.06)':'rgba(0,0,0,0.06)',bg:isDark?'#141414':'#ffffff'}}
 function destroyChart(key){if(chartInstances[key]){chartInstances[key].destroy();delete chartInstances[key]}}
-function renderAllCharts(){renderUserGrowthChart();renderStatusDonutChart();renderPlanChart('free','freePlanChart','freePlanLegend','#10b981','Free Plan');renderPlanChart('pro','proPlanChart','proPlanLegend','#f59e0b','Pro Plan');renderPlanChart('enterprise','enterprisePlanChart','enterprisePlanLegend','#ef4444','Enterprise Plan');renderActivityChart();renderCountryDonutChart();renderRevenueChart()}
-function renderUserGrowthChart(){destroyChart('userGrowth');const ctx=document.getElementById('userGrowthChart');if(!ctx)return;const colors=getChartColors();const labels=[];const data=[];for(let i=13;i>=0;i--){const d=new Date(Date.now()-i*86400000);labels.push(d.toLocaleDateString('en-US',{day:'2-digit',month:'short'}));data.push(Math.floor(3+Math.random()*8))}const gradient=ctx.getContext('2d').createLinearGradient(0,0,0,220);gradient.addColorStop(0,'rgba(37,99,235,0.35)');gradient.addColorStop(1,'rgba(37,99,235,0)');chartInstances.userGrowth=new Chart(ctx,{type:'line',data:{labels,datasets:[{label:'New Users',data,borderColor:'#2563eb',backgroundColor:gradient,borderWidth:2.5,fill:true,tension:0.4,pointRadius:0,pointHoverRadius:5,pointHoverBackgroundColor:'#2563eb',pointHoverBorderColor:'#fff',pointHoverBorderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:colors.bg,titleColor:colors.text,bodyColor:colors.text,borderColor:colors.grid,borderWidth:1,padding:10,cornerRadius:6,displayColors:false,callbacks:{label:(c)=>`${c.parsed.y} new users`}}},scales:{x:{grid:{display:false},ticks:{color:colors.text,font:{size:10},maxRotation:0,autoSkip:true,maxTicksLimit:7}},y:{grid:{color:colors.grid},ticks:{color:colors.text,font:{size:10},stepSize:2},beginAtZero:true}},interaction:{mode:'index',intersect:false}}})}
-function renderStatusDonutChart(){destroyChart('statusDonut');const ctx=document.getElementById('statusDonutChart');if(!ctx)return;const colors=getChartColors();const active=state.users.filter(u=>u.status==='ACTIVE').length;const banned=state.users.filter(u=>u.status==='BANNED').length;const promoted=state.users.filter(u=>(u.level||0)>0).length;const total=state.users.length;chartInstances.statusDonut=new Chart(ctx,{type:'doughnut',data:{labels:['Active','Banned','Promoted'],datasets:[{data:[active,banned,promoted],backgroundColor:['#16a34a','#dc2626','#f59e0b'],borderColor:colors.bg,borderWidth:3,hoverOffset:8}]},options:{responsive:true,maintainAspectRatio:false,cutout:'68%',plugins:{legend:{display:false},tooltip:{backgroundColor:colors.bg,titleColor:colors.text,bodyColor:colors.text,borderColor:colors.grid,borderWidth:1,padding:10,cornerRadius:6,callbacks:{label:(c)=>{const pct=((c.parsed/total)*100).toFixed(1);return`${c.label}: ${c.parsed} (${pct}%)`}}}}},plugins:[{id:'centerText',beforeDraw:(chart)=>{const{ctx:c,width,height}=chart;c.save();c.font='700 24px Inter, sans-serif';c.fillStyle=colors.text==='#a3a3a3'?'#fafafa':'#0a0a0a';c.textAlign='center';c.textBaseline='middle';c.fillText(total,width/2,height/2-8);c.font='500 11px Inter, sans-serif';c.fillStyle=colors.text;c.fillText('Total Users',width/2,height/2+14);c.restore()}}]})}
-function renderPlanChart(planKey,canvasId,legendId,color,label){destroyChart(planKey);const ctx=document.getElementById(canvasId);const legendEl=document.getElementById(legendId);if(!ctx)return;const colors=getChartColors();const planData=state.subscriptions[planKey];const gradient=ctx.getContext('2d').createLinearGradient(0,0,0,220);const rgb=hexToRgb(color);gradient.addColorStop(0,`rgba(${rgb}, 0.35)`);gradient.addColorStop(1,`rgba(${rgb}, 0)`);chartInstances[planKey]=new Chart(ctx,{type:'line',data:{labels:planData.history.map(h=>h.label),datasets:[{label,data:planData.history.map(h=>h.count),borderColor:color,backgroundColor:gradient,borderWidth:2.5,fill:true,tension:0.4,pointRadius:0,pointHoverRadius:5,pointHoverBackgroundColor:color,pointHoverBorderColor:'#fff',pointHoverBorderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:colors.bg,titleColor:colors.text,bodyColor:colors.text,borderColor:colors.grid,borderWidth:1,padding:10,cornerRadius:6,displayColors:false,callbacks:{label:(c)=>`${c.parsed.y} subscribers`}}},scales:{x:{grid:{display:false},ticks:{color:colors.text,font:{size:9},maxRotation:0,autoSkip:true,maxTicksLimit:5}},y:{grid:{color:colors.grid},ticks:{color:colors.text,font:{size:10}},beginAtZero:true}},interaction:{mode:'index',intersect:false}}});const prevCount=planData.history[0].count;const currCount=planData.history[planData.history.length-1].count;const change=currCount-prevCount;const changePct=prevCount>0?((change/prevCount)*100).toFixed(1):0;const trendClass=change>=0?'up':'down';const trendIcon=change>=0?'↑':'↓';legendEl.innerHTML=`<div class="chart-legend-item"><span class="chart-legend-dot" style="background:${color}"></span><span class="chart-legend-label">Total Subscribers</span><span class="chart-legend-value">${planData.total}</span></div><div class="chart-legend-item"><span class="chart-legend-dot" style="background:${color};opacity:.5"></span><span class="chart-legend-label">14-day change</span><span class="chart-trend ${trendClass}">${trendIcon} ${Math.abs(changePct)}%</span></div>`}
-function renderActivityChart(){destroyChart('activity');const ctx=document.getElementById('activityChart');if(!ctx)return;const colors=getChartColors();const days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];const logins=days.map(()=>Math.floor(20+Math.random()*60));const actions=days.map(()=>Math.floor(40+Math.random()*100));chartInstances.activity=new Chart(ctx,{type:'bar',data:{labels:days,datasets:[{label:'Logins',data:logins,backgroundColor:'rgba(37,99,235,0.8)',borderRadius:4,barPercentage:0.7,categoryPercentage:0.7},{label:'Actions',data:actions,backgroundColor:'rgba(16,185,129,0.8)',borderRadius:4,barPercentage:0.7,categoryPercentage:0.7}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',align:'end',labels:{color:colors.text,font:{size:11},boxWidth:10,boxHeight:10,usePointStyle:true,pointStyle:'rectRounded'}},tooltip:{backgroundColor:colors.bg,titleColor:colors.text,bodyColor:colors.text,borderColor:colors.grid,borderWidth:1,padding:10,cornerRadius:6}},scales:{x:{grid:{display:false},ticks:{color:colors.text,font:{size:10}}},y:{grid:{color:colors.grid},ticks:{color:colors.text,font:{size:10}},beginAtZero:true}}}})}
-function renderCountryDonutChart(){destroyChart('countryDonut');const ctx=document.getElementById('countryDonutChart');const legendEl=document.getElementById('countryLegend');if(!ctx)return;const colors=getChartColors();const countryCount={};state.users.forEach(u=>{const c=u.country||'Other';countryCount[c]=(countryCount[c]||0)+1});const sorted=Object.entries(countryCount).sort((a,b)=>b[1]-a[1]);const labels=sorted.map(s=>s[0]);const data=sorted.map(s=>s[1]);const palette=['#2563eb','#16a34a','#f59e0b','#dc2626','#8b5cf6','#06b6d4','#ec4899','#84cc16'];chartInstances.countryDonut=new Chart(ctx,{type:'doughnut',data:{labels,datasets:[{data,backgroundColor:palette.slice(0,labels.length),borderColor:colors.bg,borderWidth:2,hoverOffset:6}]},options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{display:false},tooltip:{backgroundColor:colors.bg,titleColor:colors.text,bodyColor:colors.text,borderColor:colors.grid,borderWidth:1,padding:10,cornerRadius:6}}}});legendEl.innerHTML=sorted.slice(0,5).map((s,i)=>`<div class="chart-legend-item"><span class="chart-legend-dot" style="background:${palette[i]}"></span><span class="chart-legend-label">${s[0]}</span><span class="chart-legend-value">${s[1]}</span></div>`).join('')}
-function renderRevenueChart(){destroyChart('revenue');const ctx=document.getElementById('revenueChart');if(!ctx)return;const colors=getChartColors();const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct'];const revenue=[2400,3200,2900,4100,3800,4500,5200,4900,5800,6400];const gradient=ctx.getContext('2d').createLinearGradient(0,0,0,220);gradient.addColorStop(0,'rgba(245,158,11,0.35)');gradient.addColorStop(1,'rgba(245,158,11,0)');chartInstances.revenue=new Chart(ctx,{type:'line',data:{labels:months,datasets:[{label:'Revenue ($)',data:revenue,borderColor:'#f59e0b',backgroundColor:gradient,borderWidth:2.5,fill:true,tension:0.4,pointRadius:3,pointBackgroundColor:'#f59e0b',pointBorderColor:'#fff',pointBorderWidth:2,pointHoverRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:colors.bg,titleColor:colors.text,bodyColor:colors.text,borderColor:colors.grid,borderWidth:1,padding:10,cornerRadius:6,displayColors:false,callbacks:{label:(c)=>`$${c.parsed.y.toLocaleString()}`}}},scales:{x:{grid:{display:false},ticks:{color:colors.text,font:{size:10}}},y:{grid:{color:colors.grid},ticks:{color:colors.text,font:{size:10},callback:(v)=>'$'+(v/1000)+'k'},beginAtZero:true}},interaction:{mode:'index',intersect:false}}})}
+function renderAllCharts(){
+  renderUserGrowthChart();
+  renderStatusDonutChart();
+  renderPlanChart('free','freePlanChart','freePlanLegend','#10b981','Free Plan');
+  renderPlanChart('pro','proPlanChart','proPlanLegend','#f59e0b','Pro Plan');
+}
+function renderUserGrowthChart(){
+  destroyChart('userGrowth');
+  const ctx=document.getElementById('userGrowthChart');
+  if(!ctx)return;
+  const colors=getChartColors();
+  const labels=[];const data=[];
+  for(let i=13;i>=0;i--){
+    const d=new Date(Date.now()-i*86400000);
+    labels.push(d.toLocaleDateString('en-US',{day:'2-digit',month:'short'}));
+    data.push(Math.floor(3+Math.random()*8));
+  }
+  const gradient=ctx.getContext('2d').createLinearGradient(0,0,0,260);
+  gradient.addColorStop(0,'rgba(37,99,235,0.35)');
+  gradient.addColorStop(1,'rgba(37,99,235,0)');
+  chartInstances.userGrowth=new Chart(ctx,{
+    type:'line',
+    data:{labels,datasets:[{label:'New Users',data,borderColor:'#2563eb',backgroundColor:gradient,borderWidth:2.5,fill:true,tension:0.4,pointRadius:0,pointHoverRadius:5,pointHoverBackgroundColor:'#2563eb',pointHoverBorderColor:'#fff',pointHoverBorderWidth:2}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:colors.bg,titleColor:colors.text,bodyColor:colors.text,borderColor:colors.grid,borderWidth:1,padding:10,cornerRadius:6,displayColors:false,callbacks:{label:(c)=>`${c.parsed.y} new users`}}},scales:{x:{grid:{display:false},ticks:{color:colors.text,font:{size:10},maxRotation:0,autoSkip:true,maxTicksLimit:7}},y:{grid:{color:colors.grid},ticks:{color:colors.text,font:{size:10},stepSize:2},beginAtZero:true}},interaction:{mode:'index',intersect:false}}
+  });
+}
+function renderStatusDonutChart(){
+  destroyChart('statusDonut');
+  const ctx=document.getElementById('statusDonutChart');
+  const legendEl=document.getElementById('statusLegend');
+  if(!ctx)return;
+  const colors=getChartColors();
+  const active=state.users.filter(u=>u.status==='ACTIVE').length;
+  const banned=state.users.filter(u=>u.status==='BANNED').length;
+  const promoted=state.users.filter(u=>(u.level||0)>0).length;
+  const total=state.users.length;
+  chartInstances.statusDonut=new Chart(ctx,{
+    type:'doughnut',
+    data:{labels:['Active','Banned','Promoted'],datasets:[{data:[active,banned,promoted],backgroundColor:['#16a34a','#dc2626','#f59e0b'],borderColor:colors.bg,borderWidth:2,hoverOffset:6}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'70%',plugins:{legend:{display:false},tooltip:{backgroundColor:colors.bg,titleColor:colors.text,bodyColor:colors.text,borderColor:colors.grid,borderWidth:1,padding:10,cornerRadius:6,callbacks:{label:(c)=>{const pct=((c.parsed/total)*100).toFixed(1);return`${c.label}: ${c.parsed} (${pct}%)`}}}}},
+    plugins:[{id:'centerText',beforeDraw:(chart)=>{const{ctx:c,width,height}=chart;c.save();c.font='700 22px Inter, sans-serif';c.fillStyle=colors.text==='#a3a3a3'?'#fafafa':'#0a0a0a';c.textAlign='center';c.textBaseline='middle';c.fillText(total,width/2,height/2-6);c.font='500 10px Inter, sans-serif';c.fillStyle=colors.text;c.fillText('Total',width/2,height/2+12);c.restore()}}]
+  });
+  const palette=['#16a34a','#dc2626','#f59e0b'];
+  const items=[['Active',active],['Banned',banned],['Promoted',promoted]];
+  legendEl.innerHTML=items.map((it,i)=>`<div class="chart-legend-item"><span class="chart-legend-dot" style="background:${palette[i]}"></span><span class="chart-legend-label">${it[0]}</span><span class="chart-legend-value">${it[1]}</span></div>`).join('');
+}
+function renderPlanChart(planKey,canvasId,legendId,color,label){
+  destroyChart(planKey);
+  const ctx=document.getElementById(canvasId);
+  const legendEl=document.getElementById(legendId);
+  if(!ctx)return;
+  const colors=getChartColors();
+  const planData=state.subscriptions[planKey];
+  const gradient=ctx.getContext('2d').createLinearGradient(0,0,0,260);
+  const rgb=hexToRgb(color);
+  gradient.addColorStop(0,`rgba(${rgb}, 0.35)`);
+  gradient.addColorStop(1,`rgba(${rgb}, 0)`);
+  chartInstances[planKey]=new Chart(ctx,{
+    type:'line',
+    data:{labels:planData.history.map(h=>h.label),datasets:[{label,data:planData.history.map(h=>h.count),borderColor:color,backgroundColor:gradient,borderWidth:2.5,fill:true,tension:0.4,pointRadius:0,pointHoverRadius:5,pointHoverBackgroundColor:color,pointHoverBorderColor:'#fff',pointHoverBorderWidth:2}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:colors.bg,titleColor:colors.text,bodyColor:colors.text,borderColor:colors.grid,borderWidth:1,padding:10,cornerRadius:6,displayColors:false,callbacks:{label:(c)=>`${c.parsed.y} subscribers`}}},scales:{x:{grid:{display:false},ticks:{color:colors.text,font:{size:9},maxRotation:0,autoSkip:true,maxTicksLimit:5}},y:{grid:{color:colors.grid},ticks:{color:colors.text,font:{size:10}},beginAtZero:true}},interaction:{mode:'index',intersect:false}}
+  });
+  const prevCount=planData.history[0].count;
+  const currCount=planData.history[planData.history.length-1].count;
+  const change=currCount-prevCount;
+  const changePct=prevCount>0?((change/prevCount)*100).toFixed(1):0;
+  const trendClass=change>=0?'up':'down';
+  const trendIcon=change>=0?'↑':'↓';
+  legendEl.innerHTML=`<div class="chart-legend-item"><span class="chart-legend-dot" style="background:${color}"></span><span class="chart-legend-label">Total Subscribers</span><span class="chart-legend-value">${planData.total}</span></div><div class="chart-legend-item"><span class="chart-legend-dot" style="background:${color};opacity:.5"></span><span class="chart-legend-label">14-day change</span><span class="chart-trend ${trendClass}">${trendIcon} ${Math.abs(changePct)}%</span></div>`;
+}
 
-/* ============================================================
- * STEP 10: Dashboard
- * ============================================================ */
 function renderDashboard(){
   const total=state.users.length;
   const banned=state.users.filter(u=>u.status==='BANNED').length;
@@ -1535,9 +1527,6 @@ function renderDashboard(){
   setTimeout(renderAllCharts,50);
 }
 
-/* ============================================================
- * STEP 11: Users
- * ============================================================ */
 function renderUsers(filteredList){
   const list=filteredList||state.users;
   document.getElementById('usersTotal').textContent=list.length;
@@ -1646,9 +1635,6 @@ function selectUser(id){
 }
 function clearSelectedUser(){selectedUserId=null;document.getElementById('userDetail').style.display='none'}
 
-/* ============================================================
- * STEP 12: Notifications
- * ============================================================ */
 document.querySelectorAll('#notifAudience .radio-card').forEach(card=>{card.addEventListener('click',()=>{document.querySelectorAll('#notifAudience .radio-card').forEach(c=>c.classList.remove('checked'));card.classList.add('checked');card.querySelector('input').checked=true;const val=card.querySelector('input').value;document.getElementById('targetIdField').style.display=val==='USER_ID'?'flex':'none'})});
 function sendNotification(){
   const title=document.getElementById('notifTitle').value.trim();
@@ -1673,9 +1659,6 @@ function renderNotifHistory(){
   document.getElementById('notifHistory').innerHTML=list.length===0?`<div class="empty">${ICONS.bell2}<div>No notifications yet</div></div>`:list.slice(0,20).map(n=>{const aud=n.channel==='USER_ID'?'Specific user':n.channel==='PREMIUM'?'Premium members':'All users';return`<div class="history-item"><div class="history-icon">${ICONS.bell}</div><div style="flex:1"><div class="history-title">${n.title}</div><div class="history-body">${n.body}</div><div class="history-meta">${aud} · ${n.sentCount} recipients · ${formatDateTime(n.sentAt)}</div></div></div>`}).join('');
 }
 
-/* ============================================================
- * STEP 13: Promo
- * ============================================================ */
 document.getElementById('promoCode').addEventListener('input',function(){const v=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'');this.value=v;if(v.length===5||v.length===6)document.getElementById('codePreview').textContent=v;else document.getElementById('codePreview').textContent=(v+'______').slice(0,6)});
 function randomCode(){const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let code='';const len=5+Math.floor(Math.random()*2);for(let i=0;i<len;i++)code+=chars[Math.floor(Math.random()*chars.length)];document.getElementById('promoCode').value=code;document.getElementById('codePreview').textContent=code;toast('Random code generated','info')}
 function clearPromoForm(){document.getElementById('promoCode').value='';document.getElementById('promoMax').value='';document.getElementById('promoDiscount').value='';document.getElementById('codePreview').textContent='______'}
@@ -1697,9 +1680,6 @@ function deletePromo(id){
 function promoCardHTML(p){const pct=Math.min(100,Math.round((p.activated/p.maxUsers)*100));const audLabels={ALL:'All Users',PREMIUM:'Premium Members',NEW:'New Users'};const isFull=p.activated>=p.maxUsers;return`<div class="promo-card"><div class="promo-code">${p.code}</div><div class="promo-meta">${audLabels[p.audience]} · ${p.discountPct}% off</div><div class="promo-progress"><div class="promo-progress-bar" style="width:${pct}%"></div></div><div class="promo-stats"><span>${p.activated} / ${p.maxUsers} activated</span><span>${isFull?'Complete':pct+'%'}</span></div><div style="margin-top:.85rem;display:flex;justify-content:space-between;align-items:center"><small style="color:var(--text-faint);font-size:.7rem">${formatDate(p.createdAt)}</small><button class="btn-ghost" onclick="deletePromo('${p.id}')">${ICONS.trash}Delete</button></div></div>`}
 function renderPromos(){const grid=document.getElementById('promosGrid');if(state.promos.length===0){grid.innerHTML=`<div class="empty" style="grid-column:1/-1">${ICONS.tag}<div>No promo codes yet</div></div>`;return}grid.innerHTML=state.promos.map(promoCardHTML).join('')}
 
-/* ============================================================
- * STEP 14: Offers & Plans
- * ============================================================ */
 function switchOfferTab(which,btn){document.querySelectorAll('.subsection-tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');document.getElementById('offersSubsection').style.display=which==='offers'?'block':'none';document.getElementById('plansSubsection').style.display=which==='plans'?'block':'none'}
 function clearOfferForm(){document.getElementById('offerTitle').value='';document.getElementById('offerBody').value=''}
 function addOffer(){const title=document.getElementById('offerTitle').value.trim();const body=document.getElementById('offerBody').value.trim();if(!title){toast('Please enter an offer title','error');return}if(!body){toast('Please enter offer description','error');return}state.offers.unshift({id:'o'+Date.now(),title,body,active:true,createdAt:new Date().toISOString()});saveOffers(state.offers);clearOfferForm();toast('Offer created successfully','success');renderOffers()}
@@ -1711,9 +1691,6 @@ function addPlan(){const name=document.getElementById('planName').value.trim();c
 function deletePlan(id){const p=state.plans.find(x=>x.id===id);if(!p)return;showConfirmCard({title:'Delete plan?',message:`Plan "${p.name}" ($${Number(p.price).toFixed(2)}) will be permanently removed.`,icon:'danger',confirmText:'Delete Plan',onConfirm:()=>{state.plans=state.plans.filter(x=>x.id!==id);savePlans(state.plans);toast(`Plan ${p.name} deleted`,'info');renderPlans()}})}
 function renderPlans(){const grid=document.getElementById('plansGrid');if(state.plans.length===0){grid.innerHTML=`<div class="empty" style="grid-column:1/-1">${ICONS.credit}<div>No plans yet — create one above</div></div>`;return}const cycleLabels={month:'/mo',year:'/yr',week:'/wk'};grid.innerHTML=state.plans.map(p=>`<div class="plan-card ${p.featured?'featured':''}"><div class="plan-name">${p.name}</div><div class="plan-price">$${Number(p.price).toFixed(2)} <small>${cycleLabels[p.duration]||''}</small></div><div class="plan-duration">${p.duration==='month'?'Billed monthly':p.duration==='year'?'Billed annually':'Billed weekly'}</div><ul class="plan-features">${p.features.map(f=>`<li>${ICONS.check}<span>${f}</span></li>`).join('')}</ul><div class="plan-actions"><button class="btn-ghost" onclick="deletePlan('${p.id}')">${ICONS.trash}Delete</button></div></div>`).join('')}
 
-/* ============================================================
- * STEP 15: Support Chat
- * ============================================================ */
 function renderConversations(){const list=document.getElementById('conversationsList');document.getElementById('convCount').textContent=state.convos.length;if(state.convos.length===0){list.innerHTML=`<div class="empty">${ICONS.bell2}<div>No conversations yet</div></div>`;return}const sorted=[...state.convos].sort((a,b)=>{if(a.unread!==b.unread)return a.unread?-1:1;return new Date(b.messages.at(-1)?.at||0)-new Date(a.messages.at(-1)?.at||0)});list.innerHTML=sorted.map(c=>{const last=c.messages.at(-1);const preview=last?(last.image?'📎 Image attachment':last.text):'—';return`<div class="conversation-item ${selectedConvoId===c.id?'active':''}" onclick="selectConversation('${c.id}')"><div class="conv-avatar">${initials(c.userName)}${c.unread?'<span class="unread-dot"></span>':''}</div><div class="conv-info"><div class="conv-name">${c.userName}</div><div class="conv-preview">${preview}</div></div><div class="conv-time">${last?formatShortTime(last.at):''}</div></div>`}).join('')}
 function selectConversation(id){const c=state.convos.find(x=>x.id===id);if(!c)return;selectedConvoId=id;c.unread=false;saveConvos(state.convos);document.getElementById('chatEmpty').style.display='none';document.getElementById('chatView').style.display='flex';document.getElementById('chatHeaderAvatar').textContent=initials(c.userName);document.getElementById('chatHeaderName').textContent=c.userName;document.getElementById('chatHeaderEmail').textContent=c.userEmail;const statusBadge=document.getElementById('chatStatusBadge');const resolveBtn=document.getElementById('resolveBtn');if(c.status==='resolved'){statusBadge.className='chat-status resolved';statusBadge.textContent='Resolved';resolveBtn.innerHTML=ICONS.unban+'Reopen'}else{statusBadge.className='chat-status open';statusBadge.textContent='Open';resolveBtn.innerHTML=ICONS.check+'Mark Resolved'}renderMessages(c);renderConversations()}
 function renderMessages(c){const box=document.getElementById('chatMessages');box.innerHTML=c.messages.map(m=>{const fromLabel=m.from==='admin'?'A':initials(c.userName);const imgHTML=m.image?`<img class="message-image" src="${m.image}" alt="attachment" onclick="openImageModal(this.src)" />`:'';return`<div class="message ${m.from==='admin'?'admin':''}"><div class="message-avatar">${fromLabel}</div><div><div class="message-bubble">${escapeHTML(m.text)}${imgHTML}</div><div class="message-meta">${formatShortTime(m.at)}</div></div></div>`}).join('');setTimeout(()=>{box.scrollTop=box.scrollHeight},50)}
@@ -1724,17 +1701,11 @@ function openImageModal(src){document.getElementById('imageModalImg').src=src;do
 function closeImageModal(){document.getElementById('imageModal').classList.remove('show')}
 function toggleConversationStatus(){if(!selectedConvoId)return;const c=state.convos.find(x=>x.id===selectedConvoId);if(!c)return;c.status=c.status==='resolved'?'open':'resolved';saveConvos(state.convos);selectConversation(selectedConvoId);toast(`Conversation marked as ${c.status}`,'info')}
 
-/* ============================================================
- * STEP 16: Settings
- * ============================================================ */
 function renderSettings(){document.getElementById('currentEmail').value=state.settings.email;document.getElementById('adminEmail').textContent=state.settings.email}
 function updateEmail(){const newEmail=document.getElementById('newEmail').value.trim();if(!newEmail){toast('Please enter the new email','error');return}if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(newEmail)){toast('Invalid email format','error');return}state.settings.email=newEmail;saveSettings(state.settings);document.getElementById('newEmail').value='';renderSettings();toast('Email updated successfully','success')}
 function updatePassword(){const current=document.getElementById('currentPass').value;const next=document.getElementById('newPass').value;const confirmP=document.getElementById('confirmPass').value;if(!current||!next||!confirmP){toast('Please fill in all fields','error');return}if(current!==state.settings.password){toast('Current password is incorrect','error');return}if(next.length<8){toast('New password must be at least 8 characters','error');return}if(next!==confirmP){toast('Passwords do not match','error');return}state.settings.password=next;saveSettings(state.settings);document.getElementById('currentPass').value='';document.getElementById('newPass').value='';document.getElementById('confirmPass').value='';toast('Password updated successfully','success')}
 function sendDirectMessage(){toast('Feature available via chat','info');closeSendMessageModal()}
 
-/* ============================================================
- * STEP 17: INIT — Apply theme LAST, after everything is ready
- * ============================================================ */
 const savedTheme = localStorage.getItem('ad_theme') || 'light';
 applyTheme(savedTheme);
 
