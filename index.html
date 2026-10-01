@@ -1501,12 +1501,16 @@ function loadData() {
     localStorage.setItem(STORAGE_KEYS.SUBSCRIPTIONS, JSON.stringify(subscriptions));
   }
   // ===== Subscription payment requests: Binance / USDT TRC20 / USDT BEP20 (QuantVexa wallet methods) =====
-  const SUB_REQ_VERSION = 'v2-binance-trc20-bep20';
+  // Prices are ALWAYS locked to 50 / 75 / 100 — never any other value.
+  const SUB_REQ_VERSION = 'v3-locked-prices-50-75-100';
+  const ALLOWED_AMOUNTS = [50, 75, 100];
   let subReqVersion = localStorage.getItem(STORAGE_KEYS.SUB_REQUESTS + '_version');
   let subRequests = JSON.parse(localStorage.getItem(STORAGE_KEYS.SUB_REQUESTS) || 'null');
-  // Re-seed when version changes or if any request still references old method IDs (paypal/usdt)
+  // Re-seed when version changes, OR if any request still uses old method IDs (paypal/usdt),
+  // OR if any request has an amount outside the locked [50,75,100] set (e.g. old $19.99 demos).
   const hasOldMethod = subRequests && subRequests.some(r => ['paypal','usdt'].includes(r.paymentMethod));
-  if (!subRequests || subReqVersion !== SUB_REQ_VERSION || hasOldMethod) {
+  const hasInvalidAmount = subRequests && subRequests.some(r => !ALLOWED_AMOUNTS.includes(Number(r.amount)));
+  if (!subRequests || subReqVersion !== SUB_REQ_VERSION || hasOldMethod || hasInvalidAmount) {
     subRequests = [
       {
         id: 'sr1',
@@ -2005,6 +2009,35 @@ function getPaymentIconHTML(methodId){
   return `<div class="pay-icon-wrap">${method.icon}</div>`;
 }
 
+// ===== Locked plan-pricing helper =====
+// The displayed amount for ANY subscription request MUST come from the plan's actual price
+// (50 / 75 / 100), never from a stored `r.amount` that could be stale or invalid (e.g. old $19.99).
+// Strategy:
+//   1. Look up the plan by r.planId in state.plans
+//   2. If found and its price is in [50,75,100] → use it
+//   3. Else, try r.amount (only if it's in [50,75,100])
+//   4. Else, infer from r.planName: 'enterprise'→100, 'pro'→75, else 50
+//   5. Last resort: 50 (lowest tier)
+function getPlanAmount(r){
+  const ALLOWED = [50, 75, 100];
+  // 1. Plan lookup
+  if(r && r.planId){
+    const plan = (state.plans || []).find(p => p.id === r.planId);
+    if(plan && ALLOWED.includes(Number(plan.price))) return Number(plan.price);
+  }
+  // 2. Stored amount (only if valid)
+  if(r && r.amount != null && ALLOWED.includes(Number(r.amount))) return Number(r.amount);
+  // 3. Infer from plan name
+  if(r && r.planName){
+    const n = String(r.planName).toLowerCase();
+    if(n.includes('enterprise')) return 100;
+    if(n.includes('pro')) return 75;
+    if(n.includes('starter') || n.includes('basic') || n.includes('free')) return 50;
+  }
+  // 4. Fallback
+  return 50;
+}
+
 function renderSubRequests(){
   const list = document.getElementById('subRequestsList');
   const reqs = state.subRequests || [];
@@ -2033,7 +2066,7 @@ function renderSubRequests(){
           ${r.userName}
           <span class="badge ${statusClass}" style="font-size:.58rem;padding:.1rem .35rem">${statusLabel}</span>
         </div>
-        <div class="conv-preview">${r.planName} · $${r.amount} · ${preview}</div>
+        <div class="conv-preview">${r.planName} · $${getPlanAmount(r)} · ${preview}</div>
       </div>
       <div class="conv-time">${formatShortTime(r.requestedAt)}</div>
     </div>`;
@@ -2086,7 +2119,10 @@ function renderSubMessages(r){
 
   // 1. Combined Payment Detail Card (QuantVexa wallet style — single card with header + body)
   //    Replaces the previous 3 floating centered cards with one clean full-width card.
+  //    IMPORTANT: amount always comes from getPlanAmount() — never from the stored r.amount,
+  //    so the displayed price is always the plan's actual price (50 / 75 / 100).
   const paymentIconInner = paymentIconHTML.replace(/^<div class="pay-icon-wrap">([\s\S]*?)<\/div>$/, '$1');
+  const planAmount = getPlanAmount(r);
   messagesHTML += `
     <div class="sub-detail-card">
       <div class="sub-detail-header">
@@ -2097,7 +2133,7 @@ function renderSubMessages(r){
       <div class="sub-detail-body">
         <div class="sub-detail-row summary">
           <span class="sub-detail-label">Plan</span>
-          <span class="sub-detail-value">${r.planName} — $${r.amount}/mo</span>
+          <span class="sub-detail-value">${r.planName} — $${planAmount}/mo</span>
         </div>
         <div class="sub-detail-row">
           <span class="sub-detail-label">Transaction ID</span>
@@ -2105,7 +2141,7 @@ function renderSubMessages(r){
         </div>
         <div class="sub-detail-row">
           <span class="sub-detail-label">Amount</span>
-          <span class="sub-detail-value">$${r.amount}</span>
+          <span class="sub-detail-value">$${planAmount}</span>
         </div>
       </div>
     </div>
@@ -2172,12 +2208,13 @@ function approveSubscription(){
   if(!r || r.status !== 'pending') return;
 
   const adminNote = document.getElementById('subAdminNote').value.trim();
+  const planAmount = getPlanAmount(r);
   const successMsg = `Payment verified successfully. You have been upgraded to the ${r.planName} plan. Enjoy your new features and benefits!`;
   const fullMsg = adminNote ? successMsg + '\n\nAdmin note: ' + adminNote : successMsg;
 
   showConfirmCard({
     title: 'Verify Payment & Upgrade?',
-    message: `Confirm payment of $${r.amount} via ${r.paymentMethodLabel} for ${r.userName}. The user will be upgraded to ${r.planName} and notified.`,
+    message: `Confirm payment of $${planAmount} via ${r.paymentMethodLabel} for ${r.userName}. The user will be upgraded to ${r.planName} and notified.`,
     icon: 'success',
     confirmText: 'Verify & Upgrade',
     user: { name: r.userName, email: r.userEmail },
@@ -2190,7 +2227,7 @@ function approveSubscription(){
       state.notifs.unshift({
         id: 'n'+Date.now(),
         title: `Payment Verified — Upgraded to ${r.planName}`,
-        body: `Hello ${r.userName}, your payment of $${r.amount} has been verified. You have been upgraded to the ${r.planName} plan. Enjoy your new features!`,
+        body: `Hello ${r.userName}, your payment of $${planAmount} has been verified. You have been upgraded to the ${r.planName} plan. Enjoy your new features!`,
         channel: 'USER_ID',
         target: r.userId,
         sentAt: new Date().toISOString(),
@@ -2210,12 +2247,13 @@ function rejectSubscription(){
   if(!r || r.status !== 'pending') return;
 
   const adminNote = document.getElementById('subAdminNote').value.trim();
+  const planAmount = getPlanAmount(r);
   const rejectMsg = `Your payment has been rejected. Please note: this is your final warning. On the next occurrence, your account will be banned and you will no longer be able to access our services.`;
   const fullMsg = adminNote ? rejectMsg + '\n\nAdmin note: ' + adminNote : rejectMsg;
 
   showConfirmCard({
     title: 'Reject Payment & Issue Warning?',
-    message: `Reject the payment of $${r.amount} from ${r.userName}. A warning will be issued: next time, the account will be banned and access to services will be revoked.`,
+    message: `Reject the payment of $${planAmount} from ${r.userName}. A warning will be issued: next time, the account will be banned and access to services will be revoked.`,
     icon: 'danger',
     confirmText: 'Reject & Warn',
     user: { name: r.userName, email: r.userEmail },
