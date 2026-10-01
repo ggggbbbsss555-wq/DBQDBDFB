@@ -252,9 +252,9 @@ tbody tr:hover{background:var(--bg-soft)}
 .plan-features li{font-size:.8rem;color:var(--text-muted);padding:.25rem 0;display:flex;align-items:flex-start;gap:.5rem}
 .plan-features li .icon{color:var(--accent);margin-top:2px}
 .plan-actions{display:flex;gap:.35rem}
-.chat-layout{display:grid;grid-template-columns:300px 1fr;gap:1.25rem;height:calc(100vh - 220px);min-height:500px;width:100%}
-@media (max-width:900px){.chat-layout{grid-template-columns:1fr;height:auto;gap:1rem}}
-.conversations-panel{background:var(--bg-elev);border:1px solid var(--border);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;width:100%}
+.chat-layout{display:grid;grid-template-columns:280px 1fr;gap:1rem;height:calc(100vh - 220px);min-height:480px}
+@media (max-width:800px){.chat-layout{grid-template-columns:1fr;height:auto}}
+.conversations-panel{background:var(--bg-elev);border:1px solid var(--border);border-radius:10px;overflow:hidden;display:flex;flex-direction:column}
 .conversations-header{padding:.85rem 1rem;border-bottom:1px solid var(--border);font-size:.85rem;font-weight:600;display:flex;justify-content:space-between;align-items:center}
 .conversations-list{flex:1;overflow-y:auto}
 .conversation-item{padding:.75rem 1rem;border-bottom:1px solid var(--border-soft);cursor:pointer;transition:background .12s ease;display:flex;gap:.65rem;align-items:center}
@@ -266,7 +266,7 @@ tbody tr:hover{background:var(--bg-soft)}
 .conv-name{font-weight:600;font-size:.85rem}
 .conv-preview{color:var(--text-muted);font-size:.75rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .conv-time{color:var(--text-faint);font-size:.68rem}
-.chat-view-wrap{background:var(--bg-elev);border:1px solid var(--border);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;width:100%;min-width:0}
+.chat-view-wrap{background:var(--bg-elev);border:1px solid var(--border);border-radius:10px;overflow:hidden;display:flex;flex-direction:column}
 .chat-header{padding:.85rem 1.1rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
 .chat-header-user{display:flex;align-items:center;gap:.65rem}
 .chat-header-user strong{font-size:.9rem}
@@ -274,23 +274,23 @@ tbody tr:hover{background:var(--bg-soft)}
 .chat-status{display:inline-flex;align-items:center;gap:.25rem;font-size:.7rem;font-weight:600;padding:.15rem .5rem;border-radius:4px;border:1px solid}
 .chat-status.open{color:var(--success);border-color:var(--success);background:rgba(22,163,74,.08)}
 .chat-status.resolved{color:var(--text-muted);border-color:var(--border);background:var(--bg-soft)}
-.chat-messages{flex:1;overflow-y:auto;padding:1.25rem;display:flex;flex-direction:column;gap:1rem}
-.message{display:flex;gap:.55rem;max-width:80%;align-items:flex-end}
+.chat-messages{flex:1;overflow-y:auto;padding:1rem 1.1rem;display:flex;flex-direction:column;gap:.85rem}
+.message{display:flex;gap:.55rem;max-width:75%;align-items:flex-end}
 .message.admin{align-self:flex-end;flex-direction:row-reverse}
 .message-avatar{width:26px;height:26px;border-radius:50%;background:var(--text-faint);color:#fff;display:grid;place-items:center;font-size:.65rem;font-weight:600;flex-shrink:0}
 .message.admin .message-avatar{background:var(--accent)}
-.message-bubble{background:var(--bg-soft);border:1px solid var(--border);padding:.65rem .9rem;border-radius:12px;font-size:.85rem;line-height:1.5;word-wrap:break-word;max-width:100%}
+.message-bubble{background:var(--bg-soft);border:1px solid var(--border);padding:.55rem .8rem;border-radius:12px;font-size:.82rem;line-height:1.5;word-wrap:break-word;max-width:100%}
 .message.admin .message-bubble{background:var(--accent);color:#fff;border-color:var(--accent)}
 .message-image{display:block;max-width:220px;max-height:220px;border-radius:8px;margin-top:.35rem;border:1px solid var(--border);cursor:pointer}
 .message.admin .message-image{border-color:rgba(255,255,255,.2)}
 .message-meta{font-size:.68rem;color:var(--text-faint);margin-top:.2rem}
 .message.admin .message-meta{color:rgba(255,255,255,.7)}
-.chat-input{border-top:1px solid var(--border);padding:.85rem 1.1rem;display:flex;gap:.5rem;align-items:flex-end;background:var(--bg-elev)}
-.chat-input textarea{flex:1;resize:none;min-height:42px;max-height:120px;background:var(--bg-soft);border:1px solid var(--border);color:var(--text);padding:.65rem .85rem;border-radius:8px;font-size:.85rem;font-family:inherit;transition:border-color .15s ease}
+.chat-input{border-top:1px solid var(--border);padding:.65rem .85rem;display:flex;gap:.5rem;align-items:flex-end;background:var(--bg-elev)}
+.chat-input textarea{flex:1;resize:none;min-height:38px;max-height:120px;background:var(--bg-soft);border:1px solid var(--border);color:var(--text);padding:.55rem .75rem;border-radius:8px;font-size:.85rem;font-family:inherit;transition:border-color .15s ease}
 .chat-input textarea:focus{border-color:var(--accent)}
-.chat-attach{width:42px;height:42px;border-radius:8px;background:var(--bg-soft);border:1px solid var(--border);color:var(--text-muted);display:grid;place-items:center;transition:all .15s ease;cursor:pointer;flex-shrink:0}
+.chat-attach{width:38px;height:38px;border-radius:8px;background:var(--bg-soft);border:1px solid var(--border);color:var(--text-muted);display:grid;place-items:center;transition:all .15s ease;cursor:pointer;flex-shrink:0}
 .chat-attach:hover{color:var(--accent);border-color:var(--accent)}
-.chat-send{background:var(--accent);color:#fff;width:42px;height:42px;border-radius:8px;display:grid;place-items:center;border:1px solid var(--accent);transition:all .15s ease;flex-shrink:0}
+.chat-send{background:var(--accent);color:#fff;width:38px;height:38px;border-radius:8px;display:grid;place-items:center;border:1px solid var(--accent);transition:all .15s ease;flex-shrink:0}
 .chat-send:hover{background:var(--accent-hover);border-color:var(--accent-hover)}
 .chat-send:disabled{opacity:.4;cursor:not-allowed}
 .chat-attach-input{display:none}
@@ -407,6 +407,8 @@ tbody tr:hover{background:var(--bg-soft)}
 .chart-trend.down{color:var(--danger);background:rgba(220,38,38,.1)}
 @media (max-width:1100px){.charts-grid{grid-template-columns:1fr}.charts-grid-3{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:600px){.charts-grid-3{grid-template-columns:1fr}.chart-wrap{height:220px}.chart-wrap.donut{min-height:180px;max-height:220px}}
+
+/* ===== SUBSCRIPTIONS SECTION ===== */
 .sub-plan-card{background:var(--bg-elev);border:1px solid var(--border);border-radius:10px;padding:1rem;display:flex;align-items:center;gap:.85rem;transition:all .2s ease;cursor:pointer}
 .sub-plan-card:hover{border-color:var(--accent);transform:translateY(-1px)}
 .sub-plan-card.selected{border-color:var(--accent);background:var(--accent-soft)}
@@ -420,8 +422,13 @@ tbody tr:hover{background:var(--bg-soft)}
 .sub-plan-price{font-size:.78rem;color:var(--text-muted)}
 .sub-plan-price strong{color:var(--text);font-size:1rem;font-weight:700}
 .sub-plan-users{font-size:.7rem;color:var(--text-faint);margin-top:.15rem}
-.sub-receipt-preview{width:100%;max-width:320px;border-radius:8px;border:1px solid var(--border);cursor:pointer;transition:transform .2s ease;margin:0 auto;display:block}
+
+.sub-payment-method{display:inline-flex;align-items:center;gap:.4rem;padding:.35rem .65rem;background:var(--bg-soft);border:1px solid var(--border);border-radius:6px;font-size:.78rem;font-weight:600;color:var(--text)}
+.sub-payment-method .icon{width:14px;height:14px}
+
+.sub-receipt-preview{width:100%;max-width:280px;border-radius:8px;border:1px solid var(--border);cursor:pointer;transition:transform .2s ease}
 .sub-receipt-preview:hover{transform:scale(1.02)}
+
 .sub-status-timeline{display:flex;flex-direction:column;gap:.65rem;padding:.75rem;background:var(--bg-soft);border-radius:8px;border:1px solid var(--border-soft)}
 .sub-timeline-item{display:flex;gap:.65rem;align-items:flex-start;font-size:.78rem}
 .sub-timeline-dot{width:8px;height:8px;border-radius:50%;margin-top:6px;flex-shrink:0}
@@ -431,15 +438,28 @@ tbody tr:hover{background:var(--bg-soft)}
 .sub-timeline-content{flex:1;min-width:0}
 .sub-timeline-title{font-weight:600;color:var(--text)}
 .sub-timeline-meta{color:var(--text-faint);font-size:.7rem;margin-top:.1rem}
-.qx-payment-card{display:flex;align-items:center;gap:16px;background:var(--bg-soft);border:1px solid var(--border);border-radius:14px;padding:16px 20px;width:100%;max-width:100%;transition:border-color .22s ease,background .22s ease}
-.qx-payment-card:hover{border-color:var(--accent);background:var(--accent-soft)}
-.qx-info-block{flex:1;min-width:0}
-.qx-info-block:first-child{border-right:1px solid var(--border);padding-right:16px}
-.qx-label{font-size:10px;font-weight:700;color:var(--accent);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
-.qx-title{font-size:16px;font-weight:800;color:var(--text);letter-spacing:0.3px;margin-bottom:2px}
-.qx-desc{font-size:11px;color:var(--text-muted);font-weight:500;letter-spacing:0.2px}
-.qx-icon-box{width:48px;height:48px;flex-shrink:0;border-radius:10px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.15);margin-right:12px}
-.qx-icon-box svg{width:26px;height:26px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ===== Payment Method Icon Boxes (QuantVexa style) ===== */
+.payment-icon-box{
+  width:60px;height:60px;border-radius:14px;
+  display:grid;place-items:center;flex-shrink:0;
+  position:relative;
+  box-shadow:0 4px 14px rgba(0,0,0,.15);
+}
+.payment-icon-box svg{width:34px;height:34px}
+.payment-icon-box.paypal{
+  background:linear-gradient(135deg,#003087 0%,#009cde 100%);
+}
+.payment-icon-box.paypal svg{fill:#fff;stroke:none}
+.payment-icon-box.binance{
+  background:linear-gradient(135deg,#f0b90b 0%,#fcd535 100%);
+}
+.payment-icon-box.binance svg{fill:#000;stroke:none}
+.payment-icon-box.usdt{
+  background:linear-gradient(135deg,#26a17b 0%,#50d1a6 100%);
+}
+.payment-icon-box.usdt svg{fill:#fff;stroke:none}
+
 .mobile-header{display:none;position:sticky;top:0;background:var(--bg);padding:.75rem 1rem;border-bottom:1px solid var(--border);z-index:50;justify-content:space-between;align-items:center}
 .mobile-header-brand{display:flex;align-items:center;gap:.55rem;font-weight:700;font-size:.95rem}
 .mobile-header-brand .brand-logo{width:30px;height:30px;border-radius:7px;font-size:.82rem}
@@ -506,8 +526,8 @@ tbody tr:hover{background:var(--bg-soft)}
 .code-preview{font-size:1.15rem;padding:.85rem 1rem}
 .btn-primary,.btn-outline,.btn-success,.btn-danger{width:100%;justify-content:center}
 .icon-btn-view{display:none}
-.qx-payment-card{flex-direction:column;align-items:flex-start;gap:12px}
-.qx-info-block:first-child{border-right:none;padding-right:0;border-bottom:1px solid var(--border);padding-bottom:12px;width:100%}
+.payment-icon-box{width:52px;height:52px}
+.payment-icon-box svg{width:30px;height:30px}
 }
 @media (max-width:480px){
 .mobile-nav-item .label{display:none}
@@ -661,7 +681,7 @@ Settings
 <div class="chart-card">
 <div class="chart-card-header">
 <div>
-<h3>Basic Plan</h3>
+<h3>Free Plan</h3>
 <p>Basic tier subscribers</p>
 </div>
 <div class="chart-icon">
@@ -1018,6 +1038,8 @@ Support Messages
 Subscriptions & Payments
 </button>
 </div>
+
+<!-- Support Messages Section -->
 <div id="supportMessagesSection">
 <div class="chat-layout">
 <div class="conversations-panel">
@@ -1070,7 +1092,8 @@ Mark Resolved
 </div>
 </div>
 </div>
-</div>
+
+<!-- Subscriptions & Payments Section -->
 <div id="supportSubscriptionsSection" style="display:none">
 <div class="chat-layout">
 <div class="conversations-panel">
@@ -1229,7 +1252,7 @@ You will need to sign in again with your admin credentials to access the dashboa
 <span class="label">Chat</span>
 </button>
 <button class="mobile-nav-item" data-tab="settings" onclick="goTo('settings')" title="Settings">
-<svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+<svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
 <span class="label">Settings</span>
 </button>
 </nav>
@@ -1269,258 +1292,243 @@ let selectedConvoId = null;
 let selectedSubReqId = null;
 let pendingImage = null;
 let pendingConfirmAction = null;
+
 const STORAGE_KEYS = {
-USERS: 'ad_users', NOTIFS: 'ad_notifications', PROMOS: 'ad_promos',
-SETTINGS: 'ad_settings', OFFERS: 'ad_offers', PLANS: 'ad_plans',
-CONVOS: 'ad_convos', SUBSCRIPTIONS: 'ad_subscriptions',
-SUB_REQUESTS: 'ad_sub_requests',
+  USERS: 'ad_users', NOTIFS: 'ad_notifications', PROMOS: 'ad_promos',
+  SETTINGS: 'ad_settings', OFFERS: 'ad_offers', PLANS: 'ad_plans',
+  CONVOS: 'ad_convos', SUBSCRIPTIONS: 'ad_subscriptions',
+  SUB_REQUESTS: 'ad_sub_requests',
 };
 const SAMPLE_NAMES = [
-'James','Sarah','Michael','Emma','John','Olivia','David','Sophia',
-'Robert','Isabella','William','Ava','Joseph','Mia','Daniel','Charlotte',
-'Matthew','Amelia','Andrew','Harper','Christopher','Evelyn','Thomas','Abigail',
+  'James','Sarah','Michael','Emma','John','Olivia','David','Sophia',
+  'Robert','Isabella','William','Ava','Joseph','Mia','Daniel','Charlotte',
+  'Matthew','Amelia','Andrew','Harper','Christopher','Evelyn','Thomas','Abigail',
 ];
 const COUNTRIES = ['USA','UK','Germany','France','Canada','Australia','Spain','Italy'];
 
-// ===== PAYMENT METHODS (BNB, TRC-20, BEP-20 ONLY) =====
+// ===== Payment Method SVG Icons (QuantVexa style - filled brand colors) =====
+const PAYMENT_ICONS = {
+  paypal: `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944 1.49A.77.77 0 0 1 5.705.85h6.258c2.07 0 3.632.45 4.64 1.337.92.813 1.384 1.983 1.384 3.478 0 1.64-.515 3.067-1.528 4.24-1.013 1.174-2.4 1.97-4.12 2.367-1.255.288-2.368.41-3.404.41h-.935a.77.77 0 0 0-.76.653l-.95 6.018z"/>
+    <path d="M19.826 7.283c-.042.284-.096.568-.163.85-1.21 5.154-4.646 6.908-9.04 6.908H8.37a1.09 1.09 0 0 0-1.078.924l-1.15 7.29-.326 2.066a.574.574 0 0 0 .567.665h3.882c.94 0 1.744-.683 1.89-1.608l.037-.19.752-4.76.048-.257a1.9 1.9 0 0 1 1.882-1.608h1.186c3.852 0 6.862-1.564 7.743-6.12.367-1.896.178-3.474-.806-4.56a3.12 3.12 0 0 0-1.17-.801z" opacity=".7"/>
+    <path d="M18.21 6.563a7.37 7.37 0 0 0-.874-.187 10.74 10.74 0 0 0-1.71-.126H9.24a.77.77 0 0 0-.76.653L7.14 15.29l-.04.256a1.09 1.09 0 0 1 1.078-.924h2.254c4.395 0 7.83-1.754 9.04-6.908.023-.096.045-.19.066-.286a4.16 4.16 0 0 0-1.328-.865z" opacity=".5"/>
+  </svg>`,
+  binance: `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 2L7.76 6.24l2.83 2.83L12 7.66l1.41 1.41 2.83-2.83L12 2zM2 12l4.24 4.24 2.83-2.83L6.24 10.58 2 12zm10 10l4.24-4.24-2.83-2.83L12 16.34l-1.41-1.41-2.83 2.83L12 22zm10-10l-4.24-4.24-2.83 2.83 2.83 2.83L22 12zm-10-2.83L9.17 12 12 14.83 14.83 12 12 9.17zm0 0"/>
+  </svg>`,
+  usdt: `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+    <path d="M13 7h3V5H8v2h3v2H7v2h10V9h-4V7z"/>
+    <path d="M12 11c-1.66 0-3 .9-3 2v4h2v-4c0-.28.45-.5 1-.5s1 .22 1 .5v4h2v-4c0-1.1-1.34-2-3-2z"/>
+  </svg>`
+};
+
 const PAYMENT_METHODS = [
-    { 
-        id:'bnb', 
-        shortName:'BNB',
-        name:'Binance Pay', 
-        desc:'Pay via Binance Pay ID',
-        color:'#f0b90b', 
-        gradient:'linear-gradient(135deg, #f0b90b 0%, #fcd535 100%)',
-        icon:'<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L7.76 6.24l2.83 2.83L12 7.66l1.41 1.41 2.83-2.83L12 2zM2 12l4.24 4.24 2.83-2.83L6.24 10.58 2 12zm10 10l4.24-4.24-2.83-2.83L12 16.34l-1.41-1.41-2.83 2.83L12 22zm10-10l-4.24-4.24-2.83 2.83 2.83 2.83L22 12zm-10-2.83L9.17 12 12 14.83 14.83 12 12 9.17z"/></svg>'
-    },
-    { 
-        id:'trc20', 
-        shortName:'TRC-20',
-        name:'USDT TRC20', 
-        desc:'USDT on TRON network',
-        color:'#eb0029', 
-        gradient:'linear-gradient(135deg, #eb0029 0%, #ff4d6d 100%)',
-        icon:'<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-6h2v6zm4 0h-2v-6h2v6z"/></svg>'
-    },
-    { 
-        id:'bep20', 
-        shortName:'BEP-20',
-        name:'USDT BEP20', 
-        desc:'USDT on BSC network',
-        color:'#f3ba2f', 
-        gradient:'linear-gradient(135deg, #f3ba2f 0%, #f0b90b 100%)',
-        icon:'<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L2 7l10 5 10-5-10-5zm0 9l2.5-1.25L12 8.5l-2.5 1.25L12 11zm0 2.5l-5-2.5-5 2.5L12 22l10-8.5-5-2.5-5 2.5z"/></svg>'
-    }
+  { id:'paypal', name:'PayPal', icon: PAYMENT_ICONS.paypal, color:'#003087', gradient:'linear-gradient(135deg,#003087 0%,#009cde 100%)' },
+  { id:'binance', name:'Binance Pay', icon: PAYMENT_ICONS.binance, color:'#f0b90b', gradient:'linear-gradient(135deg,#f0b90b 0%,#fcd535 100%)' },
+  { id:'usdt', name:'USDT (TRC20)', icon: PAYMENT_ICONS.usdt, color:'#26a17b', gradient:'linear-gradient(135deg,#26a17b 0%,#50d1a6 100%)' },
 ];
 
 const ICONS = {
-ban:'<svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>',
-unban:'<svg class="icon" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>',
-view:'<svg class="icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>',
-trash:'<svg class="icon" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>',
-check:'<svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>',
-x:'<svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>',
-info:'<svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>',
-bell:'<svg class="icon" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>',
-users:'<svg class="icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>',
-star:'<svg class="icon" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
-shield:'<svg class="icon" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',
-bell2:'<svg class="icon" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/></svg>',
-tag:'<svg class="icon" viewBox="0 0 24 24"><path d="M20 12V8H6a2 2 0 0 1 0-4h12v4"/><path d="M4 6v12a2 2 0 0 0 2 2h14v-4"/><path d="M18 12v4h2a2 2 0 0 0 0-4h-2z"/></svg>',
-gift:'<svg class="icon" viewBox="0 0 24 24"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>',
-credit:'<svg class="icon" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>',
-gear:'<svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1.5"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>',
-crown:'<svg class="icon" viewBox="0 0 24 24"><path d="M2 19h20l-2-9-4 4-4-7-4 7-4-4-2 9zM4 21h16"/></svg>',
-user:'<svg class="icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
-message:'<svg class="icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
+  ban:'<svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>',
+  unban:'<svg class="icon" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>',
+  view:'<svg class="icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>',
+  trash:'<svg class="icon" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>',
+  check:'<svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>',
+  x:'<svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>',
+  info:'<svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>',
+  bell:'<svg class="icon" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>',
+  users:'<svg class="icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>',
+  star:'<svg class="icon" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
+  shield:'<svg class="icon" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',
+  bell2:'<svg class="icon" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/></svg>',
+  tag:'<svg class="icon" viewBox="0 0 24 24"><path d="M20 12V8H6a2 2 0 0 1 0-4h12v4"/><path d="M4 6v12a2 2 0 0 0 2 2h14v-4"/><path d="M18 12v4h2a2 2 0 0 0 0-4h-2z"/></svg>',
+  gift:'<svg class="icon" viewBox="0 0 24 24"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>',
+  credit:'<svg class="icon" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>',
+  gear:'<svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1.5"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>',
+  crown:'<svg class="icon" viewBox="0 0 24 24"><path d="M2 19h20l-2-9-4 4-4-7-4 7-4-4-2 9zM4 21h16"/></svg>',
+  user:'<svg class="icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
+  message:'<svg class="icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
 };
+
 function uid() { return 'usr_' + Math.random().toString(36).slice(2,10) + Date.now().toString(36).slice(-4); }
 function randomPhone() { return '+1' + Math.floor(2000000000 + Math.random() * 7999999999).toString().slice(1); }
+
 function loadData() {
-let users = JSON.parse(localStorage.getItem(STORAGE_KEYS.USERS) || '[]');
-if (users.length === 0) {
-users = [];
-for (let i = 0; i < 24; i++) {
-let level = 0;
-if (i < 2) level = 3;
-else if (i < 5) level = 2;
-else if (i < 9) level = 1;
-const promotedAt = level > 0 ? new Date(Date.now() - (i+1) * 86400000).toISOString() : null;
-users.push({
-id: uid(), email: `user${i+1}@dashboard.io`,
-name: SAMPLE_NAMES[i] ?? `User${i+1}`,
-role: i === 23 ? 'ADMIN' : 'USER',
-level: i === 23 ? 0 : level,
-status: i % 9 === 0 ? 'BANNED' : 'ACTIVE',
-phone: randomPhone(),
-country: COUNTRIES[i % COUNTRIES.length],
-joinedAt: new Date(Date.now() - (i+1) * 86400000 * Math.floor(1 + Math.random() * 5)).toISOString(),
-promotedAt,
-promotionHistory: level > 0 ? [{ level, at: promotedAt, note: `Promoted to Level ${level}` }] : [],
-});
-}
-localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(users));
-}
-let notifs = JSON.parse(localStorage.getItem(STORAGE_KEYS.NOTIFS) || '[]');
-if (notifs.length === 0) {
-notifs = [
-{ id:'n1', title:'Welcome to the platform', body:'Welcome to the admin dashboard. Thank you for joining us.', channel:'USER_ID', target:users[0]?.id||'—', sentAt:new Date(Date.now()-3600000).toISOString(), sentCount:1 },
-{ id:'n2', title:'Special offer for premium members', body:'An exclusive offer has been activated for all premium members for 7 days.', channel:'PREMIUM', target:null, sentAt:new Date(Date.now()-7200000).toISOString(), sentCount:6 },
-{ id:'n3', title:'New system update', body:'Version 2.0 of the platform has been released with many improvements.', channel:'ALL', target:null, sentAt:new Date(Date.now()-86400000).toISOString(), sentCount:24 },
-];
-localStorage.setItem(STORAGE_KEYS.NOTIFS, JSON.stringify(notifs));
-}
-let promos = JSON.parse(localStorage.getItem(STORAGE_KEYS.PROMOS) || '[]');
-if (promos.length === 0) {
-promos = [
-{ id:'p1', code:'WELCOME', audience:'ALL', maxUsers:60, activated:12, discountPct:15, createdAt:new Date(Date.now()-86400000).toISOString() },
-{ id:'p2', code:'VIP2024', audience:'PREMIUM', maxUsers:30, activated:5, discountPct:25, createdAt:new Date(Date.now()-43200000).toISOString() },
-{ id:'p3', code:'NEW50', audience:'NEW', maxUsers:50, activated:0, discountPct:10, createdAt:new Date(Date.now()-7200000).toISOString() },
-];
-localStorage.setItem(STORAGE_KEYS.PROMOS, JSON.stringify(promos));
-}
-let settings = JSON.parse(localStorage.getItem(STORAGE_KEYS.SETTINGS) || 'null');
-if (!settings) {
-settings = { email:'admin@dashboard.io', password:'Admin@2024' };
-localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(settings));
-}
-let offers = JSON.parse(localStorage.getItem(STORAGE_KEYS.OFFERS) || '[]');
-if (offers.length === 0) {
-offers = [
-{ id:'o'+Date.now(), title:'Summer Mega Sale — 50% Off', body:'Beat the heat with our biggest summer sale! Get 50% off all annual plans.', active:true, createdAt:new Date(Date.now()-3*86400000).toISOString() },
-{ id:'o'+(Date.now()+1), title:'Refer a Friend — Both Get 1 Month Free', body:'Invite friends to the platform.', active:true, createdAt:new Date(Date.now()-86400000).toISOString() },
-{ id:'o'+(Date.now()+2), title:'Black Friday Preview', body:'Coming soon — exclusive Black Friday deals for premium members only.', active:false, createdAt:new Date(Date.now()-7*86400000).toISOString() },
-];
-localStorage.setItem(STORAGE_KEYS.OFFERS, JSON.stringify(offers));
-}
-
-// ===== PLANS WITH CORRECT PRICES: 50, 75, 100 =====
-const CORRECT_PLANS = [
-    { id:'pl1', name:'Basic', price:50, duration:'month', features:['Up to 100 users','Basic analytics','Email support'], featured:false, active:true },
-    { id:'pl2', name:'Pro', price:75, duration:'month', features:['Up to 5,000 users','Advanced analytics','Priority support','Custom branding','API access'], featured:true, active:true },
-    { id:'pl3', name:'Enterprise', price:100, duration:'month', features:['Unlimited users','White-label dashboard','Dedicated manager','24/7 phone support','Custom integrations'], featured:false, active:true },
-];
-
-let plans = JSON.parse(localStorage.getItem(STORAGE_KEYS.PLANS) || '[]');
-// FORCE UPDATE: Check if prices are correct, if not, replace with correct prices
-const needsUpdate = plans.length === 0 || 
-    plans.find(p => p.id === 'pl1')?.price !== 50 ||
-    plans.find(p => p.id === 'pl2')?.price !== 75 ||
-    plans.find(p => p.id === 'pl3')?.price !== 100;
-
-if (needsUpdate) {
-    plans = CORRECT_PLANS.map(p => ({
-        ...p,
-        createdAt: new Date(Date.now() - Math.random() * 86400000 * 7).toISOString()
-    }));
+  let users = JSON.parse(localStorage.getItem(STORAGE_KEYS.USERS) || '[]');
+  if (users.length === 0) {
+    users = [];
+    for (let i = 0; i < 24; i++) {
+      let level = 0;
+      if (i < 2) level = 3;
+      else if (i < 5) level = 2;
+      else if (i < 9) level = 1;
+      const promotedAt = level > 0 ? new Date(Date.now() - (i+1) * 86400000).toISOString() : null;
+      users.push({
+        id: uid(), email: `user${i+1}@dashboard.io`,
+        name: SAMPLE_NAMES[i] ?? `User${i+1}`,
+        role: i === 23 ? 'ADMIN' : 'USER',
+        level: i === 23 ? 0 : level,
+        status: i % 9 === 0 ? 'BANNED' : 'ACTIVE',
+        phone: randomPhone(),
+        country: COUNTRIES[i % COUNTRIES.length],
+        joinedAt: new Date(Date.now() - (i+1) * 86400000 * Math.floor(1 + Math.random() * 5)).toISOString(),
+        promotedAt,
+        promotionHistory: level > 0 ? [{ level, at: promotedAt, note: `Promoted to Level ${level}` }] : [],
+      });
+    }
+    localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(users));
+  }
+  let notifs = JSON.parse(localStorage.getItem(STORAGE_KEYS.NOTIFS) || '[]');
+  if (notifs.length === 0) {
+    notifs = [
+      { id:'n1', title:'Welcome to the platform', body:'Welcome to the admin dashboard. Thank you for joining us.', channel:'USER_ID', target:users[0]?.id||'—', sentAt:new Date(Date.now()-3600000).toISOString(), sentCount:1 },
+      { id:'n2', title:'Special offer for premium members', body:'An exclusive offer has been activated for all premium members for 7 days.', channel:'PREMIUM', target:null, sentAt:new Date(Date.now()-7200000).toISOString(), sentCount:6 },
+      { id:'n3', title:'New system update', body:'Version 2.0 of the platform has been released with many improvements.', channel:'ALL', target:null, sentAt:new Date(Date.now()-86400000).toISOString(), sentCount:24 },
+    ];
+    localStorage.setItem(STORAGE_KEYS.NOTIFS, JSON.stringify(notifs));
+  }
+  let promos = JSON.parse(localStorage.getItem(STORAGE_KEYS.PROMOS) || '[]');
+  if (promos.length === 0) {
+    promos = [
+      { id:'p1', code:'WELCOME', audience:'ALL', maxUsers:60, activated:12, discountPct:15, createdAt:new Date(Date.now()-86400000).toISOString() },
+      { id:'p2', code:'VIP2024', audience:'PREMIUM', maxUsers:30, activated:5, discountPct:25, createdAt:new Date(Date.now()-43200000).toISOString() },
+      { id:'p3', code:'NEW50', audience:'NEW', maxUsers:50, activated:0, discountPct:10, createdAt:new Date(Date.now()-7200000).toISOString() },
+    ];
+    localStorage.setItem(STORAGE_KEYS.PROMOS, JSON.stringify(promos));
+  }
+  let settings = JSON.parse(localStorage.getItem(STORAGE_KEYS.SETTINGS) || 'null');
+  if (!settings) {
+    settings = { email:'admin@dashboard.io', password:'Admin@2024' };
+    localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(settings));
+  }
+  let offers = JSON.parse(localStorage.getItem(STORAGE_KEYS.OFFERS) || '[]');
+  if (offers.length === 0) {
+    offers = [
+      { id:'o'+Date.now(), title:'Summer Mega Sale — 50% Off', body:'Beat the heat with our biggest summer sale! Get 50% off all annual plans.', active:true, createdAt:new Date(Date.now()-3*86400000).toISOString() },
+      { id:'o'+(Date.now()+1), title:'Refer a Friend — Both Get 1 Month Free', body:'Invite friends to the platform.', active:true, createdAt:new Date(Date.now()-86400000).toISOString() },
+      { id:'o'+(Date.now()+2), title:'Black Friday Preview', body:'Coming soon — exclusive Black Friday deals for premium members only.', active:false, createdAt:new Date(Date.now()-7*86400000).toISOString() },
+    ];
+    localStorage.setItem(STORAGE_KEYS.OFFERS, JSON.stringify(offers));
+  }
+  // ===== PLANS WITH PRICES: 50, 75, 100 =====
+  let plans = JSON.parse(localStorage.getItem(STORAGE_KEYS.PLANS) || '[]');
+  if (plans.length === 0) {
+    plans = [
+      { id:'pl1', name:'Free', price:0, duration:'month', features:['Up to 100 users','Basic analytics','Email support'], featured:false, active:true, createdAt:new Date(Date.now()-86400000).toISOString() },
+      { id:'pl2', name:'Pro', price:50, duration:'month', features:['Up to 5,000 users','Advanced analytics','Priority support','Custom branding','API access'], featured:true, active:true, createdAt:new Date(Date.now()-43200000).toISOString() },
+      { id:'pl3', name:'Enterprise', price:100, duration:'month', features:['Unlimited users','White-label dashboard','Dedicated manager','24/7 phone support','Custom integrations'], featured:false, active:true, createdAt:new Date(Date.now()-7200000).toISOString() },
+    ];
     localStorage.setItem(STORAGE_KEYS.PLANS, JSON.stringify(plans));
+  }
+  let convos = JSON.parse(localStorage.getItem(STORAGE_KEYS.CONVOS) || '[]');
+  if (convos.length === 0) {
+    const u1=users[0], u2=users[1], u3=users.find(x=>x.status==='BANNED')||users[5];
+    convos = [
+      { id:'c1', userId:u1.id, userName:u1.name, userEmail:u1.email, status:'open', unread:true, messages:[
+        { from:'user', text:'Hi, I have trouble accessing my account.', image:null, at:new Date(Date.now()-7200000).toISOString() },
+      ]},
+      { id:'c2', userId:u2.id, userName:u2.name, userEmail:u2.email, status:'open', unread:false, messages:[
+        { from:'user', text:'How do I upgrade to the premium plan?', image:null, at:new Date(Date.now()-3600000).toISOString() },
+        { from:'admin', text:'Go to Settings → Subscription → Upgrade.', image:null, at:new Date(Date.now()-3500000).toISOString() },
+      ]},
+      { id:'c3', userId:u3.id, userName:u3.name, userEmail:u3.email, status:'resolved', unread:false, messages:[
+        { from:'user', text:'Why was my account banned?', image:null, at:new Date(Date.now()-86400000).toISOString() },
+      ]},
+    ];
+    localStorage.setItem(STORAGE_KEYS.CONVOS, JSON.stringify(convos));
+  }
+  let subscriptions = JSON.parse(localStorage.getItem(STORAGE_KEYS.SUBSCRIPTIONS) || 'null');
+  if (!subscriptions) {
+    const total = users.filter(u => u.status === 'ACTIVE').length;
+    const freeCount = Math.floor(total * 0.55);
+    const proCount = Math.floor(total * 0.30);
+    const enterpriseCount = Math.max(1, total - freeCount - proCount);
+    const genHistory = (base, variance) => {
+      const arr = [];
+      for (let i = 13; i >= 0; i--) {
+        const day = new Date(Date.now() - i * 86400000);
+        const noise = Math.floor((Math.random() - 0.5) * variance);
+        arr.push({ date: day.toISOString().slice(0,10), label: day.toLocaleDateString('en-US',{day:'2-digit',month:'short'}), count: Math.max(0, base + noise) });
+      }
+      return arr;
+    };
+    subscriptions = {
+      free: { total: freeCount, history: genHistory(Math.floor(freeCount*0.08), 3) },
+      pro: { total: proCount, history: genHistory(Math.floor(proCount*0.12), 2) },
+      enterprise: { total: enterpriseCount, history: genHistory(Math.floor(enterpriseCount*0.15), 1) },
+    };
+    localStorage.setItem(STORAGE_KEYS.SUBSCRIPTIONS, JSON.stringify(subscriptions));
+  }
+  // ===== Subscription payment requests with 50, 75, 100 prices =====
+  let subRequests = JSON.parse(localStorage.getItem(STORAGE_KEYS.SUB_REQUESTS) || 'null');
+  if (!subRequests) {
+    subRequests = [
+      {
+        id: 'sr1',
+        userId: users[0].id,
+        userName: users[0].name,
+        userEmail: users[0].email,
+        planId: 'pl2',
+        planName: 'Pro',
+        planPrice: 50,
+        paymentMethod: 'paypal',
+        paymentMethodLabel: 'PayPal',
+        amount: 50,
+        transactionId: 'PP-' + Math.random().toString(36).slice(2,10).toUpperCase(),
+        receiptImage: 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="260"><rect width="400" height="260" fill="#f8fafc"/><rect x="20" y="20" width="360" height="220" fill="#fff" stroke="#e2e8f0" stroke-width="2" rx="8"/><text x="200" y="60" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold" fill="#0f172a">Payment Receipt</text><text x="200" y="90" text-anchor="middle" font-family="Arial" font-size="12" fill="#64748b">PayPal Transaction</text><line x1="40" y1="105" x2="360" y2="105" stroke="#e2e8f0"/><text x="40" y="135" font-family="Arial" font-size="13" fill="#475569">Amount:</text><text x="360" y="135" text-anchor="end" font-family="Arial" font-size="13" font-weight="bold" fill="#0f172a">$50.00</text><text x="40" y="165" font-family="Arial" font-size="13" fill="#475569">Plan:</text><text x="360" y="165" text-anchor="end" font-family="Arial" font-size="13" font-weight="bold" fill="#0f172a">Pro (Monthly)</text><text x="40" y="195" font-family="Arial" font-size="13" fill="#475569">Transaction ID:</text><text x="360" y="195" text-anchor="end" font-family="Arial" font-size="12" font-weight="bold" fill="#0f172a">PP-A8F3K9X2</text><circle cx="200" cy="225" r="8" fill="#16a34a"/><path d="M196 225 L199 228 L205 222" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg>'),
+        status: 'pending',
+        requestedAt: new Date(Date.now() - 1800000).toISOString(),
+        messages: [
+          { from: 'user', text: 'Hi, I have just completed the payment for the Pro plan via PayPal. Here is my receipt. Please verify and upgrade my account. Thank you!', at: new Date(Date.now() - 1800000).toISOString() }
+        ]
+      },
+      {
+        id: 'sr2',
+        userId: users[1].id,
+        userName: users[1].name,
+        userEmail: users[1].email,
+        planId: 'pl3',
+        planName: 'Enterprise',
+        planPrice: 100,
+        paymentMethod: 'usdt',
+        paymentMethodLabel: 'USDT (TRC20)',
+        amount: 100,
+        transactionId: 'TRX' + Math.random().toString(36).slice(2,14).toUpperCase(),
+        receiptImage: 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="260"><rect width="400" height="260" fill="#f8fafc"/><rect x="20" y="20" width="360" height="220" fill="#fff" stroke="#e2e8f0" stroke-width="2" rx="8"/><text x="200" y="60" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold" fill="#0f172a">USDT Payment</text><text x="200" y="90" text-anchor="middle" font-family="Arial" font-size="12" fill="#64748b">TRC20 Transfer</text><line x1="40" y1="105" x2="360" y2="105" stroke="#e2e8f0"/><text x="40" y="135" font-family="Arial" font-size="13" fill="#475569">Amount:</text><text x="360" y="135" text-anchor="end" font-family="Arial" font-size="13" font-weight="bold" fill="#0f172a">100 USDT</text><text x="40" y="165" font-family="Arial" font-size="13" fill="#475569">Plan:</text><text x="360" y="165" text-anchor="end" font-family="Arial" font-size="13" font-weight="bold" fill="#0f172a">Enterprise (Monthly)</text><text x="40" y="195" font-family="Arial" font-size="13" fill="#475569">TX Hash:</text><text x="360" y="195" text-anchor="end" font-family="Arial" font-size="10" font-weight="bold" fill="#0f172a">0x8f3a...b2c1</text><circle cx="200" cy="225" r="8" fill="#f59e0b"/><text x="200" y="230" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="#fff">!</text></svg>'),
+        status: 'pending',
+        requestedAt: new Date(Date.now() - 7200000).toISOString(),
+        messages: [
+          { from: 'user', text: 'Payment sent via USDT TRC20. Please check the receipt attached.', at: new Date(Date.now() - 7200000).toISOString() }
+        ]
+      },
+      {
+        id: 'sr3',
+        userId: users[4].id,
+        userName: users[4].name,
+        userEmail: users[4].email,
+        planId: 'pl2',
+        planName: 'Pro',
+        planPrice: 75,
+        paymentMethod: 'binance',
+        paymentMethodLabel: 'Binance Pay',
+        amount: 75,
+        transactionId: 'BNB' + Math.random().toString(36).slice(2,10).toUpperCase(),
+        receiptImage: 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="260"><rect width="400" height="260" fill="#f8fafc"/><rect x="20" y="20" width="360" height="220" fill="#fff" stroke="#e2e8f0" stroke-width="2" rx="8"/><text x="200" y="60" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold" fill="#0f172a">Binance Pay</text><text x="200" y="90" text-anchor="middle" font-family="Arial" font-size="12" fill="#64748b">Order Confirmation</text><line x1="40" y1="105" x2="360" y2="105" stroke="#e2e8f0"/><text x="40" y="135" font-family="Arial" font-size="13" fill="#475569">Amount:</text><text x="360" y="135" text-anchor="end" font-family="Arial" font-size="13" font-weight="bold" fill="#0f172a">$75.00</text><text x="40" y="165" font-family="Arial" font-size="13" fill="#475569">Plan:</text><text x="360" y="165" text-anchor="end" font-family="Arial" font-size="13" font-weight="bold" fill="#0f172a">Pro (Monthly)</text><text x="40" y="195" font-family="Arial" font-size="13" fill="#475569">Order ID:</text><text x="360" y="195" text-anchor="end" font-family="Arial" font-size="12" font-weight="bold" fill="#0f172a">BP-92837465</text><circle cx="200" cy="225" r="8" fill="#16a34a"/><path d="M196 225 L199 228 L205 222" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg>'),
+        status: 'approved',
+        requestedAt: new Date(Date.now() - 86400000).toISOString(),
+        resolvedAt: new Date(Date.now() - 82800000).toISOString(),
+        messages: [
+          { from: 'user', text: 'Payment completed via Binance Pay. Please verify.', at: new Date(Date.now() - 86400000).toISOString() },
+          { from: 'admin', text: 'Payment verified. You have been upgraded to the Pro plan. Enjoy your new features!', at: new Date(Date.now() - 82800000).toISOString() }
+        ]
+      }
+    ];
+    localStorage.setItem(STORAGE_KEYS.SUB_REQUESTS, JSON.stringify(subRequests));
+  }
+  return { users, notifs, promos, settings, offers, plans, convos, subscriptions, subRequests };
 }
 
-let convos = JSON.parse(localStorage.getItem(STORAGE_KEYS.CONVOS) || '[]');
-if (convos.length === 0) {
-const u1=users[0], u2=users[1], u3=users.find(x=>x.status==='BANNED')||users[5];
-convos = [
-{ id:'c1', userId:u1.id, userName:u1.name, userEmail:u1.email, status:'open', unread:true, messages:[
-{ from:'user', text:'Hi, I have trouble accessing my account.', image:null, at:new Date(Date.now()-7200000).toISOString() },
-]},
-{ id:'c2', userId:u2.id, userName:u2.name, userEmail:u2.email, status:'open', unread:false, messages:[
-{ from:'user', text:'How do I upgrade to the premium plan?', image:null, at:new Date(Date.now()-3600000).toISOString() },
-{ from:'admin', text:'Go to Settings → Subscription → Upgrade.', image:null, at:new Date(Date.now()-3500000).toISOString() },
-]},
-{ id:'c3', userId:u3.id, userName:u3.name, userEmail:u3.email, status:'resolved', unread:false, messages:[
-{ from:'user', text:'Why was my account banned?', image:null, at:new Date(Date.now()-86400000).toISOString() },
-]},
-];
-localStorage.setItem(STORAGE_KEYS.CONVOS, JSON.stringify(convos));
-}
-let subscriptions = JSON.parse(localStorage.getItem(STORAGE_KEYS.SUBSCRIPTIONS) || 'null');
-if (!subscriptions) {
-const total = users.filter(u => u.status === 'ACTIVE').length;
-const basicCount = Math.floor(total * 0.55);
-const proCount = Math.floor(total * 0.30);
-const enterpriseCount = Math.max(1, total - basicCount - proCount);
-const genHistory = (base, variance) => {
-const arr = [];
-for (let i = 13; i >= 0; i--) {
-const day = new Date(Date.now() - i * 86400000);
-const noise = Math.floor((Math.random() - 0.5) * variance);
-arr.push({ date: day.toISOString().slice(0,10), label: day.toLocaleDateString('en-US',{day:'2-digit',month:'short'}), count: Math.max(0, base + noise) });
-}
-return arr;
-};
-subscriptions = {
-free: { total: basicCount, history: genHistory(Math.floor(basicCount*0.08), 3) },
-pro: { total: proCount, history: genHistory(Math.floor(proCount*0.12), 2) },
-enterprise: { total: enterpriseCount, history: genHistory(Math.floor(enterpriseCount*0.15), 1) },
-};
-localStorage.setItem(STORAGE_KEYS.SUBSCRIPTIONS, JSON.stringify(subscriptions));
-}
-
-// ===== SUBSCRIPTION REQUESTS WITH CORRECT PRICES (50, 75, 100) =====
-let subRequests = JSON.parse(localStorage.getItem(STORAGE_KEYS.SUB_REQUESTS) || 'null');
-if (!subRequests) {
-subRequests = [
-{
-id: 'sr1',
-userId: users[0].id,
-userName: users[0].name,
-userEmail: users[0].email,
-planId: 'pl1',
-planName: 'Basic',
-planPrice: 50,
-paymentMethod: 'bnb',
-amount: 50,
-transactionId: 'BNB-' + Math.random().toString(36).slice(2,10).toUpperCase(),
-receiptImage: 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="260"><rect width="400" height="260" fill="#f8fafc"/><rect x="20" y="20" width="360" height="220" fill="#fff" stroke="#e2e8f0" stroke-width="2" rx="8"/><text x="200" y="60" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold" fill="#0f172a">Payment Receipt</text><text x="200" y="90" text-anchor="middle" font-family="Arial" font-size="12" fill="#64748b">Binance Pay Transaction</text><line x1="40" y1="105" x2="360" y2="105" stroke="#e2e8f0"/><text x="40" y="135" font-family="Arial" font-size="13" fill="#475569">Amount:</text><text x="360" y="135" text-anchor="end" font-family="Arial" font-size="13" font-weight="bold" fill="#0f172a">$50.00</text><text x="40" y="165" font-family="Arial" font-size="13" fill="#475569">Plan:</text><text x="360" y="165" text-anchor="end" font-family="Arial" font-size="13" font-weight="bold" fill="#0f172a">Basic (Monthly)</text><text x="40" y="195" font-family="Arial" font-size="13" fill="#475569">Transaction ID:</text><text x="360" y="195" text-anchor="end" font-family="Arial" font-size="12" font-weight="bold" fill="#0f172a">BNB-A8F3K9X2</text><circle cx="200" cy="225" r="8" fill="#16a34a"/><path d="M196 225 L199 228 L205 222" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg>'),
-status: 'pending',
-requestedAt: new Date(Date.now() - 1800000).toISOString(),
-messages: [
-{ from: 'user', text: 'Hi, I have just completed the payment for the Basic plan via Binance Pay. Here is my receipt. Please verify and upgrade my account. Thank you!', at: new Date(Date.now() - 1800000).toISOString() }
-]
-},
-{
-id: 'sr2',
-userId: users[1].id,
-userName: users[1].name,
-userEmail: users[1].email,
-planId: 'pl2',
-planName: 'Pro',
-planPrice: 75,
-paymentMethod: 'trc20',
-amount: 75,
-transactionId: 'TRX' + Math.random().toString(36).slice(2,14).toUpperCase(),
-receiptImage: 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="260"><rect width="400" height="260" fill="#f8fafc"/><rect x="20" y="20" width="360" height="220" fill="#fff" stroke="#e2e8f0" stroke-width="2" rx="8"/><text x="200" y="60" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold" fill="#0f172a">USDT Payment</text><text x="200" y="90" text-anchor="middle" font-family="Arial" font-size="12" fill="#64748b">TRC20 Transfer</text><line x1="40" y1="105" x2="360" y2="105" stroke="#e2e8f0"/><text x="40" y="135" font-family="Arial" font-size="13" fill="#475569">Amount:</text><text x="360" y="135" text-anchor="end" font-family="Arial" font-size="13" font-weight="bold" fill="#0f172a">75 USDT</text><text x="40" y="165" font-family="Arial" font-size="13" fill="#475569">Plan:</text><text x="360" y="165" text-anchor="end" font-family="Arial" font-size="13" font-weight="bold" fill="#0f172a">Pro (Monthly)</text><text x="40" y="195" font-family="Arial" font-size="13" fill="#475569">TX Hash:</text><text x="360" y="195" text-anchor="end" font-family="Arial" font-size="10" font-weight="bold" fill="#0f172a">0x8f3a...b2c1</text><circle cx="200" cy="225" r="8" fill="#f59e0b"/><text x="200" y="230" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="#fff">!</text></svg>'),
-status: 'pending',
-requestedAt: new Date(Date.now() - 7200000).toISOString(),
-messages: [
-{ from: 'user', text: 'Payment sent via USDT TRC20. Please check the receipt attached.', at: new Date(Date.now() - 7200000).toISOString() }
-]
-},
-{
-id: 'sr3',
-userId: users[4].id,
-userName: users[4].name,
-userEmail: users[4].email,
-planId: 'pl3',
-planName: 'Enterprise',
-planPrice: 100,
-paymentMethod: 'bep20',
-amount: 100,
-transactionId: 'BSC' + Math.random().toString(36).slice(2,10).toUpperCase(),
-receiptImage: 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="260"><rect width="400" height="260" fill="#f8fafc"/><rect x="20" y="20" width="360" height="220" fill="#fff" stroke="#e2e8f0" stroke-width="2" rx="8"/><text x="200" y="60" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold" fill="#0f172a">BEP20 Payment</text><text x="200" y="90" text-anchor="middle" font-family="Arial" font-size="12" fill="#64748b">BSC Network Transfer</text><line x1="40" y1="105" x2="360" y2="105" stroke="#e2e8f0"/><text x="40" y="135" font-family="Arial" font-size="13" fill="#475569">Amount:</text><text x="360" y="135" text-anchor="end" font-family="Arial" font-size="13" font-weight="bold" fill="#0f172a">100 USDT</text><text x="40" y="165" font-family="Arial" font-size="13" fill="#475569">Plan:</text><text x="360" y="165" text-anchor="end" font-family="Arial" font-size="13" font-weight="bold" fill="#0f172a">Enterprise (Monthly)</text><text x="40" y="195" font-family="Arial" font-size="13" fill="#475569">TX Hash:</text><text x="360" y="195" text-anchor="end" font-family="Arial" font-size="10" font-weight="bold" fill="#0f172a">0x9283...7465</text><circle cx="200" cy="225" r="8" fill="#16a34a"/><path d="M196 225 L199 228 L205 222" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg>'),
-status: 'approved',
-requestedAt: new Date(Date.now() - 86400000).toISOString(),
-resolvedAt: new Date(Date.now() - 82800000).toISOString(),
-messages: [
-{ from: 'user', text: 'Payment completed via USDT BEP20. Please verify.', at: new Date(Date.now() - 86400000).toISOString() },
-{ from: 'admin', text: 'Payment verified. You have been upgraded to the Enterprise plan. Enjoy your new features!', at: new Date(Date.now() - 82800000).toISOString() }
-]
-}
-];
-localStorage.setItem(STORAGE_KEYS.SUB_REQUESTS, JSON.stringify(subRequests));
-}
-return { users, notifs, promos, settings, offers, plans, convos, subscriptions, subRequests };
-}
 function saveUsers(u){localStorage.setItem(STORAGE_KEYS.USERS,JSON.stringify(u))}
 function saveNotifs(n){localStorage.setItem(STORAGE_KEYS.NOTIFS,JSON.stringify(n))}
 function savePromos(p){localStorage.setItem(STORAGE_KEYS.PROMOS,JSON.stringify(p))}
@@ -1530,7 +1538,9 @@ function savePlans(p){localStorage.setItem(STORAGE_KEYS.PLANS,JSON.stringify(p))
 function saveConvos(c){localStorage.setItem(STORAGE_KEYS.CONVOS,JSON.stringify(c))}
 function saveSubscriptions(s){localStorage.setItem(STORAGE_KEYS.SUBSCRIPTIONS,JSON.stringify(s))}
 function saveSubRequests(r){localStorage.setItem(STORAGE_KEYS.SUB_REQUESTS,JSON.stringify(r))}
+
 const state = loadData();
+
 function formatDate(iso){const d=new Date(iso);return d.toLocaleDateString('en-US',{day:'2-digit',month:'short',year:'numeric'})}
 function formatDateTime(iso){const d=new Date(iso);return d.toLocaleString('en-US',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}
 function formatShortTime(iso){const d=new Date(iso);const now=new Date();const diff=(now-d)/1000;if(diff<60)return'now';if(diff<3600)return Math.floor(diff/60)+'m';if(diff<86400)return Math.floor(diff/3600)+'h';if(diff<604800)return Math.floor(diff/86400)+'d';return d.toLocaleDateString('en-US',{day:'2-digit',month:'short'})}
@@ -1539,310 +1549,321 @@ function statusBadge(status){if(status==='BANNED')return`<span class="badge bann
 function initials(name){return(name||'?').trim().slice(0,1).toUpperCase()}
 function escapeHTML(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>')}
 function hexToRgb(hex){const h=hex.replace('#','');const r=parseInt(h.substring(0,2),16);const g=parseInt(h.substring(2,4),16);const b=parseInt(h.substring(4,6),16);return`${r}, ${g}, ${b}`}
+
 function toast(msg,type='info'){const el=document.createElement('div');el.className='toast '+type;const iconKey=type==='success'?'check':type==='error'?'x':'info';el.innerHTML=(ICONS[iconKey]||ICONS.info)+'<span>'+msg+'</span>';document.getElementById('toastContainer').appendChild(el);setTimeout(()=>{el.style.opacity='0';el.style.transition='opacity .3s';setTimeout(()=>el.remove(),300)},2800)}
+
 function applyTheme(theme){
-document.documentElement.setAttribute('data-theme',theme);
-const isDark=theme==='dark';
-document.getElementById('themeLabel').textContent=isDark?'Light Mode':'Dark Mode';
-document.getElementById('themeIcon').innerHTML=isDark?'<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>':'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
-const mobileIcon=document.getElementById('mobileThemeIcon');
-if(mobileIcon){mobileIcon.innerHTML=isDark?'<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>':'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>'}
-localStorage.setItem('ad_theme',theme);
-if(document.getElementById('tab-dashboard').classList.contains('active') && typeof renderAllCharts==='function'){
-setTimeout(()=>{try{renderAllCharts()}catch(e){console.warn(e)}},50);
-}
+  document.documentElement.setAttribute('data-theme',theme);
+  const isDark=theme==='dark';
+  document.getElementById('themeLabel').textContent=isDark?'Light Mode':'Dark Mode';
+  document.getElementById('themeIcon').innerHTML=isDark?'<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>':'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+  const mobileIcon=document.getElementById('mobileThemeIcon');
+  if(mobileIcon){mobileIcon.innerHTML=isDark?'<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>':'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>'}
+  localStorage.setItem('ad_theme',theme);
+  if(document.getElementById('tab-dashboard').classList.contains('active') && typeof renderAllCharts==='function'){
+    setTimeout(()=>{try{renderAllCharts()}catch(e){console.warn(e)}},50);
+  }
 }
 function toggleTheme(){const c=document.documentElement.getAttribute('data-theme');applyTheme(c==='dark'?'light':'dark')}
 document.getElementById('themeToggle').addEventListener('click',toggleTheme);
+
 function isLoggedIn(){return localStorage.getItem('ad_session')==='yes'}
 function showLogin(){document.getElementById('loginOverlay').classList.remove('hidden');const s=JSON.parse(localStorage.getItem(STORAGE_KEYS.SETTINGS)||'{}');if(s.email)document.getElementById('loginEmail').value=s.email;setTimeout(()=>document.getElementById('loginPassword').focus(),50)}
 function hideLogin(){document.getElementById('loginOverlay').classList.add('hidden')}
 function togglePassword(inputId,btn){const input=document.getElementById(inputId);if(!input)return;const isH=input.type==='password';input.type=isH?'text':'password';btn.innerHTML=isH?'<svg class="icon" viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>':'<svg class="icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';btn.setAttribute('title',isH?'Hide password':'Show password')}
 function doLogin(e){e.preventDefault();const btn=document.getElementById('loginSubmit');const content=document.getElementById('loginBtnContent');btn.classList.add('loading');const orig=content.innerHTML;content.innerHTML='<span class="spinner"></span><span>Signing in...</span>';setTimeout(()=>{const email=document.getElementById('loginEmail').value.trim();const pass=document.getElementById('loginPassword').value;if(email!==state.settings.email){btn.classList.remove('loading');content.innerHTML=orig;toast('Invalid email','error');return}if(pass!==state.settings.password){btn.classList.remove('loading');content.innerHTML=orig;toast('Invalid password','error');return}localStorage.setItem('ad_session','yes');hideLogin();toast('Welcome back, Administrator','success');renderDashboard();btn.classList.remove('loading');content.innerHTML=orig},900);return false}
 function doLogout(){showConfirmCard({title:'Sign out of dashboard?',message:'You will need to sign in again to access the admin panel.',icon:'info',confirmText:'Sign Out',onConfirm:()=>{localStorage.removeItem('ad_session');document.getElementById('loginPassword').value='';showLogin();toast('Signed out successfully','info')}})}
+
 function showConfirmCard({title,message,icon='info',confirmText='Confirm',onConfirm,user=null}){
-document.getElementById('confirmTitle').textContent=title;
-document.getElementById('confirmMessage').textContent=message;
-const iconEl=document.getElementById('confirmIcon');
-const iconKey=icon==='danger'?'ban':icon==='success'?'check':icon==='warning'?'crown':'info';
-iconEl.className='confirm-icon '+icon;
-iconEl.innerHTML=ICONS[iconKey];
-const recipientEl=document.getElementById('confirmRecipient');
-if(user){recipientEl.style.display='flex';document.getElementById('confirmRecipientAvatar').textContent=initials(user.name);document.getElementById('confirmRecipientName').textContent=user.name;document.getElementById('confirmRecipientEmail').textContent=user.email}else{recipientEl.style.display='none'}
-const confirmBtn=document.getElementById('confirmActionBtn');
-confirmBtn.innerHTML=(icon==='danger'?ICONS.ban:icon==='success'?ICONS.check:icon==='warning'?ICONS.crown:ICONS.check)+'<span>'+confirmText+'</span>';
-confirmBtn.className='';
-if(icon==='danger')confirmBtn.classList.add('btn-confirm-danger');
-else if(icon==='success')confirmBtn.classList.add('btn-confirm-success');
-else if(icon==='warning')confirmBtn.classList.add('btn-confirm-warning');
-else confirmBtn.classList.add('btn-primary');
-pendingConfirmAction=onConfirm;
-document.getElementById('confirmModal').classList.add('show');
+  document.getElementById('confirmTitle').textContent=title;
+  document.getElementById('confirmMessage').textContent=message;
+  const iconEl=document.getElementById('confirmIcon');
+  const iconKey=icon==='danger'?'ban':icon==='success'?'check':icon==='warning'?'crown':'info';
+  iconEl.className='confirm-icon '+icon;
+  iconEl.innerHTML=ICONS[iconKey];
+  const recipientEl=document.getElementById('confirmRecipient');
+  if(user){recipientEl.style.display='flex';document.getElementById('confirmRecipientAvatar').textContent=initials(user.name);document.getElementById('confirmRecipientName').textContent=user.name;document.getElementById('confirmRecipientEmail').textContent=user.email}else{recipientEl.style.display='none'}
+  const confirmBtn=document.getElementById('confirmActionBtn');
+  confirmBtn.innerHTML=(icon==='danger'?ICONS.ban:icon==='success'?ICONS.check:icon==='warning'?ICONS.crown:ICONS.check)+'<span>'+confirmText+'</span>';
+  confirmBtn.className='';
+  if(icon==='danger')confirmBtn.classList.add('btn-confirm-danger');
+  else if(icon==='success')confirmBtn.classList.add('btn-confirm-success');
+  else if(icon==='warning')confirmBtn.classList.add('btn-confirm-warning');
+  else confirmBtn.classList.add('btn-primary');
+  pendingConfirmAction=onConfirm;
+  document.getElementById('confirmModal').classList.add('show');
 }
 function executeConfirm(){document.getElementById('confirmModal').classList.remove('show');if(pendingConfirmAction){const a=pendingConfirmAction;pendingConfirmAction=null;a()}}
 function cancelConfirm(){document.getElementById('confirmModal').classList.remove('show');pendingConfirmAction=null}
 document.addEventListener('keydown',(e)=>{if(e.key==='Escape'){if(document.getElementById('confirmModal').classList.contains('show'))cancelConfirm()}});
+
 document.querySelectorAll('.nav-item').forEach(btn=>{btn.addEventListener('click',()=>goTo(btn.dataset.tab))});
 function goTo(tab){
-document.querySelectorAll('.nav-item').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));
-document.querySelectorAll('.mobile-nav-item').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));
-document.querySelectorAll('.tab-content').forEach(s=>s.classList.toggle('active',s.id==='tab-'+tab));
-if(tab==='dashboard')renderDashboard();
-if(tab==='users')renderUsers();
-if(tab==='notifications')renderNotifHistory();
-if(tab==='promo')renderPromos();
-if(tab==='offers'){renderOffers();renderPlans()}
-if(tab==='support'){renderConversations();renderSubRequests()}
-if(tab==='settings')renderSettings();
-window.scrollTo({top:0,behavior:'smooth'});
+  document.querySelectorAll('.nav-item').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));
+  document.querySelectorAll('.mobile-nav-item').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));
+  document.querySelectorAll('.tab-content').forEach(s=>s.classList.toggle('active',s.id==='tab-'+tab));
+  if(tab==='dashboard')renderDashboard();
+  if(tab==='users')renderUsers();
+  if(tab==='notifications')renderNotifHistory();
+  if(tab==='promo')renderPromos();
+  if(tab==='offers'){renderOffers();renderPlans()}
+  if(tab==='support'){renderConversations();renderSubRequests()}
+  if(tab==='settings')renderSettings();
+  window.scrollTo({top:0,behavior:'smooth'});
 }
+
 function getChartColors(){const isDark=document.documentElement.getAttribute('data-theme')==='dark';return{text:isDark?'#a3a3a3':'#525252',grid:isDark?'rgba(255,255,255,0.06)':'rgba(0,0,0,0.06)',bg:isDark?'#141414':'#ffffff'}}
 function destroyChart(key){if(chartInstances[key]){chartInstances[key].destroy();delete chartInstances[key]}}
 function renderAllCharts(){
-renderUserGrowthChart();
-renderStatusDonutChart();
-renderPlanChart('free','freePlanChart','freePlanLegend','#10b981','Basic Plan');
-renderPlanChart('pro','proPlanChart','proPlanLegend','#f59e0b','Pro Plan');
-renderPlanChart('enterprise','enterprisePlanChart','enterprisePlanLegend','#ef4444','Enterprise Plan');
+  renderUserGrowthChart();
+  renderStatusDonutChart();
+  renderPlanChart('free','freePlanChart','freePlanLegend','#10b981','Free Plan');
+  renderPlanChart('pro','proPlanChart','proPlanLegend','#f59e0b','Pro Plan');
+  renderPlanChart('enterprise','enterprisePlanChart','enterprisePlanLegend','#ef4444','Enterprise Plan');
 }
 function renderUserGrowthChart(){
-destroyChart('userGrowth');
-const ctx=document.getElementById('userGrowthChart');
-if(!ctx)return;
-const colors=getChartColors();
-const labels=[];const data=[];
-for(let i=13;i>=0;i--){
-const d=new Date(Date.now()-i*86400000);
-labels.push(d.toLocaleDateString('en-US',{day:'2-digit',month:'short'}));
-data.push(Math.floor(3+Math.random()*8));
-}
-const gradient=ctx.getContext('2d').createLinearGradient(0,0,0,260);
-gradient.addColorStop(0,'rgba(37,99,235,0.35)');
-gradient.addColorStop(1,'rgba(37,99,235,0)');
-chartInstances.userGrowth=new Chart(ctx,{
-type:'line',
-data:{labels,datasets:[{label:'New Users',data,borderColor:'#2563eb',backgroundColor:gradient,borderWidth:2.5,fill:true,tension:0.4,pointRadius:0,pointHoverRadius:5,pointHoverBackgroundColor:'#2563eb',pointHoverBorderColor:'#fff',pointHoverBorderWidth:2}]},
-options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:colors.bg,titleColor:colors.text,bodyColor:colors.text,borderColor:colors.grid,borderWidth:1,padding:10,cornerRadius:6,displayColors:false,callbacks:{label:(c)=>`${c.parsed.y} new users`}}},scales:{x:{grid:{display:false},ticks:{color:colors.text,font:{size:10},maxRotation:0,autoSkip:true,maxTicksLimit:7}},y:{grid:{color:colors.grid},ticks:{color:colors.text,font:{size:10},stepSize:2},beginAtZero:true}},interaction:{mode:'index',intersect:false}}
-});
+  destroyChart('userGrowth');
+  const ctx=document.getElementById('userGrowthChart');
+  if(!ctx)return;
+  const colors=getChartColors();
+  const labels=[];const data=[];
+  for(let i=13;i>=0;i--){
+    const d=new Date(Date.now()-i*86400000);
+    labels.push(d.toLocaleDateString('en-US',{day:'2-digit',month:'short'}));
+    data.push(Math.floor(3+Math.random()*8));
+  }
+  const gradient=ctx.getContext('2d').createLinearGradient(0,0,0,260);
+  gradient.addColorStop(0,'rgba(37,99,235,0.35)');
+  gradient.addColorStop(1,'rgba(37,99,235,0)');
+  chartInstances.userGrowth=new Chart(ctx,{
+    type:'line',
+    data:{labels,datasets:[{label:'New Users',data,borderColor:'#2563eb',backgroundColor:gradient,borderWidth:2.5,fill:true,tension:0.4,pointRadius:0,pointHoverRadius:5,pointHoverBackgroundColor:'#2563eb',pointHoverBorderColor:'#fff',pointHoverBorderWidth:2}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:colors.bg,titleColor:colors.text,bodyColor:colors.text,borderColor:colors.grid,borderWidth:1,padding:10,cornerRadius:6,displayColors:false,callbacks:{label:(c)=>`${c.parsed.y} new users`}}},scales:{x:{grid:{display:false},ticks:{color:colors.text,font:{size:10},maxRotation:0,autoSkip:true,maxTicksLimit:7}},y:{grid:{color:colors.grid},ticks:{color:colors.text,font:{size:10},stepSize:2},beginAtZero:true}},interaction:{mode:'index',intersect:false}}
+  });
 }
 function renderStatusDonutChart(){
-destroyChart('statusDonut');
-const ctx=document.getElementById('statusDonutChart');
-const legendEl=document.getElementById('statusLegend');
-if(!ctx)return;
-const colors=getChartColors();
-const active=state.users.filter(u=>u.status==='ACTIVE').length;
-const banned=state.users.filter(u=>u.status==='BANNED').length;
-const promoted=state.users.filter(u=>(u.level||0)>0).length;
-const total=state.users.length;
-chartInstances.statusDonut=new Chart(ctx,{
-type:'doughnut',
-data:{labels:['Active','Banned','Promoted'],datasets:[{data:[active,banned,promoted],backgroundColor:['#16a34a','#dc2626','#f59e0b'],borderColor:colors.bg,borderWidth:2,hoverOffset:6}]},
-options:{responsive:true,maintainAspectRatio:false,cutout:'70%',plugins:{legend:{display:false},tooltip:{backgroundColor:colors.bg,titleColor:colors.text,bodyColor:colors.text,borderColor:colors.grid,borderWidth:1,padding:10,cornerRadius:6,callbacks:{label:(c)=>{const pct=((c.parsed/total)*100).toFixed(1);return`${c.label}: ${c.parsed} (${pct}%)`}}}}},
-plugins:[{id:'centerText',beforeDraw:(chart)=>{const{ctx:c,width,height}=chart;c.save();c.font='700 22px Inter, sans-serif';c.fillStyle=colors.text==='#a3a3a3'?'#fafafa':'#0a0a0a';c.textAlign='center';c.textBaseline='middle';c.fillText(total,width/2,height/2-6);c.font='500 10px Inter, sans-serif';c.fillStyle=colors.text;c.fillText('Total',width/2,height/2+12);c.restore()}}]
-});
-const palette=['#16a34a','#dc2626','#f59e0b'];
-const items=[['Active',active],['Banned',banned],['Promoted',promoted]];
-legendEl.innerHTML=items.map((it,i)=>`<div class="chart-legend-item"><span class="chart-legend-dot" style="background:${palette[i]}"></span><span class="chart-legend-label">${it[0]}</span><span class="chart-legend-value">${it[1]}</span></div>`).join('');
+  destroyChart('statusDonut');
+  const ctx=document.getElementById('statusDonutChart');
+  const legendEl=document.getElementById('statusLegend');
+  if(!ctx)return;
+  const colors=getChartColors();
+  const active=state.users.filter(u=>u.status==='ACTIVE').length;
+  const banned=state.users.filter(u=>u.status==='BANNED').length;
+  const promoted=state.users.filter(u=>(u.level||0)>0).length;
+  const total=state.users.length;
+  chartInstances.statusDonut=new Chart(ctx,{
+    type:'doughnut',
+    data:{labels:['Active','Banned','Promoted'],datasets:[{data:[active,banned,promoted],backgroundColor:['#16a34a','#dc2626','#f59e0b'],borderColor:colors.bg,borderWidth:2,hoverOffset:6}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'70%',plugins:{legend:{display:false},tooltip:{backgroundColor:colors.bg,titleColor:colors.text,bodyColor:colors.text,borderColor:colors.grid,borderWidth:1,padding:10,cornerRadius:6,callbacks:{label:(c)=>{const pct=((c.parsed/total)*100).toFixed(1);return`${c.label}: ${c.parsed} (${pct}%)`}}}}},
+    plugins:[{id:'centerText',beforeDraw:(chart)=>{const{ctx:c,width,height}=chart;c.save();c.font='700 22px Inter, sans-serif';c.fillStyle=colors.text==='#a3a3a3'?'#fafafa':'#0a0a0a';c.textAlign='center';c.textBaseline='middle';c.fillText(total,width/2,height/2-6);c.font='500 10px Inter, sans-serif';c.fillStyle=colors.text;c.fillText('Total',width/2,height/2+12);c.restore()}}]
+  });
+  const palette=['#16a34a','#dc2626','#f59e0b'];
+  const items=[['Active',active],['Banned',banned],['Promoted',promoted]];
+  legendEl.innerHTML=items.map((it,i)=>`<div class="chart-legend-item"><span class="chart-legend-dot" style="background:${palette[i]}"></span><span class="chart-legend-label">${it[0]}</span><span class="chart-legend-value">${it[1]}</span></div>`).join('');
 }
 function renderPlanChart(planKey,canvasId,legendId,color,label){
-destroyChart(planKey);
-const ctx=document.getElementById(canvasId);
-const legendEl=document.getElementById(legendId);
-if(!ctx)return;
-const colors=getChartColors();
-const planData=state.subscriptions[planKey];
-const gradient=ctx.getContext('2d').createLinearGradient(0,0,0,260);
-const rgb=hexToRgb(color);
-gradient.addColorStop(0,`rgba(${rgb}, 0.35)`);
-gradient.addColorStop(1,`rgba(${rgb}, 0)`);
-chartInstances[planKey]=new Chart(ctx,{
-type:'line',
-data:{labels:planData.history.map(h=>h.label),datasets:[{label,data:planData.history.map(h=>h.count),borderColor:color,backgroundColor:gradient,borderWidth:2.5,fill:true,tension:0.4,pointRadius:0,pointHoverRadius:5,pointHoverBackgroundColor:color,pointHoverBorderColor:'#fff',pointHoverBorderWidth:2}]},
-options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:colors.bg,titleColor:colors.text,bodyColor:colors.text,borderColor:colors.grid,borderWidth:1,padding:10,cornerRadius:6,displayColors:false,callbacks:{label:(c)=>`${c.parsed.y} subscribers`}}},scales:{x:{grid:{display:false},ticks:{color:colors.text,font:{size:9},maxRotation:0,autoSkip:true,maxTicksLimit:5}},y:{grid:{color:colors.grid},ticks:{color:colors.text,font:{size:10}},beginAtZero:true}},interaction:{mode:'index',intersect:false}}
-});
-const prevCount=planData.history[0].count;
-const currCount=planData.history[planData.history.length-1].count;
-const change=currCount-prevCount;
-const changePct=prevCount>0?((change/prevCount)*100).toFixed(1):0;
-const trendClass=change>=0?'up':'down';
-const trendIcon=change>=0?'↑':'↓';
-legendEl.innerHTML=`<div class="chart-legend-item"><span class="chart-legend-dot" style="background:${color}"></span><span class="chart-legend-label">Total Subscribers</span><span class="chart-legend-value">${planData.total}</span></div><div class="chart-legend-item"><span class="chart-legend-dot" style="background:${color};opacity:.5"></span><span class="chart-legend-label">14-day change</span><span class="chart-trend ${trendClass}">${trendIcon} ${Math.abs(changePct)}%</span></div>`;
+  destroyChart(planKey);
+  const ctx=document.getElementById(canvasId);
+  const legendEl=document.getElementById(legendId);
+  if(!ctx)return;
+  const colors=getChartColors();
+  const planData=state.subscriptions[planKey];
+  const gradient=ctx.getContext('2d').createLinearGradient(0,0,0,260);
+  const rgb=hexToRgb(color);
+  gradient.addColorStop(0,`rgba(${rgb}, 0.35)`);
+  gradient.addColorStop(1,`rgba(${rgb}, 0)`);
+  chartInstances[planKey]=new Chart(ctx,{
+    type:'line',
+    data:{labels:planData.history.map(h=>h.label),datasets:[{label,data:planData.history.map(h=>h.count),borderColor:color,backgroundColor:gradient,borderWidth:2.5,fill:true,tension:0.4,pointRadius:0,pointHoverRadius:5,pointHoverBackgroundColor:color,pointHoverBorderColor:'#fff',pointHoverBorderWidth:2}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:colors.bg,titleColor:colors.text,bodyColor:colors.text,borderColor:colors.grid,borderWidth:1,padding:10,cornerRadius:6,displayColors:false,callbacks:{label:(c)=>`${c.parsed.y} subscribers`}}},scales:{x:{grid:{display:false},ticks:{color:colors.text,font:{size:9},maxRotation:0,autoSkip:true,maxTicksLimit:5}},y:{grid:{color:colors.grid},ticks:{color:colors.text,font:{size:10}},beginAtZero:true}},interaction:{mode:'index',intersect:false}}
+  });
+  const prevCount=planData.history[0].count;
+  const currCount=planData.history[planData.history.length-1].count;
+  const change=currCount-prevCount;
+  const changePct=prevCount>0?((change/prevCount)*100).toFixed(1):0;
+  const trendClass=change>=0?'up':'down';
+  const trendIcon=change>=0?'↑':'↓';
+  legendEl.innerHTML=`<div class="chart-legend-item"><span class="chart-legend-dot" style="background:${color}"></span><span class="chart-legend-label">Total Subscribers</span><span class="chart-legend-value">${planData.total}</span></div><div class="chart-legend-item"><span class="chart-legend-dot" style="background:${color};opacity:.5"></span><span class="chart-legend-label">14-day change</span><span class="chart-trend ${trendClass}">${trendIcon} ${Math.abs(changePct)}%</span></div>`;
 }
+
 function renderDashboard(){
-const total=state.users.length;
-const banned=state.users.filter(u=>u.status==='BANNED').length;
-const premium=state.users.filter(u=>u.role==='PREMIUM').length;
-const active=state.users.filter(u=>u.status==='ACTIVE').length;
-const notifs=state.notifs.length;
-const promos=state.promos.length;
-const promoActive=state.promos.filter(p=>p.activated<p.maxUsers).length;
-const sevenDaysAgo=Date.now()-7*86400000;
-const newUsers=state.users.filter(u=>new Date(u.joinedAt).getTime()>=sevenDaysAgo).length;
-const cards=[
-{label:'Total Users',value:total,icon:ICONS.users,meta:`+${newUsers} in last 7 days`},
-{label:'Premium Members',value:premium,icon:ICONS.star,meta:`${((premium/total)*100||0).toFixed(0)}% of total`},
-{label:'Active Users',value:active,icon:ICONS.check,meta:'Eligible to use platform'},
-{label:'Banned Users',value:banned,icon:ICONS.ban,meta:'Suspended accounts'},
-{label:'Notifications Sent',value:notifs,icon:ICONS.bell,meta:'Total campaigns'},
-{label:'Promo Codes',value:promos,icon:ICONS.tag,meta:`${promoActive} still active`},
-];
-document.getElementById('statsGrid').innerHTML=cards.map(c=>`<div class="stat-card"><div class="stat-icon">${c.icon.replace('class="icon"','class="icon lg"')}</div><div class="stat-label">${c.label}</div><div class="stat-value">${c.value}</div><div class="stat-meta">${c.meta}</div></div>`).join('');
-const recent=[...state.notifs].sort((a,b)=>new Date(b.sentAt)-new Date(a.sentAt)).slice(0,5);
-document.getElementById('recentNotifications').innerHTML=recent.length===0?`<div class="empty">${ICONS.bell2}<div>No notifications yet</div></div>`:recent.map(n=>{const aud=n.channel==='USER_ID'?'Specific user':n.channel==='PREMIUM'?'Premium members':'All users';return`<div class="history-item"><div class="history-icon">${ICONS.bell}</div><div style="flex:1"><div class="history-title">${n.title}</div><div class="history-body">${n.body}</div><div class="history-meta">${aud} · Sent to ${n.sentCount} users · ${formatDateTime(n.sentAt)}</div></div></div>`}).join('');
-const activeP=state.promos.filter(p=>p.activated<p.maxUsers);
-document.getElementById('activePromos').innerHTML=activeP.length===0?`<div class="empty" style="grid-column:1/-1">${ICONS.tag}<div>No active codes</div></div>`:activeP.map(p=>promoCardHTML(p)).join('');
-setTimeout(renderAllCharts,50);
+  const total=state.users.length;
+  const banned=state.users.filter(u=>u.status==='BANNED').length;
+  const premium=state.users.filter(u=>u.role==='PREMIUM').length;
+  const active=state.users.filter(u=>u.status==='ACTIVE').length;
+  const notifs=state.notifs.length;
+  const promos=state.promos.length;
+  const promoActive=state.promos.filter(p=>p.activated<p.maxUsers).length;
+  const sevenDaysAgo=Date.now()-7*86400000;
+  const newUsers=state.users.filter(u=>new Date(u.joinedAt).getTime()>=sevenDaysAgo).length;
+  const cards=[
+    {label:'Total Users',value:total,icon:ICONS.users,meta:`+${newUsers} in last 7 days`},
+    {label:'Premium Members',value:premium,icon:ICONS.star,meta:`${((premium/total)*100||0).toFixed(0)}% of total`},
+    {label:'Active Users',value:active,icon:ICONS.check,meta:'Eligible to use platform'},
+    {label:'Banned Users',value:banned,icon:ICONS.ban,meta:'Suspended accounts'},
+    {label:'Notifications Sent',value:notifs,icon:ICONS.bell,meta:'Total campaigns'},
+    {label:'Promo Codes',value:promos,icon:ICONS.tag,meta:`${promoActive} still active`},
+  ];
+  document.getElementById('statsGrid').innerHTML=cards.map(c=>`<div class="stat-card"><div class="stat-icon">${c.icon.replace('class="icon"','class="icon lg"')}</div><div class="stat-label">${c.label}</div><div class="stat-value">${c.value}</div><div class="stat-meta">${c.meta}</div></div>`).join('');
+  const recent=[...state.notifs].sort((a,b)=>new Date(b.sentAt)-new Date(a.sentAt)).slice(0,5);
+  document.getElementById('recentNotifications').innerHTML=recent.length===0?`<div class="empty">${ICONS.bell2}<div>No notifications yet</div></div>`:recent.map(n=>{const aud=n.channel==='USER_ID'?'Specific user':n.channel==='PREMIUM'?'Premium members':'All users';return`<div class="history-item"><div class="history-icon">${ICONS.bell}</div><div style="flex:1"><div class="history-title">${n.title}</div><div class="history-body">${n.body}</div><div class="history-meta">${aud} · Sent to ${n.sentCount} users · ${formatDateTime(n.sentAt)}</div></div></div>`}).join('');
+  const activeP=state.promos.filter(p=>p.activated<p.maxUsers);
+  document.getElementById('activePromos').innerHTML=activeP.length===0?`<div class="empty" style="grid-column:1/-1">${ICONS.tag}<div>No active codes</div></div>`:activeP.map(p=>promoCardHTML(p)).join('');
+  setTimeout(renderAllCharts,50);
 }
+
 function renderUsers(filteredList){
-const list=filteredList||state.users;
-document.getElementById('usersTotal').textContent=list.length;
-const body=document.getElementById('usersBody');
-if(list.length===0){body.innerHTML=`<tr><td colspan="7"><div class="empty">${ICONS.users}<div>No matching users</div></div></td></tr>`;return}
-body.innerHTML=list.map(u=>{
-const isBanned=u.status==='BANNED';const isAdmin=u.role==='ADMIN';const level=u.level||0;
-const levelItems=[0,1,2,3].map(l=>{const isCurrent=level===l;const label=l===0?'Normal User':`Level ${l}${l===3?' (Max)':''}`;const dots=l===0?'':`<span class="level-dots">${[1,2,3].map(n=>`<span class="level-dot ${n<=l?'on':''}"></span>`).join('')}</span>`;return`<button class="dropdown-item warn ${isCurrent?'current':''}" ${isAdmin?'disabled':''} onclick="setUserLevel('${u.id}', ${l})">${l===0?ICONS.user:ICONS.crown}<span>${label}</span>${dots}${isCurrent?`<span class="check">${ICONS.check}</span>`:''}</button>`}).join('');
-return`<tr><td><div class="user-cell"><div class="user-avatar">${initials(u.name)}</div><div><div class="user-name">${u.name}</div><div class="user-email">${u.email}</div></div></div></td><td><span class="id-code">${u.id}</span></td><td>${roleBadge(u.role,u.level)}</td><td>${statusBadge(u.status)}</td><td>${u.country||'—'}</td><td>${formatDate(u.joinedAt)}</td><td style="text-align:center"><div class="actions"><div class="dropdown"><button class="dropdown-trigger" onclick="toggleUserMenu('${u.id}')" id="menu-${u.id}" title="User settings" ${isAdmin?'disabled':''}>${ICONS.gear}</button><div class="dropdown-menu" id="dropdown-${u.id}"><div class="dropdown-section">Promote</div>${levelItems}<div class="dropdown-divider"></div><div class="dropdown-section">Account</div>${isBanned?`<button class="dropdown-item success" onclick="unbanUser('${u.id}'); closeAllDropdowns()">${ICONS.unban}<span>Unban User</span></button>`:`<button class="dropdown-item danger" ${isAdmin?'disabled':''} onclick="banUser('${u.id}'); closeAllDropdowns()">${ICONS.ban}<span>Ban User</span></button>`}<div class="dropdown-divider"></div><button class="dropdown-item accent" onclick="openSendMessageModal('${u.id}'); closeAllDropdowns()">${ICONS.message}<span>Send Message</span></button><button class="dropdown-item" onclick="selectUser('${u.id}'); closeAllDropdowns()">${ICONS.view}<span>View Details</span></button></div></div></div></td></tr>`;
-}).join('');
-renderUserCards(list);
+  const list=filteredList||state.users;
+  document.getElementById('usersTotal').textContent=list.length;
+  const body=document.getElementById('usersBody');
+  if(list.length===0){body.innerHTML=`<tr><td colspan="7"><div class="empty">${ICONS.users}<div>No matching users</div></div></td></tr>`;return}
+  body.innerHTML=list.map(u=>{
+    const isBanned=u.status==='BANNED';const isAdmin=u.role==='ADMIN';const level=u.level||0;
+    const levelItems=[0,1,2,3].map(l=>{const isCurrent=level===l;const label=l===0?'Normal User':`Level ${l}${l===3?' (Max)':''}`;const dots=l===0?'':`<span class="level-dots">${[1,2,3].map(n=>`<span class="level-dot ${n<=l?'on':''}"></span>`).join('')}</span>`;return`<button class="dropdown-item warn ${isCurrent?'current':''}" ${isAdmin?'disabled':''} onclick="setUserLevel('${u.id}', ${l})">${l===0?ICONS.user:ICONS.crown}<span>${label}</span>${dots}${isCurrent?`<span class="check">${ICONS.check}</span>`:''}</button>`}).join('');
+    return`<tr><td><div class="user-cell"><div class="user-avatar">${initials(u.name)}</div><div><div class="user-name">${u.name}</div><div class="user-email">${u.email}</div></div></div></td><td><span class="id-code">${u.id}</span></td><td>${roleBadge(u.role,u.level)}</td><td>${statusBadge(u.status)}</td><td>${u.country||'—'}</td><td>${formatDate(u.joinedAt)}</td><td style="text-align:center"><div class="actions"><div class="dropdown"><button class="dropdown-trigger" onclick="toggleUserMenu('${u.id}')" id="menu-${u.id}" title="User settings" ${isAdmin?'disabled':''}>${ICONS.gear}</button><div class="dropdown-menu" id="dropdown-${u.id}"><div class="dropdown-section">Promote</div>${levelItems}<div class="dropdown-divider"></div><div class="dropdown-section">Account</div>${isBanned?`<button class="dropdown-item success" onclick="unbanUser('${u.id}'); closeAllDropdowns()">${ICONS.unban}<span>Unban User</span></button>`:`<button class="dropdown-item danger" ${isAdmin?'disabled':''} onclick="banUser('${u.id}'); closeAllDropdowns()">${ICONS.ban}<span>Ban User</span></button>`}<div class="dropdown-divider"></div><button class="dropdown-item accent" onclick="openSendMessageModal('${u.id}'); closeAllDropdowns()">${ICONS.message}<span>Send Message</span></button><button class="dropdown-item" onclick="selectUser('${u.id}'); closeAllDropdowns()">${ICONS.view}<span>View Details</span></button></div></div></div></td></tr>`;
+  }).join('');
+  renderUserCards(list);
 }
 function renderUserCards(list){
-const container=document.getElementById('usersCards');
-if(list.length===0){container.innerHTML=`<div class="empty">${ICONS.users}<div>No matching users</div></div>`;return}
-container.innerHTML=list.map(u=>{
-const isBanned=u.status==='BANNED';const isAdmin=u.role==='ADMIN';const level=u.level||0;
-const levelItems=[0,1,2,3].map(l=>{const isCurrent=level===l;const label=l===0?'Normal User':`Level ${l}${l===3?' (Max)':''}`;const dots=l===0?'':`<span class="level-dots">${[1,2,3].map(n=>`<span class="level-dot ${n<=l?'on':''}"></span>`).join('')}</span>`;return`<button class="dropdown-item warn ${isCurrent?'current':''}" ${isAdmin?'disabled':''} onclick="setUserLevel('${u.id}', ${l})">${l===0?ICONS.user:ICONS.crown}<span>${label}</span>${dots}${isCurrent?`<span class="check">${ICONS.check}</span>`:''}</button>`}).join('');
-return`<div class="user-card"><div class="user-card-header"><div class="user-avatar">${initials(u.name)}</div><div class="user-card-header-info"><div class="user-name">${u.name}</div><div class="user-email">${u.email}</div></div><div class="dropdown"><button class="dropdown-trigger" onclick="toggleUserMenu('${u.id}')" id="menu-card-${u.id}" title="User settings" ${isAdmin?'disabled':''}>${ICONS.gear}</button><div class="dropdown-menu" id="dropdown-card-${u.id}"><div class="dropdown-section">Promote</div>${levelItems}<div class="dropdown-divider"></div><div class="dropdown-section">Account</div>${isBanned?`<button class="dropdown-item success" onclick="unbanUser('${u.id}'); closeAllDropdowns()">${ICONS.unban}<span>Unban User</span></button>`:`<button class="dropdown-item danger" ${isAdmin?'disabled':''} onclick="banUser('${u.id}'); closeAllDropdowns()">${ICONS.ban}<span>Ban User</span></button>`}<div class="dropdown-divider"></div><button class="dropdown-item accent" onclick="openSendMessageModal('${u.id}'); closeAllDropdowns()">${ICONS.message}<span>Send Message</span></button><button class="dropdown-item" onclick="selectUser('${u.id}'); closeAllDropdowns()">${ICONS.view}<span>View Details</span></button></div></div></div><div class="user-card-body"><div class="user-card-field"><label>Role</label><value>${roleBadge(u.role,u.level)}</value></div><div class="user-card-field"><label>Status</label><value>${statusBadge(u.status)}</value></div><div class="user-card-field"><label>Country</label><value>${u.country||'—'}</value></div><div class="user-card-field"><label>Joined</label><value>${formatDate(u.joinedAt)}</value></div><div class="user-card-field full"><label>ID</label><value><span class="id-code">${u.id}</span></value></div></div></div>`;
-}).join('');
+  const container=document.getElementById('usersCards');
+  if(list.length===0){container.innerHTML=`<div class="empty">${ICONS.users}<div>No matching users</div></div>`;return}
+  container.innerHTML=list.map(u=>{
+    const isBanned=u.status==='BANNED';const isAdmin=u.role==='ADMIN';const level=u.level||0;
+    const levelItems=[0,1,2,3].map(l=>{const isCurrent=level===l;const label=l===0?'Normal User':`Level ${l}${l===3?' (Max)':''}`;const dots=l===0?'':`<span class="level-dots">${[1,2,3].map(n=>`<span class="level-dot ${n<=l?'on':''}"></span>`).join('')}</span>`;return`<button class="dropdown-item warn ${isCurrent?'current':''}" ${isAdmin?'disabled':''} onclick="setUserLevel('${u.id}', ${l})">${l===0?ICONS.user:ICONS.crown}<span>${label}</span>${dots}${isCurrent?`<span class="check">${ICONS.check}</span>`:''}</button>`}).join('');
+    return`<div class="user-card"><div class="user-card-header"><div class="user-avatar">${initials(u.name)}</div><div class="user-card-header-info"><div class="user-name">${u.name}</div><div class="user-email">${u.email}</div></div><div class="dropdown"><button class="dropdown-trigger" onclick="toggleUserMenu('${u.id}')" id="menu-card-${u.id}" title="User settings" ${isAdmin?'disabled':''}>${ICONS.gear}</button><div class="dropdown-menu" id="dropdown-card-${u.id}"><div class="dropdown-section">Promote</div>${levelItems}<div class="dropdown-divider"></div><div class="dropdown-section">Account</div>${isBanned?`<button class="dropdown-item success" onclick="unbanUser('${u.id}'); closeAllDropdowns()">${ICONS.unban}<span>Unban User</span></button>`:`<button class="dropdown-item danger" ${isAdmin?'disabled':''} onclick="banUser('${u.id}'); closeAllDropdowns()">${ICONS.ban}<span>Ban User</span></button>`}<div class="dropdown-divider"></div><button class="dropdown-item accent" onclick="openSendMessageModal('${u.id}'); closeAllDropdowns()">${ICONS.message}<span>Send Message</span></button><button class="dropdown-item" onclick="selectUser('${u.id}'); closeAllDropdowns()">${ICONS.view}<span>View Details</span></button></div></div></div><div class="user-card-body"><div class="user-card-field"><label>Role</label><value>${roleBadge(u.role,u.level)}</value></div><div class="user-card-field"><label>Status</label><value>${statusBadge(u.status)}</value></div><div class="user-card-field"><label>Country</label><value>${u.country||'—'}</value></div><div class="user-card-field"><label>Joined</label><value>${formatDate(u.joinedAt)}</value></div><div class="user-card-field full"><label>ID</label><value><span class="id-code">${u.id}</span></value></div></div></div>`;
+  }).join('');
 }
 function toggleUserMenu(userId){
-const tableTrigger=document.getElementById('menu-'+userId);
-const cardTrigger=document.getElementById('menu-card-'+userId);
-let menu,trigger;
-if(tableTrigger&&tableTrigger.offsetParent!==null){menu=document.getElementById('dropdown-'+userId);trigger=tableTrigger}
-else if(cardTrigger&&cardTrigger.offsetParent!==null){menu=document.getElementById('dropdown-card-'+userId);trigger=cardTrigger}
-else if(cardTrigger){menu=document.getElementById('dropdown-card-'+userId);trigger=cardTrigger}
-else if(tableTrigger){menu=document.getElementById('dropdown-'+userId);trigger=tableTrigger}
-if(!menu||!trigger)return;
-const isOpen=menu.classList.contains('open');
-closeAllDropdowns();
-if(!isOpen){menu.classList.add('open');trigger.classList.add('active')}
+  const tableTrigger=document.getElementById('menu-'+userId);
+  const cardTrigger=document.getElementById('menu-card-'+userId);
+  let menu,trigger;
+  if(tableTrigger&&tableTrigger.offsetParent!==null){menu=document.getElementById('dropdown-'+userId);trigger=tableTrigger}
+  else if(cardTrigger&&cardTrigger.offsetParent!==null){menu=document.getElementById('dropdown-card-'+userId);trigger=cardTrigger}
+  else if(cardTrigger){menu=document.getElementById('dropdown-card-'+userId);trigger=cardTrigger}
+  else if(tableTrigger){menu=document.getElementById('dropdown-'+userId);trigger=tableTrigger}
+  if(!menu||!trigger)return;
+  const isOpen=menu.classList.contains('open');
+  closeAllDropdowns();
+  if(!isOpen){menu.classList.add('open');trigger.classList.add('active')}
 }
 function closeAllDropdowns(){document.querySelectorAll('.dropdown-menu.open').forEach(m=>m.classList.remove('open'));document.querySelectorAll('.dropdown-trigger.active').forEach(t=>t.classList.remove('active'))}
 document.addEventListener('click',(e)=>{if(!e.target.closest('.dropdown'))closeAllDropdowns()});
 function setUserLevel(userId,level){
-const u=state.users.find(x=>x.id===userId);if(!u)return;
-const oldLevel=u.level||0;if(oldLevel===level){closeAllDropdowns();return}
-const label=level===0?'Normal User':`Level ${level}${level===3?' (Max)':''}`;
-const actionVerb=level===0?'demote':(level>oldLevel?'promote':'set');
-const iconType=level===0?'info':'warning';
-showConfirmCard({
-title:level===0?'Demote to Normal User?':`Promote to ${label}?`,
-message:level===0?`${u.name} will lose all promoted privileges.`:`You are about to ${actionVerb} ${u.name} from Level ${oldLevel} to ${label}.`,
-icon:iconType,confirmText:level===0?'Demote':'Promote',user:u,
-onConfirm:()=>{
-u.level=level;
-if(level===0)u.promotedAt=null;
-else{u.promotedAt=new Date().toISOString();if(!u.promotionHistory)u.promotionHistory=[];u.promotionHistory.push({level,at:u.promotedAt,note:level>oldLevel?`Promoted from Level ${oldLevel} to Level ${level}`:`Set to Level ${level}`})}
-saveUsers(state.users);
-state.notifs.unshift({id:'n'+Date.now(),title:level===0?'Your account level has been reset':`You've been promoted to ${label}!`,body:level===0?`Hello ${u.name}, your account has been set back to Normal User status.`:`Congratulations ${u.name}! You have been promoted to ${label}.`,channel:'USER_ID',target:u.id,sentAt:new Date().toISOString(),sentCount:1});
-saveNotifs(state.notifs);
-toast(`${u.name} is now ${label}`,'success');
-closeAllDropdowns();renderUsers();
-if(selectedUserId===userId&&document.getElementById('userDetail').style.display!=='none')selectUser(userId);
-}
-});
+  const u=state.users.find(x=>x.id===userId);if(!u)return;
+  const oldLevel=u.level||0;if(oldLevel===level){closeAllDropdowns();return}
+  const label=level===0?'Normal User':`Level ${level}${level===3?' (Max)':''}`;
+  const actionVerb=level===0?'demote':(level>oldLevel?'promote':'set');
+  const iconType=level===0?'info':'warning';
+  showConfirmCard({
+    title:level===0?'Demote to Normal User?':`Promote to ${label}?`,
+    message:level===0?`${u.name} will lose all promoted privileges.`:`You are about to ${actionVerb} ${u.name} from Level ${oldLevel} to ${label}.`,
+    icon:iconType,confirmText:level===0?'Demote':'Promote',user:u,
+    onConfirm:()=>{
+      u.level=level;
+      if(level===0)u.promotedAt=null;
+      else{u.promotedAt=new Date().toISOString();if(!u.promotionHistory)u.promotionHistory=[];u.promotionHistory.push({level,at:u.promotedAt,note:level>oldLevel?`Promoted from Level ${oldLevel} to Level ${level}`:`Set to Level ${level}`})}
+      saveUsers(state.users);
+      state.notifs.unshift({id:'n'+Date.now(),title:level===0?'Your account level has been reset':`You've been promoted to ${label}!`,body:level===0?`Hello ${u.name}, your account has been set back to Normal User status.`:`Congratulations ${u.name}! You have been promoted to ${label}.`,channel:'USER_ID',target:u.id,sentAt:new Date().toISOString(),sentCount:1});
+      saveNotifs(state.notifs);
+      toast(`${u.name} is now ${label}`,'success');
+      closeAllDropdowns();renderUsers();
+      if(selectedUserId===userId&&document.getElementById('userDetail').style.display!=='none')selectUser(userId);
+    }
+  });
 }
 function openSendMessageModal(userId){
-const u=state.users.find(x=>x.id===userId);if(!u){toast('User not found','error');return}
-let convo=state.convos.find(c=>c.userId===userId);
-if(!convo){convo={id:'c'+Date.now(),userId:u.id,userName:u.name,userEmail:u.email,status:'open',unread:false,messages:[]};state.convos.unshift(convo);saveConvos(state.convos)}
-closeAllDropdowns();goTo('support');
-setTimeout(()=>selectConversation(convo.id),150);
-toast(`Opening chat with ${u.name}`,'info');
+  const u=state.users.find(x=>x.id===userId);if(!u){toast('User not found','error');return}
+  let convo=state.convos.find(c=>c.userId===userId);
+  if(!convo){convo={id:'c'+Date.now(),userId:u.id,userName:u.name,userEmail:u.email,status:'open',unread:false,messages:[]};state.convos.unshift(convo);saveConvos(state.convos)}
+  closeAllDropdowns();goTo('support');
+  setTimeout(()=>selectConversation(convo.id),150);
+  toast(`Opening chat with ${u.name}`,'info');
 }
 document.addEventListener('keydown',(e)=>{if(e.key==='Escape'){closeAllDropdowns();closeImageModal()}});
 function searchUsers(){
-const q=document.getElementById('userSearch').value.trim().toLowerCase();
-if(!q){renderUsers();return}
-const found=state.users.filter(u=>u.id.toLowerCase()===q||u.id.toLowerCase().includes(q)||u.name.toLowerCase().includes(q)||u.email.toLowerCase().includes(q)||(u.phone||'').includes(q));
-if(found.length===0)toast('No matching user found','error');
-else toast(`Found ${found.length} matching user${found.length===1?'':'s'}`,'success');
-renderUsers(found);
+  const q=document.getElementById('userSearch').value.trim().toLowerCase();
+  if(!q){renderUsers();return}
+  const found=state.users.filter(u=>u.id.toLowerCase()===q||u.id.toLowerCase().includes(q)||u.name.toLowerCase().includes(q)||u.email.toLowerCase().includes(q)||(u.phone||'').includes(q));
+  if(found.length===0)toast('No matching user found','error');
+  else toast(`Found ${found.length} matching user${found.length===1?'':'s'}`,'success');
+  renderUsers(found);
 }
 document.getElementById('userSearch').addEventListener('input',function(){if(this.value==='')renderUsers()});
 function banUser(id){
-const u=state.users.find(x=>x.id===id);if(!u)return;
-showConfirmCard({title:'Ban this user?',message:`${u.name} will be unable to access the platform.`,icon:'danger',confirmText:'Ban User',user:u,onConfirm:()=>{
-u.status='BANNED';saveUsers(state.users);
-state.notifs.unshift({id:'n'+Date.now(),title:'Your account has been suspended',body:`Hello ${u.name}, your account has been banned by an administrator.`,channel:'USER_ID',target:u.id,sentAt:new Date().toISOString(),sentCount:1});
-saveNotifs(state.notifs);toast(`User ${u.name} has been banned`,'success');closeAllDropdowns();renderUsers();
-if(selectedUserId===id&&document.getElementById('userDetail').style.display!=='none')selectUser(id);
-}});
+  const u=state.users.find(x=>x.id===id);if(!u)return;
+  showConfirmCard({title:'Ban this user?',message:`${u.name} will be unable to access the platform.`,icon:'danger',confirmText:'Ban User',user:u,onConfirm:()=>{
+    u.status='BANNED';saveUsers(state.users);
+    state.notifs.unshift({id:'n'+Date.now(),title:'Your account has been suspended',body:`Hello ${u.name}, your account has been banned by an administrator.`,channel:'USER_ID',target:u.id,sentAt:new Date().toISOString(),sentCount:1});
+    saveNotifs(state.notifs);toast(`User ${u.name} has been banned`,'success');closeAllDropdowns();renderUsers();
+    if(selectedUserId===id&&document.getElementById('userDetail').style.display!=='none')selectUser(id);
+  }});
 }
 function unbanUser(id){
-const u=state.users.find(x=>x.id===id);if(!u)return;
-showConfirmCard({title:'Unban this user?',message:`${u.name} will regain full access to the platform.`,icon:'success',confirmText:'Unban User',user:u,onConfirm:()=>{
-u.status='ACTIVE';saveUsers(state.users);
-state.notifs.unshift({id:'n'+Date.now(),title:'Your account has been restored',body:`Hello ${u.name}, your account is now active. Welcome back!`,channel:'USER_ID',target:u.id,sentAt:new Date().toISOString(),sentCount:1});
-saveNotifs(state.notifs);toast(`Ban lifted for ${u.name}`,'success');closeAllDropdowns();renderUsers();
-if(selectedUserId===id&&document.getElementById('userDetail').style.display!=='none')selectUser(id);
-}});
+  const u=state.users.find(x=>x.id===id);if(!u)return;
+  showConfirmCard({title:'Unban this user?',message:`${u.name} will regain full access to the platform.`,icon:'success',confirmText:'Unban User',user:u,onConfirm:()=>{
+    u.status='ACTIVE';saveUsers(state.users);
+    state.notifs.unshift({id:'n'+Date.now(),title:'Your account has been restored',body:`Hello ${u.name}, your account is now active. Welcome back!`,channel:'USER_ID',target:u.id,sentAt:new Date().toISOString(),sentCount:1});
+    saveNotifs(state.notifs);toast(`Ban lifted for ${u.name}`,'success');closeAllDropdowns();renderUsers();
+    if(selectedUserId===id&&document.getElementById('userDetail').style.display!=='none')selectUser(id);
+  }});
 }
 function selectUser(id){
-const u=state.users.find(x=>x.id===id);if(!u)return;
-selectedUserId=id;
-document.getElementById('userDetail').style.display='block';
-const promotedAtHTML=u.promotedAt?`<strong>${formatDate(u.promotedAt)} <small style="color:var(--text-faint);font-weight:400">(${formatShortTime(u.promotedAt)} ago)</small></strong>`:'<strong style="color:var(--text-faint)">—</strong>';
-const history=(u.promotionHistory||[]).slice().reverse();
-const historyHTML=history.length===0?'<div style="color:var(--text-faint);font-size:.8rem">No promotion history</div>':history.map(h=>`<div style="display:flex;gap:.65rem;align-items:flex-start;padding:.5rem 0;border-bottom:1px solid var(--border-soft);"><div class="stat-icon" style="margin-bottom:0;width:24px;height:24px;border-radius:4px;">${ICONS.crown.replace('class="icon"','class="icon sm"')}</div><div style="flex:1"><div style="font-size:.82rem;font-weight:600">${h.note}</div><div style="color:var(--text-faint);font-size:.7rem">${formatDateTime(h.at)}</div></div></div>`).join('');
-document.getElementById('userInfoGrid').innerHTML=`<div class="info-item"><label>ID</label><strong><span class="id-code">${u.id}</span></strong></div><div class="info-item"><label>Full Name</label><strong>${u.name}</strong></div><div class="info-item"><label>Email</label><strong>${u.email}</strong></div><div class="info-item"><label>Phone</label><strong>${u.phone||'—'}</strong></div><div class="info-item"><label>Country</label><strong>${u.country||'—'}</strong></div><div class="info-item"><label>Role</label><strong>${roleBadge(u.role,u.level)}</strong></div><div class="info-item"><label>Status</label><strong>${statusBadge(u.status)}</strong></div><div class="info-item"><label>Joined</label><strong>${formatDate(u.joinedAt)}</strong></div><div class="info-item"><label>Last Promotion</label>${promotedAtHTML}</div><div class="info-item" style="grid-column:1/-1"><label>Promotion History</label><div style="margin-top:.35rem">${historyHTML}</div></div>`;
-document.getElementById('userDetail').scrollIntoView({behavior:'smooth',block:'nearest'});
+  const u=state.users.find(x=>x.id===id);if(!u)return;
+  selectedUserId=id;
+  document.getElementById('userDetail').style.display='block';
+  const promotedAtHTML=u.promotedAt?`<strong>${formatDate(u.promotedAt)} <small style="color:var(--text-faint);font-weight:400">(${formatShortTime(u.promotedAt)} ago)</small></strong>`:'<strong style="color:var(--text-faint)">—</strong>';
+  const history=(u.promotionHistory||[]).slice().reverse();
+  const historyHTML=history.length===0?'<div style="color:var(--text-faint);font-size:.8rem">No promotion history</div>':history.map(h=>`<div style="display:flex;gap:.65rem;align-items:flex-start;padding:.5rem 0;border-bottom:1px solid var(--border-soft);"><div class="stat-icon" style="margin-bottom:0;width:24px;height:24px;border-radius:4px;">${ICONS.crown.replace('class="icon"','class="icon sm"')}</div><div style="flex:1"><div style="font-size:.82rem;font-weight:600">${h.note}</div><div style="color:var(--text-faint);font-size:.7rem">${formatDateTime(h.at)}</div></div></div>`).join('');
+  document.getElementById('userInfoGrid').innerHTML=`<div class="info-item"><label>ID</label><strong><span class="id-code">${u.id}</span></strong></div><div class="info-item"><label>Full Name</label><strong>${u.name}</strong></div><div class="info-item"><label>Email</label><strong>${u.email}</strong></div><div class="info-item"><label>Phone</label><strong>${u.phone||'—'}</strong></div><div class="info-item"><label>Country</label><strong>${u.country||'—'}</strong></div><div class="info-item"><label>Role</label><strong>${roleBadge(u.role,u.level)}</strong></div><div class="info-item"><label>Status</label><strong>${statusBadge(u.status)}</strong></div><div class="info-item"><label>Joined</label><strong>${formatDate(u.joinedAt)}</strong></div><div class="info-item"><label>Last Promotion</label>${promotedAtHTML}</div><div class="info-item" style="grid-column:1/-1"><label>Promotion History</label><div style="margin-top:.35rem">${historyHTML}</div></div>`;
+  document.getElementById('userDetail').scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 function clearSelectedUser(){selectedUserId=null;document.getElementById('userDetail').style.display='none'}
+
 document.querySelectorAll('#notifAudience .radio-card').forEach(card=>{card.addEventListener('click',()=>{document.querySelectorAll('#notifAudience .radio-card').forEach(c=>c.classList.remove('checked'));card.classList.add('checked');card.querySelector('input').checked=true;const val=card.querySelector('input').value;document.getElementById('targetIdField').style.display=val==='USER_ID'?'flex':'none'})});
 function sendNotification(){
-const title=document.getElementById('notifTitle').value.trim();
-const body=document.getElementById('notifBody').value.trim();
-const audience=document.querySelector('input[name="audience"]:checked').value;
-const targetId=document.getElementById('notifTargetId').value.trim();
-if(!title){toast('Please enter a notification title','error');return}
-if(!body){toast('Please enter a notification body','error');return}
-let sentCount=0;
-if(audience==='USER_ID'){if(!targetId){toast('Please enter the user ID','error');return}const target=state.users.find(u=>u.id===targetId);if(!target){toast('No user with this ID','error');return}sentCount=1}
-else if(audience==='PREMIUM'){sentCount=state.users.filter(u=>u.role==='PREMIUM'&&u.status==='ACTIVE').length;if(sentCount===0){toast('No active premium members','error');return}}
-else{sentCount=state.users.filter(u=>u.status==='ACTIVE').length;if(sentCount===0){toast('No active users','error');return}}
-state.notifs.unshift({id:'n'+Date.now(),title,body,channel:audience,target:audience==='USER_ID'?targetId:null,sentAt:new Date().toISOString(),sentCount});
-saveNotifs(state.notifs);
-const audLabels={USER_ID:'specific user',PREMIUM:'premium members',ALL:'all users'};
-toast(`Notification sent to ${sentCount} ${audLabels[audience]}`,'success');
-clearNotifForm();renderNotifHistory();
+  const title=document.getElementById('notifTitle').value.trim();
+  const body=document.getElementById('notifBody').value.trim();
+  const audience=document.querySelector('input[name="audience"]:checked').value;
+  const targetId=document.getElementById('notifTargetId').value.trim();
+  if(!title){toast('Please enter a notification title','error');return}
+  if(!body){toast('Please enter a notification body','error');return}
+  let sentCount=0;
+  if(audience==='USER_ID'){if(!targetId){toast('Please enter the user ID','error');return}const target=state.users.find(u=>u.id===targetId);if(!target){toast('No user with this ID','error');return}sentCount=1}
+  else if(audience==='PREMIUM'){sentCount=state.users.filter(u=>u.role==='PREMIUM'&&u.status==='ACTIVE').length;if(sentCount===0){toast('No active premium members','error');return}}
+  else{sentCount=state.users.filter(u=>u.status==='ACTIVE').length;if(sentCount===0){toast('No active users','error');return}}
+  state.notifs.unshift({id:'n'+Date.now(),title,body,channel:audience,target:audience==='USER_ID'?targetId:null,sentAt:new Date().toISOString(),sentCount});
+  saveNotifs(state.notifs);
+  const audLabels={USER_ID:'specific user',PREMIUM:'premium members',ALL:'all users'};
+  toast(`Notification sent to ${sentCount} ${audLabels[audience]}`,'success');
+  clearNotifForm();renderNotifHistory();
 }
 function clearNotifForm(){document.getElementById('notifTitle').value='';document.getElementById('notifBody').value='';document.getElementById('notifTargetId').value=''}
 function renderNotifHistory(){
-const list=[...state.notifs].sort((a,b)=>new Date(b.sentAt)-new Date(a.sentAt));
-document.getElementById('notifHistory').innerHTML=list.length===0?`<div class="empty">${ICONS.bell2}<div>No notifications yet</div></div>`:list.slice(0,20).map(n=>{const aud=n.channel==='USER_ID'?'Specific user':n.channel==='PREMIUM'?'Premium members':'All users';return`<div class="history-item"><div class="history-icon">${ICONS.bell}</div><div style="flex:1"><div class="history-title">${n.title}</div><div class="history-body">${n.body}</div><div class="history-meta">${aud} · ${n.sentCount} recipients · ${formatDateTime(n.sentAt)}</div></div></div>`}).join('');
+  const list=[...state.notifs].sort((a,b)=>new Date(b.sentAt)-new Date(a.sentAt));
+  document.getElementById('notifHistory').innerHTML=list.length===0?`<div class="empty">${ICONS.bell2}<div>No notifications yet</div></div>`:list.slice(0,20).map(n=>{const aud=n.channel==='USER_ID'?'Specific user':n.channel==='PREMIUM'?'Premium members':'All users';return`<div class="history-item"><div class="history-icon">${ICONS.bell}</div><div style="flex:1"><div class="history-title">${n.title}</div><div class="history-body">${n.body}</div><div class="history-meta">${aud} · ${n.sentCount} recipients · ${formatDateTime(n.sentAt)}</div></div></div>`}).join('');
 }
+
 document.getElementById('promoCode').addEventListener('input',function(){const v=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'');this.value=v;if(v.length===5||v.length===6)document.getElementById('codePreview').textContent=v;else document.getElementById('codePreview').textContent=(v+'______').slice(0,6)});
 function randomCode(){const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let code='';const len=5+Math.floor(Math.random()*2);for(let i=0;i<len;i++)code+=chars[Math.floor(Math.random()*chars.length)];document.getElementById('promoCode').value=code;document.getElementById('codePreview').textContent=code;toast('Random code generated','info')}
 function clearPromoForm(){document.getElementById('promoCode').value='';document.getElementById('promoMax').value='';document.getElementById('promoDiscount').value='';document.getElementById('codePreview').textContent='______'}
 function createPromo(){
-const code=document.getElementById('promoCode').value.trim().toUpperCase();
-const audience=document.getElementById('promoAudience').value;
-const maxUsers=parseInt(document.getElementById('promoMax').value,10);
-const discountPct=parseInt(document.getElementById('promoDiscount').value,10)||10;
-if(!/^[A-Z0-9]{5,6}$/.test(code)){toast('Code must be 5-6 letters/digits (A-Z, 0-9)','error');return}
-if(state.promos.some(p=>p.code===code)){toast('This code already exists','error');return}
-if(!maxUsers||maxUsers<1||maxUsers>999){toast('Max users must be between 1 and 999','error');return}
-state.promos.unshift({id:'p'+Date.now(),code,audience,maxUsers,activated:0,discountPct:Math.min(99,Math.max(1,discountPct)),createdAt:new Date().toISOString()});
-savePromos(state.promos);toast(`Code ${code} created successfully`,'success');clearPromoForm();renderPromos();
+  const code=document.getElementById('promoCode').value.trim().toUpperCase();
+  const audience=document.getElementById('promoAudience').value;
+  const maxUsers=parseInt(document.getElementById('promoMax').value,10);
+  const discountPct=parseInt(document.getElementById('promoDiscount').value,10)||10;
+  if(!/^[A-Z0-9]{5,6}$/.test(code)){toast('Code must be 5-6 letters/digits (A-Z, 0-9)','error');return}
+  if(state.promos.some(p=>p.code===code)){toast('This code already exists','error');return}
+  if(!maxUsers||maxUsers<1||maxUsers>999){toast('Max users must be between 1 and 999','error');return}
+  state.promos.unshift({id:'p'+Date.now(),code,audience,maxUsers,activated:0,discountPct:Math.min(99,Math.max(1,discountPct)),createdAt:new Date().toISOString()});
+  savePromos(state.promos);toast(`Code ${code} created successfully`,'success');clearPromoForm();renderPromos();
 }
 function deletePromo(id){
-const p=state.promos.find(x=>x.id===id);if(!p)return;
-showConfirmCard({title:'Delete promo code?',message:`Promo code "${p.code}" will be permanently removed.`,icon:'danger',confirmText:'Delete Code',onConfirm:()=>{state.promos=state.promos.filter(x=>x.id!==id);savePromos(state.promos);toast(`Code ${p.code} deleted`,'info');renderPromos()}});
+  const p=state.promos.find(x=>x.id===id);if(!p)return;
+  showConfirmCard({title:'Delete promo code?',message:`Promo code "${p.code}" will be permanently removed.`,icon:'danger',confirmText:'Delete Code',onConfirm:()=>{state.promos=state.promos.filter(x=>x.id!==id);savePromos(state.promos);toast(`Code ${p.code} deleted`,'info');renderPromos()}});
 }
 function promoCardHTML(p){const pct=Math.min(100,Math.round((p.activated/p.maxUsers)*100));const audLabels={ALL:'All Users',PREMIUM:'Premium Members',NEW:'New Users'};const isFull=p.activated>=p.maxUsers;return`<div class="promo-card"><div class="promo-code">${p.code}</div><div class="promo-meta">${audLabels[p.audience]} · ${p.discountPct}% off</div><div class="promo-progress"><div class="promo-progress-bar" style="width:${pct}%"></div></div><div class="promo-stats"><span>${p.activated} / ${p.maxUsers} activated</span><span>${isFull?'Complete':pct+'%'}</span></div><div style="margin-top:.85rem;display:flex;justify-content:space-between;align-items:center"><small style="color:var(--text-faint);font-size:.7rem">${formatDate(p.createdAt)}</small><button class="btn-ghost" onclick="deletePromo('${p.id}')">${ICONS.trash}Delete</button></div></div>`}
 function renderPromos(){const grid=document.getElementById('promosGrid');if(state.promos.length===0){grid.innerHTML=`<div class="empty" style="grid-column:1/-1">${ICONS.tag}<div>No promo codes yet</div></div>`;return}grid.innerHTML=state.promos.map(promoCardHTML).join('')}
+
 function switchOfferTab(which,btn){document.querySelectorAll('#tab-offers .subsection-tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');document.getElementById('offersSubsection').style.display=which==='offers'?'block':'none';document.getElementById('plansSubsection').style.display=which==='plans'?'block':'none'}
 function clearOfferForm(){document.getElementById('offerTitle').value='';document.getElementById('offerBody').value=''}
 function addOffer(){const title=document.getElementById('offerTitle').value.trim();const body=document.getElementById('offerBody').value.trim();if(!title){toast('Please enter an offer title','error');return}if(!body){toast('Please enter offer description','error');return}state.offers.unshift({id:'o'+Date.now(),title,body,active:true,createdAt:new Date().toISOString()});saveOffers(state.offers);clearOfferForm();toast('Offer created successfully','success');renderOffers()}
@@ -1853,289 +1874,345 @@ function clearPlanForm(){document.getElementById('planName').value='';document.g
 function addPlan(){const name=document.getElementById('planName').value.trim();const price=parseFloat(document.getElementById('planPrice').value);const duration=document.getElementById('planDuration').value;const featured=document.getElementById('planFeatured').value==='true';const featuresRaw=document.getElementById('planFeatures').value;const features=featuresRaw.split('\n').map(s=>s.trim()).filter(Boolean);if(!name){toast('Please enter a plan name','error');return}if(isNaN(price)||price<0){toast('Please enter a valid price','error');return}if(features.length===0){toast('Please add at least one feature','error');return}state.plans.unshift({id:'pl'+Date.now(),name,price,duration,features,featured,active:true,createdAt:new Date().toISOString()});savePlans(state.plans);clearPlanForm();toast('Subscription plan added','success');renderPlans()}
 function deletePlan(id){const p=state.plans.find(x=>x.id===id);if(!p)return;showConfirmCard({title:'Delete plan?',message:`Plan "${p.name}" ($${Number(p.price).toFixed(2)}) will be permanently removed.`,icon:'danger',confirmText:'Delete Plan',onConfirm:()=>{state.plans=state.plans.filter(x=>x.id!==id);savePlans(state.plans);toast(`Plan ${p.name} deleted`,'info');renderPlans()}})}
 function renderPlans(){const grid=document.getElementById('plansGrid');if(state.plans.length===0){grid.innerHTML=`<div class="empty" style="grid-column:1/-1">${ICONS.credit}<div>No plans yet — create one above</div></div>`;return}const cycleLabels={month:'/mo',year:'/yr',week:'/wk'};grid.innerHTML=state.plans.map(p=>`<div class="plan-card ${p.featured?'featured':''}"><div class="plan-name">${p.name}</div><div class="plan-price">$${Number(p.price).toFixed(2)} <small>${cycleLabels[p.duration]||''}</small></div><div class="plan-duration">${p.duration==='month'?'Billed monthly':p.duration==='year'?'Billed annually':'Billed weekly'}</div><ul class="plan-features">${p.features.map(f=>`<li>${ICONS.check}<span>${f}</span></li>`).join('')}</ul><div class="plan-actions"><button class="btn-ghost" onclick="deletePlan('${p.id}')">${ICONS.trash}Delete</button></div></div>`).join('')}
+
+/* ===== SUPPORT TAB SWITCHING ===== */
 function switchSupportTab(which, btn){
-document.querySelectorAll('#tab-support .subsection-tab').forEach(t=>t.classList.remove('active'));
-btn.classList.add('active');
-document.getElementById('supportMessagesSection').style.display = which==='messages' ? 'block' : 'none';
-document.getElementById('supportSubscriptionsSection').style.display = which==='subscriptions' ? 'block' : 'none';
-if(which==='subscriptions') renderSubRequests();
-else renderConversations();
+  document.querySelectorAll('#tab-support .subsection-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('supportMessagesSection').style.display = which==='messages' ? 'block' : 'none';
+  document.getElementById('supportSubscriptionsSection').style.display = which==='subscriptions' ? 'block' : 'none';
+  if(which==='subscriptions') renderSubRequests();
+  else renderConversations();
 }
+
+/* ===== SUPPORT MESSAGES ===== */
 function renderConversations(){
-const list=document.getElementById('conversationsList');
-document.getElementById('convCount').textContent=state.convos.length;
-if(state.convos.length===0){list.innerHTML=`<div class="empty">${ICONS.bell2}<div>No conversations yet</div></div>`;return}
-const sorted=[...state.convos].sort((a,b)=>{if(a.unread!==b.unread)return a.unread?-1:1;return new Date(b.messages.at(-1)?.at||0)-new Date(a.messages.at(-1)?.at||0)});
-list.innerHTML=sorted.map(c=>{const last=c.messages.at(-1);const preview=last?(last.image?'📎 Image attachment':last.text):'—';return`<div class="conversation-item ${selectedConvoId===c.id?'active':''}" onclick="selectConversation('${c.id}')"><div class="conv-avatar">${initials(c.userName)}${c.unread?'<span class="unread-dot"></span>':''}</div><div class="conv-info"><div class="conv-name">${c.userName}</div><div class="conv-preview">${preview}</div></div><div class="conv-time">${last?formatShortTime(last.at):''}</div></div>`}).join('');
+  const list=document.getElementById('conversationsList');
+  document.getElementById('convCount').textContent=state.convos.length;
+  if(state.convos.length===0){list.innerHTML=`<div class="empty">${ICONS.bell2}<div>No conversations yet</div></div>`;return}
+  const sorted=[...state.convos].sort((a,b)=>{if(a.unread!==b.unread)return a.unread?-1:1;return new Date(b.messages.at(-1)?.at||0)-new Date(a.messages.at(-1)?.at||0)});
+  list.innerHTML=sorted.map(c=>{const last=c.messages.at(-1);const preview=last?(last.image?'📎 Image attachment':last.text):'—';return`<div class="conversation-item ${selectedConvoId===c.id?'active':''}" onclick="selectConversation('${c.id}')"><div class="conv-avatar">${initials(c.userName)}${c.unread?'<span class="unread-dot"></span>':''}</div><div class="conv-info"><div class="conv-name">${c.userName}</div><div class="conv-preview">${preview}</div></div><div class="conv-time">${last?formatShortTime(last.at):''}</div></div>`}).join('');
 }
 function selectConversation(id){
-const c=state.convos.find(x=>x.id===id);if(!c)return;
-selectedConvoId=id;c.unread=false;saveConvos(state.convos);
-document.getElementById('chatEmpty').style.display='none';
-document.getElementById('chatView').style.display='flex';
-document.getElementById('chatHeaderAvatar').textContent=initials(c.userName);
-document.getElementById('chatHeaderName').textContent=c.userName;
-document.getElementById('chatHeaderEmail').textContent=c.userEmail;
-const statusBadge=document.getElementById('chatStatusBadge');
-const resolveBtn=document.getElementById('resolveBtn');
-if(c.status==='resolved'){statusBadge.className='chat-status resolved';statusBadge.textContent='Resolved';resolveBtn.innerHTML=ICONS.unban+'Reopen'}
-else{statusBadge.className='chat-status open';statusBadge.textContent='Open';resolveBtn.innerHTML=ICONS.check+'Mark Resolved'}
-renderMessages(c);renderConversations();
+  const c=state.convos.find(x=>x.id===id);if(!c)return;
+  selectedConvoId=id;c.unread=false;saveConvos(state.convos);
+  document.getElementById('chatEmpty').style.display='none';
+  document.getElementById('chatView').style.display='flex';
+  document.getElementById('chatHeaderAvatar').textContent=initials(c.userName);
+  document.getElementById('chatHeaderName').textContent=c.userName;
+  document.getElementById('chatHeaderEmail').textContent=c.userEmail;
+  const statusBadge=document.getElementById('chatStatusBadge');
+  const resolveBtn=document.getElementById('resolveBtn');
+  if(c.status==='resolved'){statusBadge.className='chat-status resolved';statusBadge.textContent='Resolved';resolveBtn.innerHTML=ICONS.unban+'Reopen'}
+  else{statusBadge.className='chat-status open';statusBadge.textContent='Open';resolveBtn.innerHTML=ICONS.check+'Mark Resolved'}
+  renderMessages(c);renderConversations();
 }
 function renderMessages(c){
-const box=document.getElementById('chatMessages');
-box.innerHTML=c.messages.map(m=>{const fromLabel=m.from==='admin'?'A':initials(c.userName);const imgHTML=m.image?`<img class="message-image" src="${m.image}" alt="attachment" onclick="openImageModal(this.src)" />`:'';return`<div class="message ${m.from==='admin'?'admin':''}"><div class="message-avatar">${fromLabel}</div><div><div class="message-bubble">${escapeHTML(m.text)}${imgHTML}</div><div class="message-meta">${formatShortTime(m.at)}</div></div></div>`}).join('');
-setTimeout(()=>{box.scrollTop=box.scrollHeight},50);
+  const box=document.getElementById('chatMessages');
+  box.innerHTML=c.messages.map(m=>{const fromLabel=m.from==='admin'?'A':initials(c.userName);const imgHTML=m.image?`<img class="message-image" src="${m.image}" alt="attachment" onclick="openImageModal(this.src)" />`:'';return`<div class="message ${m.from==='admin'?'admin':''}"><div class="message-avatar">${fromLabel}</div><div><div class="message-bubble">${escapeHTML(m.text)}${imgHTML}</div><div class="message-meta">${formatShortTime(m.at)}</div></div></div>`}).join('');
+  setTimeout(()=>{box.scrollTop=box.scrollHeight},50);
 }
 function sendReply(){
-if(!selectedConvoId)return;
-const c=state.convos.find(x=>x.id===selectedConvoId);if(!c)return;
-const text=document.getElementById('replyText').value.trim();
-if(!text&&!pendingImage){toast('Type a message or attach an image first','error');return}
-c.messages.push({from:'admin',text:text||'',image:pendingImage,at:new Date().toISOString()});
-saveConvos(state.convos);
-document.getElementById('replyText').value='';pendingImage=null;document.getElementById('imagePreviewBar').innerHTML='';
-renderMessages(c);renderConversations();toast('Reply sent','success');
+  if(!selectedConvoId)return;
+  const c=state.convos.find(x=>x.id===selectedConvoId);if(!c)return;
+  const text=document.getElementById('replyText').value.trim();
+  if(!text&&!pendingImage){toast('Type a message or attach an image first','error');return}
+  c.messages.push({from:'admin',text:text||'',image:pendingImage,at:new Date().toISOString()});
+  saveConvos(state.convos);
+  document.getElementById('replyText').value='';pendingImage=null;document.getElementById('imagePreviewBar').innerHTML='';
+  renderMessages(c);renderConversations();toast('Reply sent','success');
 }
 function handleImageAttach(e){
-const file=e.target.files[0];if(!file)return;
-if(!file.type.startsWith('image/')){toast('Please select an image file','error');return}
-if(file.size>2*1024*1024){toast('Image too large (max 2MB)','error');return}
-const reader=new FileReader();
-reader.onload=function(ev){
-pendingImage=ev.target.result;
-const bar=document.getElementById('imagePreviewBar');
-bar.innerHTML=`<div class="image-preview"><img src="${pendingImage}" alt="preview" /><div class="image-preview-remove" onclick="removePendingImage()">×</div></div>`;
-};
-reader.readAsDataURL(file);e.target.value='';
+  const file=e.target.files[0];if(!file)return;
+  if(!file.type.startsWith('image/')){toast('Please select an image file','error');return}
+  if(file.size>2*1024*1024){toast('Image too large (max 2MB)','error');return}
+  const reader=new FileReader();
+  reader.onload=function(ev){
+    pendingImage=ev.target.result;
+    const bar=document.getElementById('imagePreviewBar');
+    bar.innerHTML=`<div class="image-preview"><img src="${pendingImage}" alt="preview" /><div class="image-preview-remove" onclick="removePendingImage()">×</div></div>`;
+  };
+  reader.readAsDataURL(file);e.target.value='';
 }
 function removePendingImage(){pendingImage=null;document.getElementById('imagePreviewBar').innerHTML=''}
 function openImageModal(src){document.getElementById('imageModalImg').src=src;document.getElementById('imageModal').classList.add('show')}
 function closeImageModal(){document.getElementById('imageModal').classList.remove('show')}
 function toggleConversationStatus(){
-if(!selectedConvoId)return;
-const c=state.convos.find(x=>x.id===selectedConvoId);if(!c)return;
-c.status=c.status==='resolved'?'open':'resolved';
-saveConvos(state.convos);selectConversation(selectedConvoId);
-toast(`Conversation marked as ${c.status}`,'info');
+  if(!selectedConvoId)return;
+  const c=state.convos.find(x=>x.id===selectedConvoId);if(!c)return;
+  c.status=c.status==='resolved'?'open':'resolved';
+  saveConvos(state.convos);selectConversation(selectedConvoId);
+  toast(`Conversation marked as ${c.status}`,'info');
 }
+
+/* ===== SUBSCRIPTIONS & PAYMENTS ===== */
+function getPlanIcon(planName){
+  const n = (planName||'').toLowerCase();
+  if(n.includes('enterprise')) return {cls:'enterprise', svg:ICONS.shield};
+  if(n.includes('pro')) return {cls:'pro', svg:ICONS.star};
+  return {cls:'free', svg:ICONS.user};
+}
+
+// Build payment method icon HTML with colored gradient box (QuantVexa style)
+function getPaymentIconHTML(methodId){
+  const method = PAYMENT_METHODS.find(p => p.id === methodId);
+  if(!method) return `<div class="payment-icon-box" style="background:var(--bg-soft)">${ICONS.credit}</div>`;
+  return `<div class="payment-icon-box ${method.id}" style="background:${method.gradient}">${method.icon}</div>`;
+}
+
 function renderSubRequests(){
-const list = document.getElementById('subRequestsList');
-const reqs = state.subRequests || [];
-document.getElementById('subReqCount').textContent = reqs.length;
-if(reqs.length===0){
-list.innerHTML = `<div class="empty">${ICONS.credit}<div>No payment requests yet</div></div>`;
-return;
+  const list = document.getElementById('subRequestsList');
+  const reqs = state.subRequests || [];
+  document.getElementById('subReqCount').textContent = reqs.length;
+  if(reqs.length===0){
+    list.innerHTML = `<div class="empty">${ICONS.credit}<div>No payment requests yet</div></div>`;
+    return;
+  }
+  const sorted = [...reqs].sort((a,b)=>{
+    const statusOrder = {pending:0, approved:1, rejected:2};
+    if(statusOrder[a.status] !== statusOrder[b.status]) return statusOrder[a.status] - statusOrder[b.status];
+    return new Date(b.requestedAt) - new Date(a.requestedAt);
+  });
+  list.innerHTML = sorted.map(r=>{
+    const statusClass = r.status;
+    const statusLabel = r.status.charAt(0).toUpperCase() + r.status.slice(1);
+    const lastMsg = r.messages.at(-1);
+    const preview = lastMsg ? (lastMsg.text.length > 40 ? lastMsg.text.slice(0,40)+'...' : lastMsg.text) : '—';
+    return `<div class="conversation-item ${selectedSubReqId===r.id?'active':''}" onclick="selectSubRequest('${r.id}')">
+      <div class="conv-avatar" style="background:${r.status==='approved'?'var(--success)':r.status==='rejected'?'var(--danger)':'var(--accent)'}">
+        ${initials(r.userName)}
+        ${r.status==='pending'?'<span class="unread-dot"></span>':''}
+      </div>
+      <div class="conv-info">
+        <div class="conv-name" style="display:flex;align-items:center;gap:.35rem">
+          ${r.userName}
+          <span class="badge ${statusClass}" style="font-size:.58rem;padding:.1rem .35rem">${statusLabel}</span>
+        </div>
+        <div class="conv-preview">${r.planName} · $${r.amount} · ${preview}</div>
+      </div>
+      <div class="conv-time">${formatShortTime(r.requestedAt)}</div>
+    </div>`;
+  }).join('');
 }
-const sorted = [...reqs].sort((a,b)=>{
-const statusOrder = {pending:0, approved:1, rejected:2};
-if(statusOrder[a.status] !== statusOrder[b.status]) return statusOrder[a.status] - statusOrder[b.status];
-return new Date(b.requestedAt) - new Date(a.requestedAt);
-});
-list.innerHTML = sorted.map(r=>{
-const statusClass = r.status;
-const statusLabel = r.status.charAt(0).toUpperCase() + r.status.slice(1);
-const lastMsg = r.messages.at(-1);
-const preview = lastMsg ? (lastMsg.text.length > 40 ? lastMsg.text.slice(0,40)+'...' : lastMsg.text) : '—';
-return `<div class="conversation-item ${selectedSubReqId===r.id?'active':''}" onclick="selectSubRequest('${r.id}')">
-<div class="conv-avatar" style="background:${r.status==='approved'?'var(--success)':r.status==='rejected'?'var(--danger)':'var(--accent)'}">
-${initials(r.userName)}
-${r.status==='pending'?'<span class="unread-dot"></span>':''}
-</div>
-<div class="conv-info">
-<div class="conv-name" style="display:flex;align-items:center;gap:.35rem">
-${r.userName}
-<span class="badge ${statusClass}" style="font-size:.58rem;padding:.1rem .35rem">${statusLabel}</span>
-</div>
-<div class="conv-preview">${r.planName} · $${r.amount} · ${preview}</div>
-</div>
-<div class="conv-time">${formatShortTime(r.requestedAt)}</div>
-</div>`;
-}).join('');
-}
+
 function selectSubRequest(id){
-const r = (state.subRequests||[]).find(x=>x.id===id);
-if(!r) return;
-selectedSubReqId = id;
-document.getElementById('subEmpty').style.display='none';
-document.getElementById('subView').style.display='flex';
-document.getElementById('subHeaderAvatar').textContent = initials(r.userName);
-document.getElementById('subHeaderName').textContent = r.userName;
-document.getElementById('subHeaderEmail').textContent = r.userEmail;
-const statusBadge = document.getElementById('subStatusBadge');
-const statusLabel = r.status.charAt(0).toUpperCase() + r.status.slice(1);
-statusBadge.innerHTML = `<span class="badge ${r.status}">${r.status==='approved'?ICONS.check:r.status==='rejected'?ICONS.ban:ICONS.info}<span>${statusLabel}</span></span>`;
-const approveBtn = document.getElementById('approveBtn');
-const rejectBtn = document.getElementById('rejectBtn');
-if(r.status !== 'pending'){
-approveBtn.disabled = true;
-rejectBtn.disabled = true;
-approveBtn.style.opacity = '0.5';
-rejectBtn.style.opacity = '0.5';
-approveBtn.style.cursor = 'not-allowed';
-rejectBtn.style.cursor = 'not-allowed';
-} else {
-approveBtn.disabled = false;
-rejectBtn.disabled = false;
-approveBtn.style.opacity = '1';
-rejectBtn.style.opacity = '1';
-approveBtn.style.cursor = 'pointer';
-rejectBtn.style.cursor = 'pointer';
+  const r = (state.subRequests||[]).find(x=>x.id===id);
+  if(!r) return;
+  selectedSubReqId = id;
+  document.getElementById('subEmpty').style.display='none';
+  document.getElementById('subView').style.display='flex';
+  document.getElementById('subHeaderAvatar').textContent = initials(r.userName);
+  document.getElementById('subHeaderName').textContent = r.userName;
+  document.getElementById('subHeaderEmail').textContent = r.userEmail;
+
+  const statusBadge = document.getElementById('subStatusBadge');
+  const statusLabel = r.status.charAt(0).toUpperCase() + r.status.slice(1);
+  statusBadge.innerHTML = `<span class="badge ${r.status}">${r.status==='approved'?ICONS.check:r.status==='rejected'?ICONS.ban:ICONS.info}<span>${statusLabel}</span></span>`;
+
+  const approveBtn = document.getElementById('approveBtn');
+  const rejectBtn = document.getElementById('rejectBtn');
+  if(r.status !== 'pending'){
+    approveBtn.disabled = true;
+    rejectBtn.disabled = true;
+    approveBtn.style.opacity = '0.5';
+    rejectBtn.style.opacity = '0.5';
+    approveBtn.style.cursor = 'not-allowed';
+    rejectBtn.style.cursor = 'not-allowed';
+  } else {
+    approveBtn.disabled = false;
+    rejectBtn.disabled = false;
+    approveBtn.style.opacity = '1';
+    rejectBtn.style.opacity = '1';
+    approveBtn.style.cursor = 'pointer';
+    rejectBtn.style.cursor = 'pointer';
+  }
+
+  renderSubMessages(r);
+  renderSubRequests();
 }
-renderSubMessages(r);
-renderSubRequests();
-}
+
 function renderSubMessages(r){
-const box = document.getElementById('subMessages');
-const method = PAYMENT_METHODS.find(p => p.id === r.paymentMethod) || PAYMENT_METHODS[0];
-let messagesHTML = '';
+  const box = document.getElementById('subMessages');
+  const planIcon = getPlanIcon(r.planName);
+  const paymentIconHTML = getPaymentIconHTML(r.paymentMethod);
+  const paymentMethod = PAYMENT_METHODS.find(p => p.id === r.paymentMethod);
+  const paymentName = paymentMethod ? paymentMethod.name : r.paymentMethodLabel;
 
-// ===== SINGLE ROW COMBINED CARD (QuantVexa Style) =====
-messagesHTML += `
-<div style="width:100%; margin-bottom:1rem;">
-    <div class="qx-payment-card">
-        <div class="qx-info-block">
-            <div class="qx-label">Selected Plan</div>
-            <div class="qx-title">${r.planName}</div>
-            <div class="qx-desc">$${r.amount} / month</div>
+  let messagesHTML = '';
+
+  // 1. Selected Plan card
+  messagesHTML += `
+    <div style="display:flex;justify-content:center;margin-bottom:.5rem">
+      <div style="background:var(--bg-soft);border:1px solid var(--border);border-radius:10px;padding:.85rem;max-width:340px;width:100%">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text-faint);font-weight:600;margin-bottom:.5rem;text-align:center">Selected Plan</div>
+        <div style="display:flex;align-items:center;gap:.65rem">
+          <div class="sub-plan-icon ${planIcon.cls}">${planIcon.svg}</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-weight:700;font-size:.92rem">${r.planName}</div>
+            <div style="color:var(--text-muted);font-size:.78rem"><strong style="color:var(--text);font-size:1rem">$${r.amount}</strong> / month</div>
+          </div>
         </div>
-        <div class="qx-info-block" style="display:flex; align-items:center;">
-            <div class="qx-icon-box" style="background:${method.gradient}; border-color:${method.color}">
-                ${method.icon}
-            </div>
-            <div>
-                <div class="qx-label">Payment Method</div>
-                <div class="qx-title" style="font-size:15px;">${method.name}</div>
-                <div class="qx-desc">${method.desc}</div>
-            </div>
+      </div>
+    </div>
+  `;
+
+  // 2. Payment Method card with BIG colored gradient icon (QuantVexa style)
+  messagesHTML += `
+    <div style="display:flex;justify-content:center;margin-bottom:.5rem">
+      <div style="background:var(--bg-soft);border:1px solid var(--border);border-radius:10px;padding:.85rem;max-width:340px;width:100%">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text-faint);font-weight:600;margin-bottom:.5rem;text-align:center">Payment Method</div>
+        <div style="display:flex;align-items:center;gap:.85rem">
+          ${paymentIconHTML}
+          <div style="flex:1;min-width:0">
+            <div style="font-weight:700;font-size:.95rem">${paymentName}</div>
+            <div style="color:var(--text-faint);font-size:.72rem;font-family:'SF Mono','Consolas',monospace;margin-top:.15rem">${r.transactionId}</div>
+          </div>
         </div>
+      </div>
     </div>
-</div>
-`;
+  `;
 
-// Receipt image
-if(r.receiptImage){
-messagesHTML += `
-<div style="margin-bottom:1rem; text-align:center;">
-    <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text-faint);font-weight:600;margin-bottom:.5rem;">Payment Receipt</div>
-    <img src="${r.receiptImage}" class="sub-receipt-preview" onclick="openImageModal(this.src)" alt="Payment receipt" />
-</div>
-`;
-}
+  // 3. Receipt image
+  if(r.receiptImage){
+    messagesHTML += `
+      <div style="display:flex;justify-content:center;margin-bottom:.5rem">
+        <div style="max-width:340px;width:100%">
+          <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text-faint);font-weight:600;margin-bottom:.35rem;text-align:center">Payment Receipt</div>
+          <img src="${r.receiptImage}" class="sub-receipt-preview" onclick="openImageModal(this.src)" alt="Payment receipt" />
+        </div>
+      </div>
+    `;
+  }
 
-// User messages
-r.messages.forEach(m=>{
-const fromLabel = m.from==='admin' ? 'A' : initials(r.userName);
-messagesHTML += `
-<div class="message ${m.from==='admin'?'admin':''}">
-    <div class="message-avatar">${fromLabel}</div>
-    <div>
-        <div class="message-bubble">${escapeHTML(m.text)}</div>
-        <div class="message-meta">${formatShortTime(m.at)}</div>
-    </div>
-</div>
-`;
-});
+  // 4. User messages
+  r.messages.forEach(m=>{
+    const fromLabel = m.from==='admin' ? 'A' : initials(r.userName);
+    messagesHTML += `
+      <div class="message ${m.from==='admin'?'admin':''}">
+        <div class="message-avatar">${fromLabel}</div>
+        <div>
+          <div class="message-bubble">${escapeHTML(m.text)}</div>
+          <div class="message-meta">${formatShortTime(m.at)}</div>
+        </div>
+      </div>
+    `;
+  });
 
-// Timeline
-if(r.status !== 'pending'){
-const timelineItems = [{ dot:'pending', title:'Payment request submitted', meta:formatDateTime(r.requestedAt) }];
-if(r.status === 'approved'){
-    timelineItems.push({ dot:'approved', title:'Payment verified — Account upgraded to '+r.planName, meta:r.resolvedAt?formatDateTime(r.resolvedAt):'' });
-} else if(r.status === 'rejected'){
-    timelineItems.push({ dot:'rejected', title:'Payment rejected — Warning issued', meta:r.resolvedAt?formatDateTime(r.resolvedAt):'' });
-}
-messagesHTML += `
-<div style="margin-top:1rem">
-    <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text-faint);font-weight:600;margin-bottom:.5rem">Status Timeline</div>
-    <div class="sub-status-timeline">
-    ${timelineItems.map(t=>`
-        <div class="sub-timeline-item">
-            <div class="sub-timeline-dot ${t.dot}"></div>
-            <div class="sub-timeline-content">
+  // 5. Timeline
+  if(r.status !== 'pending'){
+    const timelineItems = [
+      { dot:'pending', title:'Payment request submitted', meta:formatDateTime(r.requestedAt) }
+    ];
+    if(r.status === 'approved'){
+      timelineItems.push({ dot:'approved', title:'Payment verified — Account upgraded to '+r.planName, meta:r.resolvedAt?formatDateTime(r.resolvedAt):'' });
+    } else if(r.status === 'rejected'){
+      timelineItems.push({ dot:'rejected', title:'Payment rejected — Warning issued', meta:r.resolvedAt?formatDateTime(r.resolvedAt):'' });
+    }
+    messagesHTML += `
+      <div style="margin-top:.5rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text-faint);font-weight:600;margin-bottom:.5rem">Status Timeline</div>
+        <div class="sub-status-timeline">
+          ${timelineItems.map(t=>`
+            <div class="sub-timeline-item">
+              <div class="sub-timeline-dot ${t.dot}"></div>
+              <div class="sub-timeline-content">
                 <div class="sub-timeline-title">${t.title}</div>
                 <div class="sub-timeline-meta">${t.meta}</div>
+              </div>
             </div>
+          `).join('')}
         </div>
-    `).join('')}
-    </div>
-</div>
-`;
+      </div>
+    `;
+  }
+
+  box.innerHTML = messagesHTML;
+  setTimeout(()=>{box.scrollTop = box.scrollHeight},50);
 }
-box.innerHTML = messagesHTML;
-setTimeout(()=>{box.scrollTop = box.scrollHeight},50);
-}
+
 function approveSubscription(){
-const r = (state.subRequests||[]).find(x=>x.id===selectedSubReqId);
-if(!r || r.status !== 'pending') return;
-const adminNote = document.getElementById('subAdminNote').value.trim();
-const successMsg = `Payment verified successfully. You have been upgraded to the ${r.planName} plan. Enjoy your new features and benefits!`;
-const fullMsg = adminNote ? successMsg + '\nAdmin note: ' + adminNote : successMsg;
-showConfirmCard({
-title: 'Verify Payment & Upgrade?',
-message: `Confirm payment of $${r.amount} via ${r.paymentMethod} for ${r.userName}. The user will be upgraded to ${r.planName} and notified.`,
-icon: 'success',
-confirmText: 'Verify & Upgrade',
-user: { name: r.userName, email: r.userEmail },
-onConfirm: () => {
-r.status = 'approved';
-r.resolvedAt = new Date().toISOString();
-r.messages.push({ from:'admin', text: fullMsg, at: new Date().toISOString() });
-saveSubRequests(state.subRequests);
-state.notifs.unshift({
-id: 'n'+Date.now(),
-title: `Payment Verified — Upgraded to ${r.planName}`,
-body: `Hello ${r.userName}, your payment of $${r.amount} has been verified. You have been upgraded to the ${r.planName} plan. Enjoy your new features!`,
-channel: 'USER_ID',
-target: r.userId,
-sentAt: new Date().toISOString(),
-sentCount: 1,
-});
-saveNotifs(state.notifs);
-document.getElementById('subAdminNote').value = '';
-toast(`Payment verified — ${r.userName} upgraded to ${r.planName}`, 'success');
-selectSubRequest(r.id);
+  const r = (state.subRequests||[]).find(x=>x.id===selectedSubReqId);
+  if(!r || r.status !== 'pending') return;
+
+  const adminNote = document.getElementById('subAdminNote').value.trim();
+  const successMsg = `Payment verified successfully. You have been upgraded to the ${r.planName} plan. Enjoy your new features and benefits!`;
+  const fullMsg = adminNote ? successMsg + '\n\nAdmin note: ' + adminNote : successMsg;
+
+  showConfirmCard({
+    title: 'Verify Payment & Upgrade?',
+    message: `Confirm payment of $${r.amount} via ${r.paymentMethodLabel} for ${r.userName}. The user will be upgraded to ${r.planName} and notified.`,
+    icon: 'success',
+    confirmText: 'Verify & Upgrade',
+    user: { name: r.userName, email: r.userEmail },
+    onConfirm: () => {
+      r.status = 'approved';
+      r.resolvedAt = new Date().toISOString();
+      r.messages.push({ from:'admin', text: fullMsg, at: new Date().toISOString() });
+      saveSubRequests(state.subRequests);
+
+      state.notifs.unshift({
+        id: 'n'+Date.now(),
+        title: `Payment Verified — Upgraded to ${r.planName}`,
+        body: `Hello ${r.userName}, your payment of $${r.amount} has been verified. You have been upgraded to the ${r.planName} plan. Enjoy your new features!`,
+        channel: 'USER_ID',
+        target: r.userId,
+        sentAt: new Date().toISOString(),
+        sentCount: 1,
+      });
+      saveNotifs(state.notifs);
+
+      document.getElementById('subAdminNote').value = '';
+      toast(`Payment verified — ${r.userName} upgraded to ${r.planName}`, 'success');
+      selectSubRequest(r.id);
+    }
+  });
 }
-});
-}
+
 function rejectSubscription(){
-const r = (state.subRequests||[]).find(x=>x.id===selectedSubReqId);
-if(!r || r.status !== 'pending') return;
-const adminNote = document.getElementById('subAdminNote').value.trim();
-const rejectMsg = `Your payment has been rejected. Please note: this is your final warning. On the next occurrence, your account will be banned and you will no longer be able to access our services.`;
-const fullMsg = adminNote ? rejectMsg + '\nAdmin note: ' + adminNote : rejectMsg;
-showConfirmCard({
-title: 'Reject Payment & Issue Warning?',
-message: `Reject the payment of $${r.amount} from ${r.userName}. A warning will be issued: next time, the account will be banned and access to services will be revoked.`,
-icon: 'danger',
-confirmText: 'Reject & Warn',
-user: { name: r.userName, email: r.userEmail },
-onConfirm: () => {
-r.status = 'rejected';
-r.resolvedAt = new Date().toISOString();
-r.messages.push({ from:'admin', text: fullMsg, at: new Date().toISOString() });
-saveSubRequests(state.subRequests);
-state.notifs.unshift({
-id: 'n'+Date.now(),
-title: 'Payment Rejected — Final Warning',
-body: `Hello ${r.userName}, your payment has been rejected. This is your final warning. On the next occurrence, your account will be banned and you will no longer be able to access our services. Please contact support for more details.`,
-channel: 'USER_ID',
-target: r.userId,
-sentAt: new Date().toISOString(),
-sentCount: 1,
-});
-saveNotifs(state.notifs);
-document.getElementById('subAdminNote').value = '';
-toast(`Payment rejected — Warning issued to ${r.userName}`, 'error');
-selectSubRequest(r.id);
+  const r = (state.subRequests||[]).find(x=>x.id===selectedSubReqId);
+  if(!r || r.status !== 'pending') return;
+
+  const adminNote = document.getElementById('subAdminNote').value.trim();
+  const rejectMsg = `Your payment has been rejected. Please note: this is your final warning. On the next occurrence, your account will be banned and you will no longer be able to access our services.`;
+  const fullMsg = adminNote ? rejectMsg + '\n\nAdmin note: ' + adminNote : rejectMsg;
+
+  showConfirmCard({
+    title: 'Reject Payment & Issue Warning?',
+    message: `Reject the payment of $${r.amount} from ${r.userName}. A warning will be issued: next time, the account will be banned and access to services will be revoked.`,
+    icon: 'danger',
+    confirmText: 'Reject & Warn',
+    user: { name: r.userName, email: r.userEmail },
+    onConfirm: () => {
+      r.status = 'rejected';
+      r.resolvedAt = new Date().toISOString();
+      r.messages.push({ from:'admin', text: fullMsg, at: new Date().toISOString() });
+      saveSubRequests(state.subRequests);
+
+      state.notifs.unshift({
+        id: 'n'+Date.now(),
+        title: 'Payment Rejected — Final Warning',
+        body: `Hello ${r.userName}, your payment has been rejected. This is your final warning. On the next occurrence, your account will be banned and you will no longer be able to access our services. Please contact support for more details.`,
+        channel: 'USER_ID',
+        target: r.userId,
+        sentAt: new Date().toISOString(),
+        sentCount: 1,
+      });
+      saveNotifs(state.notifs);
+
+      document.getElementById('subAdminNote').value = '';
+      toast(`Payment rejected — Warning issued to ${r.userName}`, 'error');
+      selectSubRequest(r.id);
+    }
+  });
 }
-});
-}
+
 function renderSettings(){document.getElementById('currentEmail').value=state.settings.email;document.getElementById('adminEmail').textContent=state.settings.email}
 function updateEmail(){const newEmail=document.getElementById('newEmail').value.trim();if(!newEmail){toast('Please enter the new email','error');return}if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(newEmail)){toast('Invalid email format','error');return}state.settings.email=newEmail;saveSettings(state.settings);document.getElementById('newEmail').value='';renderSettings();toast('Email updated successfully','success')}
 function updatePassword(){const current=document.getElementById('currentPass').value;const next=document.getElementById('newPass').value;const confirmP=document.getElementById('confirmPass').value;if(!current||!next||!confirmP){toast('Please fill in all fields','error');return}if(current!==state.settings.password){toast('Current password is incorrect','error');return}if(next.length<8){toast('New password must be at least 8 characters','error');return}if(next!==confirmP){toast('Passwords do not match','error');return}state.settings.password=next;saveSettings(state.settings);document.getElementById('currentPass').value='';document.getElementById('newPass').value='';document.getElementById('confirmPass').value='';toast('Password updated successfully','success')}
+
 const savedTheme = localStorage.getItem('ad_theme') || 'light';
 applyTheme(savedTheme);
+
 if(isLoggedIn()){hideLogin();renderDashboard()}else{showLogin()}
 </script>
 </body>
