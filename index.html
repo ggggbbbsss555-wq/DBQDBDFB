@@ -533,31 +533,22 @@ tbody tr:hover{background:var(--bg-soft)}
 
 .sub-status-timeline{display:flex;flex-direction:column;gap:.65rem;padding:.75rem;background:var(--bg-soft);border-radius:8px;border:1px solid var(--border-soft)}
 
-/* ===== Trading Signals tab ===== */
-.signals-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:.75rem}
-.signal-card{background:var(--bg-elev);border:1px solid var(--border);border-radius:10px;padding:.85rem 1rem;display:flex;align-items:center;gap:.85rem;transition:border-color .15s ease;min-width:0}
-.signal-card.buy{border-left:3px solid var(--success)}
-.signal-card.sell{border-left:3px solid var(--danger)}
-.signal-card.closed{opacity:.7}
-.signal-card-type{width:38px;height:38px;border-radius:8px;display:grid;place-items:center;font-weight:700;font-size:.7rem;letter-spacing:.04em;color:#fff;flex-shrink:0;text-transform:uppercase}
-.signal-card-type.buy{background:var(--success)}
-.signal-card-type.sell{background:var(--danger)}
-.signal-card-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:.15rem}
-.signal-card-symbol{font-weight:700;font-size:.92rem;color:var(--text)}
-.signal-card-meta{font-size:.72rem;color:var(--text-muted);display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
-.signal-card-result{font-size:.7rem;font-weight:700;padding:.15rem .45rem;border-radius:4px;flex-shrink:0}
-.signal-card-result.win{background:rgba(22,163,74,.12);color:var(--success)}
-.signal-card-result.lose{background:rgba(220,38,38,.12);color:var(--danger)}
-.signal-card-result.pending{background:rgba(217,119,6,.12);color:var(--warning)}
-@media(max-width:600px){.signals-grid{grid-template-columns:1fr}}
-
-/* ===== Platform & Strategy cards in Trading Signals tab ===== */
+/* ===== Server & Bot control cards (used in Settings tab) ===== */
 .platform-row{display:flex;align-items:center;gap:.85rem;padding:.75rem .9rem;background:var(--bg-soft);border:1px solid var(--border-soft);border-radius:8px}
 .platform-row.disabled{opacity:.55}
 .platform-row-icon{width:38px;height:38px;border-radius:8px;display:grid;place-items:center;font-weight:800;color:#fff;font-size:.68rem;letter-spacing:.04em;flex-shrink:0}
 .platform-row-info{flex:1;min-width:0}
 .platform-row-name{font-weight:700;font-size:.92rem;color:var(--text)}
 .platform-row-desc{font-size:.72rem;color:var(--text-muted)}
+.platform-row-status{font-size:.7rem;font-weight:700;padding:.15rem .45rem;border-radius:4px;flex-shrink:0;text-transform:uppercase;letter-spacing:.04em}
+.platform-row-status.running{background:rgba(22,163,74,.12);color:var(--success)}
+.platform-row-status.stopped{background:rgba(220,38,38,.12);color:var(--danger)}
+.platform-row-btn{padding:.4rem .85rem;font-size:.78rem;font-weight:700;border-radius:6px;cursor:pointer;border:1px solid;flex-shrink:0;transition:background .12s ease,color .12s ease,border-color .12s ease}
+.platform-row-btn.start{background:var(--success);color:#fff;border-color:var(--success)}
+.platform-row-btn.start:hover{background:#15803d;border-color:#15803d}
+.platform-row-btn.stop{background:var(--danger);color:#fff;border-color:var(--danger)}
+.platform-row-btn.stop:hover{background:#b91c1c;border-color:#b91c1c}
+.platform-row-btn:disabled{opacity:.4;cursor:not-allowed}
 
 .strategy-card{background:var(--bg-soft);border:1px solid var(--border-soft);border-radius:10px;padding:1rem 1.1rem}
 .strategy-card.disabled{opacity:.6}
@@ -746,10 +737,6 @@ Promo Codes
 <button class="nav-item" data-tab="offers">
 <svg class="icon" viewBox="0 0 24 24"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
 Offers & Plans
-</button>
-<button class="nav-item" data-tab="signals">
-<svg class="icon" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-Trading Signals
 </button>
 <button class="nav-item" data-tab="support">
 <svg class="icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
@@ -1166,42 +1153,6 @@ Add Plan
 </div>
 </div>
 </section>
-<section class="tab-content" id="tab-signals">
-<div class="page-header">
-<div class="page-header-text">
-<h1>Trading Signals</h1>
-<p>Live trading signals feed (QuantVexa-compatible — syncs with quantvexa/#signals)</p>
-</div>
-</div>
-<div class="stats-grid" id="signalsStatsGrid"></div>
-<div class="panel">
-<div class="panel-header">
-<div>
-<h2>Live Signals</h2>
-<p>All active and recently closed trading signals. Mirror of quantvexa/#signals.</p>
-</div>
-</div>
-<div class="signals-grid" id="signalsGrid"></div>
-</div>
-<div class="panel">
-<div class="panel-header">
-<div>
-<h2>Platforms</h2>
-<p>Toggle which trading platforms (QUOTEX / BINOLLA) are available to users. Mirrors quantvexa platform selector.</p>
-</div>
-</div>
-<div id="platformsList" style="display:flex;flex-direction:column;gap:.65rem"></div>
-</div>
-<div class="panel">
-<div class="panel-header">
-<div>
-<h2>Signal Strategies</h2>
-<p>Edit strategy parameters. These flow 1:1 to the quantvexa/#dashboard STRATEGIES config.</p>
-</div>
-</div>
-<div id="strategiesList" style="display:flex;flex-direction:column;gap:.85rem"></div>
-</div>
-</section>
 <section class="tab-content" id="tab-support">
 <div class="page-header">
 <div class="page-header-text">
@@ -1396,6 +1347,31 @@ Update Password
 </div>
 </div>
 <div id="paymentMethodsList" style="display:flex;flex-direction:column;gap:.85rem"></div>
+<div style="margin-top:1rem;display:flex;gap:.5rem;align-items:center;flex-wrap:wrap">
+<button class="btn-primary" onclick="savePaymentInfo()">
+<svg class="icon" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+Save Payment Info
+</button>
+<small style="color:var(--text-faint);font-size:.75rem;flex:1;min-width:160px">Wallet addresses and method toggles are persisted to localStorage on every change. Use this button to confirm.</small>
+</div>
+</div>
+<div class="panel">
+<div class="panel-header">
+<div>
+<h2>Server Control</h2>
+<p>Start or stop the QUOTEX / BINOLLA servers. When a server is stopped, users on that platform will see a "server unavailable" state. Mirrors quantvexa platform selector.</p>
+</div>
+</div>
+<div id="platformsList" style="display:flex;flex-direction:column;gap:.65rem"></div>
+</div>
+<div class="panel">
+<div class="panel-header">
+<div>
+<h2>Bot Control</h2>
+<p>Enable or disable signal strategies. These flow 1:1 to the quantvexa/#dashboard STRATEGIES config — disabled strategies won't be offered to users.</p>
+</div>
+</div>
+<div id="strategiesList" style="display:flex;flex-direction:column;gap:.85rem"></div>
 </div>
 <div class="panel" style="border-color: rgba(220,38,38,.25)">
 <div class="panel-header">
@@ -1436,10 +1412,6 @@ You will need to sign in again with your admin credentials to access the dashboa
 <button class="mobile-nav-item" data-tab="offers" onclick="goTo('offers')" title="Offers & Plans">
 <svg class="icon" viewBox="0 0 24 24"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
 <span class="label">Offers</span>
-</button>
-<button class="mobile-nav-item" data-tab="signals" onclick="goTo('signals')" title="Trading Signals">
-<svg class="icon" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-<span class="label">Signals</span>
 </button>
 <button class="mobile-nav-item" data-tab="support" onclick="goTo('support')" title="Support">
 <svg class="icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
@@ -1874,34 +1846,32 @@ function loadData() {
   // ===== QuantVexa-compatible: live trading signals =====
   // Signal shape mirrors the quantvexa signals page (erqq) so they can be synced later:
   //   { id, symbol, type, entry, duration, startTime, result, profit, userId, strategy, platform }
+  // We no longer seed sample signals — the admin does not need to see hundreds of them.
+  // The storage key + schema are kept so a future backend can push real signals in.
   let signals = JSON.parse(localStorage.getItem(STORAGE_KEYS.SIGNALS) || 'null');
   if(!signals){
-    const nowSec = Math.floor(Date.now() / 1000);
-    const sampleSymbols = ['EURUSD-OTC','GBPUSD-OTC','USDJPY-OTC','AUDUSD-OTC','USDCAD-OTC','EURJPY-OTC'];
-    const sampleTypes = ['buy','buy','sell','buy','sell','sell'];
-    signals = sampleSymbols.map((sym, i) => ({
-      id: 'sig' + (i+1),
-      symbol: sym,
-      type: sampleTypes[i],
-      entry: [1.0852, 1.3025, 149.85, 0.6582, 1.3585, 163.45][i],
-      duration: [120, 180, 90, 240, 60, 150][i],
-      startTime: nowSec - [30, 90, 60, 10, 45, 120][i],
-      result: null,
-      profit: null,
-      userId: users[i % users.length].id,
-      strategy: ['strong','medium','pro','strong','medium','pro'][i],
-      platform: 'QUOTEX',
-      createdAt: new Date(Date.now() - i * 60000).toISOString(),
-    }));
+    signals = [];
     localStorage.setItem(STORAGE_KEYS.SIGNALS, JSON.stringify(signals));
   }
 
   // ===== QuantVexa-compatible: platforms & strategies (admin-editable) =====
+  // Each platform carries a `running` flag — when false, the QUOTEX/BINOLLA server
+  // is treated as stopped and users on that platform will see a "server unavailable"
+  // state. This is independent from the `enabled` flag (which controls whether the
+  // platform is offered to NEW users at all).
   let platforms = JSON.parse(localStorage.getItem(STORAGE_KEYS.PLATFORMS) || 'null');
   if(!platforms){
     platforms = JSON.parse(JSON.stringify(DEFAULT_PLATFORMS));
+    // Default both servers to running on first load
+    platforms.forEach(p => { p.running = true; });
     localStorage.setItem(STORAGE_KEYS.PLATFORMS, JSON.stringify(platforms));
   }
+  // Migration: back-fill `running` field on older platform records
+  let platformSchemaDirty = false;
+  platforms.forEach(p => {
+    if(p.running === undefined){ p.running = true; platformSchemaDirty = true; }
+  });
+  if(platformSchemaDirty){ localStorage.setItem(STORAGE_KEYS.PLATFORMS, JSON.stringify(platforms)); }
   let strategies = JSON.parse(localStorage.getItem(STORAGE_KEYS.STRATEGIES) || 'null');
   if(!strategies){
     strategies = JSON.parse(JSON.stringify(DEFAULT_STRATEGIES));
@@ -1993,7 +1963,6 @@ function goTo(tab){
   if(tab==='notifications')renderNotifHistory();
   if(tab==='promo')renderPromos();
   if(tab==='offers'){renderOffers();renderPlans()}
-  if(tab==='signals')renderSignalsTab();
   if(tab==='support'){renderConversations();renderSubRequests()}
   if(tab==='settings')renderSettings();
   window.scrollTo({top:0,behavior:'smooth'});
@@ -2262,100 +2231,43 @@ function addPlan(){const name=document.getElementById('planName').value.trim();c
 function deletePlan(id){const p=state.plans.find(x=>x.id===id);if(!p)return;showConfirmCard({title:'Delete plan?',message:`Plan "${p.name}" ($${Number(p.price).toFixed(2)}) will be permanently removed.`,icon:'danger',confirmText:'Delete Plan',onConfirm:()=>{state.plans=state.plans.filter(x=>x.id!==id);savePlans(state.plans);toast(`Plan ${p.name} deleted`,'info');renderPlans()}})}
 function renderPlans(){const grid=document.getElementById('plansGrid');if(state.plans.length===0){grid.innerHTML=`<div class="empty" style="grid-column:1/-1">${ICONS.credit}<div>No plans yet — create one above</div></div>`;return}const cycleLabels={month:'/mo',year:'/yr',week:'/wk'};grid.innerHTML=state.plans.map(p=>`<div class="plan-card ${p.featured?'featured':''}"><div class="plan-name">${p.name}</div><div class="plan-price">$${Number(p.price).toFixed(2)} <small>${cycleLabels[p.duration]||''}</small></div><div class="plan-duration">${p.duration==='month'?'Billed monthly':p.duration==='year'?'Billed annually':'Billed weekly'}</div><ul class="plan-features">${p.features.map(f=>`<li>${ICONS.check}<span>${f}</span></li>`).join('')}</ul><div class="plan-actions"><button class="btn-danger-soft" onclick="deletePlan('${p.id}')" style="flex:1;justify-content:center">${ICONS.trash}<span style="margin-left:.35rem">Delete Plan</span></button></div></div>`).join('')}
 
-/* ===== TRADING SIGNALS TAB (QuantVexa-compatible) =====
-   All rendering in this section produces data that mirrors what the user-facing
-   quantvexa pages show. When a backend is wired up later, these localStorage
-   reads/writes can be replaced with fetch() calls without touching the UI. */
-function renderSignalsTab(){
-  renderSignalsStats();
-  renderSignalsGrid();
-  renderPlatforms();
-  renderStrategies();
-}
-
-function renderSignalsStats(){
-  const grid = document.getElementById('signalsStatsGrid');
-  if(!grid) return;
-  const sigs = state.signals || [];
-  let active=0, wins=0, losses=0;
-  sigs.forEach(s => {
-    if(s.result === 'win') wins++;
-    else if(s.result === 'lose') losses++;
-    else active++;
-  });
-  const total = wins + losses;
-  const winRate = total > 0 ? Math.round((wins/total)*100) : 0;
-  grid.innerHTML = [
-    {label:'Active', value:active, icon:'<svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>', color:'var(--accent)'},
-    {label:'Wins', value:wins, icon:'<svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>', color:'var(--success)'},
-    {label:'Losses', value:losses, icon:'<svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>', color:'var(--danger)'},
-    {label:'Win Rate', value:winRate+'%', icon:'<svg class="icon" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>', color:'var(--warning)'},
-    {label:'Total Signals', value:sigs.length, icon:'<svg class="icon" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>', color:'var(--accent)'},
-    {label:'Symbols Covered', value:new Set(sigs.map(s=>s.symbol)).size, icon:'<svg class="icon" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-5"/></svg>', color:'var(--success)'},
-  ].map(s => `<div class="stat-card"><div class="stat-icon" style="color:${s.color};background:rgba(127,127,127,0.06)">${s.icon}</div><div class="stat-label">${s.label}</div><div class="stat-value">${s.value}</div></div>`).join('');
-}
-
-function renderSignalsGrid(){
-  const grid = document.getElementById('signalsGrid');
-  if(!grid) return;
-  const sigs = state.signals || [];
-  if(sigs.length === 0){
-    grid.innerHTML = `<div class="empty" style="grid-column:1/-1">${ICONS.bell}<div>No signals yet</div></div>`;
-    return;
-  }
-  grid.innerHTML = sigs.map(s => {
-    const isBuy = s.type === 'buy';
-    const resultBadge = s.result === 'win'
-      ? `<span class="signal-card-result win">WIN ${s.profit != null ? (s.profit>=0?'+':'')+Number(s.profit).toFixed(2)+'%' : ''}</span>`
-      : s.result === 'lose'
-        ? `<span class="signal-card-result lose">LOSS ${s.profit != null ? (s.profit>=0?'+':'')+Number(s.profit).toFixed(2)+'%' : ''}</span>`
-        : `<span class="signal-card-result pending">PENDING</span>`;
-    const user = (state.users || []).find(u => u.id === s.userId);
-    return `<div class="signal-card ${isBuy?'buy':'sell'} ${s.result?'closed':''}">
-      <div class="signal-card-type ${isBuy?'buy':'sell'}">${isBuy?'BUY':'SELL'}</div>
-      <div class="signal-card-info">
-        <div class="signal-card-symbol">${s.symbol}</div>
-        <div class="signal-card-meta">
-          <span>Entry: ${s.entry}</span>
-          <span>•</span>
-          <span>Strategy: ${s.strategy || '—'}</span>
-          <span>•</span>
-          <span>Platform: ${s.platform || '—'}</span>
-          ${user ? `<span>•</span><span>User: ${user.name}</span>` : ''}
-        </div>
-      </div>
-      ${resultBadge}
-    </div>`;
-  }).join('');
-}
-
+/* ===== SERVER & BOT CONTROL (used by the Settings tab) =====
+   These mirror the quantvexa platform selector (QUOTEX / BINOLLA) and the
+   dashboard STRATEGIES catalog (Strong / Medium / Pro). When a backend is
+   wired up later, these localStorage reads/writes can be replaced with
+   fetch() calls without touching the UI. */
 function renderPlatforms(){
   const wrap = document.getElementById('platformsList');
   if(!wrap) return;
   const platforms = state.platforms || [];
   if(platforms.length === 0){
-    wrap.innerHTML = `<div class="empty">${ICONS.credit}<div>No platforms configured</div></div>`;
+    wrap.innerHTML = `<div class="empty">${ICONS.credit}<div>No servers configured</div></div>`;
     return;
   }
-  wrap.innerHTML = platforms.map(p => `
-    <div class="platform-row ${p.enabled?'':'disabled'}">
+  wrap.innerHTML = platforms.map(p => {
+    const running = p.running !== false;
+    return `
+    <div class="platform-row ${running?'':'disabled'}">
       <div class="platform-row-icon" style="background:${p.color}">${p.name.slice(0,2)}</div>
       <div class="platform-row-info">
-        <div class="platform-row-name">${p.name}</div>
+        <div class="platform-row-name">${p.name} Server</div>
         <div class="platform-row-desc">${p.description || ''}</div>
       </div>
-      <button type="button" class="pay-method-toggle ${p.enabled?'on':''}" onclick="togglePlatform('${p.id}')" aria-label="Toggle ${p.name}"></button>
-    </div>
-  `).join('');
+      <span class="platform-row-status ${running?'running':'stopped'}">${running?'Running':'Stopped'}</span>
+      ${running
+        ? `<button type="button" class="platform-row-btn stop" onclick="toggleServer('${p.id}')">Stop</button>`
+        : `<button type="button" class="platform-row-btn start" onclick="toggleServer('${p.id}')">Start</button>`}
+    </div>`;
+  }).join('');
 }
 
-function togglePlatform(id){
+function toggleServer(id){
   const p = (state.platforms || []).find(x => x.id === id);
   if(!p) return;
-  p.enabled = !p.enabled;
+  p.running = !p.running;
   savePlatforms(state.platforms);
   renderPlatforms();
-  toast(`${p.name} ${p.enabled?'enabled':'disabled'}`, p.enabled?'success':'info');
+  toast(`${p.name} server ${p.running?'started':'stopped'}`, p.running?'success':'info');
 }
 
 function renderStrategies(){
@@ -2781,6 +2693,16 @@ function renderSettings(){
   document.getElementById('currentEmail').value=state.settings.email;
   document.getElementById('adminEmail').textContent=state.settings.email;
   renderPaymentMethodsSettings();
+  renderPlatforms();    // Server Control panel
+  renderStrategies();   // Bot Control panel
+}
+
+// Save Payment Info button — confirms all current payment-method edits are persisted.
+// (Each toggle / keystroke already auto-saves to localStorage; this is just an
+// explicit confirmation that surfaces a success toast so the admin gets feedback.)
+function savePaymentInfo(){
+  saveSettings(state.settings);
+  toast('Payment info saved successfully', 'success');
 }
 
 function renderPaymentMethodsSettings(){
