@@ -50,6 +50,14 @@ input,select,textarea{font-family:inherit;outline:none;color:inherit}
 .nav-item:hover{background:var(--sidebar-border);color:var(--sidebar-text)}
 .nav-item.active{background:var(--sidebar-active-bg);color:var(--sidebar-active-text);font-weight:600}
 .nav-item .icon{color:inherit}
+.nav-item{position:relative}
+.nav-badge{position:absolute;top:6px;left:24px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--danger);color:#fff;font-size:10px;font-weight:700;display:none;align-items:center;justify-content:center;line-height:1;box-shadow:0 0 0 2px var(--sidebar-bg);z-index:2}
+.nav-badge.show{display:flex}
+.nav-badge[data-count="0"]{display:none !important}
+.mobile-nav-item{position:relative}
+.mobile-nav-badge{position:absolute;top:4px;left:50%;transform:translateX(8px);min-width:16px;height:16px;padding:0 4px;border-radius:8px;background:var(--danger);color:#fff;font-size:9px;font-weight:700;display:none;align-items:center;justify-content:center;line-height:1;box-shadow:0 0 0 2px var(--bg-elev);z-index:2}
+.mobile-nav-badge.show{display:flex}
+.mobile-nav-badge[data-count="0"]{display:none !important}
 .theme-toggle{display:flex;align-items:center;justify-content:space-between;padding:.65rem .85rem;background:var(--sidebar-border);border-radius:6px;margin-top:.5rem;cursor:pointer;transition:background .15s ease}
 .theme-toggle:hover{background:#262626}
 .theme-toggle-label{font-size:.82rem;color:var(--sidebar-text);font-weight:500;display:flex;align-items:center;gap:.55rem}
@@ -737,10 +745,12 @@ Promo Codes
 <button class="nav-item" data-tab="offers">
 <svg class="icon" viewBox="0 0 24 24"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
 Offers & Plans
+<span class="nav-badge" id="navBadge-offers" data-count="0"></span>
 </button>
 <button class="nav-item" data-tab="support">
 <svg class="icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
 Support
+<span class="nav-badge" id="navBadge-support" data-count="0"></span>
 </button>
 <button class="nav-item" data-tab="settings">
 <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
@@ -1179,6 +1189,10 @@ Subscriptions & Payments
 <span>Conversations</span>
 <span id="convCount" style="color:var(--text-muted);font-size:.78rem">0</span>
 </div>
+<div class="search-bar" style="margin:.6rem .75rem;min-width:0;width:auto">
+<svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+<input type="text" id="convSearch" placeholder="Search by name, email, or message..." oninput="filterConversations(this.value)" />
+</div>
 <div class="conversations-list" id="conversationsList"></div>
 </div>
 <div class="chat-view-wrap" id="chatViewWrap">
@@ -1232,6 +1246,10 @@ Mark Resolved
 <div class="conversations-header">
 <span>Payment Requests</span>
 <span id="subReqCount" style="color:var(--text-muted);font-size:.78rem">0</span>
+</div>
+<div class="search-bar" style="margin:.6rem .75rem;min-width:0;width:auto">
+<svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+<input type="text" id="subReqSearch" placeholder="Search by name, plan, or transaction..." oninput="filterSubRequests(this.value)" />
 </div>
 <div class="conversations-list" id="subRequestsList"></div>
 </div>
@@ -1412,10 +1430,12 @@ You will need to sign in again with your admin credentials to access the dashboa
 <button class="mobile-nav-item" data-tab="offers" onclick="goTo('offers')" title="Offers & Plans">
 <svg class="icon" viewBox="0 0 24 24"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
 <span class="label">Offers</span>
+<span class="mobile-nav-badge" id="mobileBadge-offers" data-count="0"></span>
 </button>
 <button class="mobile-nav-item" data-tab="support" onclick="goTo('support')" title="Support">
 <svg class="icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
 <span class="label">Chat</span>
+<span class="mobile-nav-badge" id="mobileBadge-support" data-count="0"></span>
 </button>
 <button class="mobile-nav-item" data-tab="settings" onclick="goTo('settings')" title="Settings">
 <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
@@ -2318,14 +2338,57 @@ function switchSupportTab(which, btn){
   else renderConversations();
 }
 
+/* ===== NAV BADGES (red notification dots on sidebar + mobile nav) =====
+   Counters:
+     - support  : unread conversations + pending payment requests
+     - offers   : pending payment requests (mirrors the Subscriptions & Payments tab)
+   updateSupportBadge() is called whenever the underlying data changes
+   (selectConversation / selectSubRequest / approveSubscription / rejectSubscription)
+   and after every render of the support lists. */
+function setBadge(id, count){
+  const c = Math.max(0, Math.min(99, count|0));
+  const el = document.getElementById(id);
+  if(!el) return;
+  el.textContent = c > 99 ? '99+' : String(c);
+  el.setAttribute('data-count', c);
+  el.classList.toggle('show', c > 0);
+}
+function updateSupportBadge(){
+  const unreadConvos = (state.convos || []).filter(c => c.unread).length;
+  const pendingSubs  = (state.subRequests || []).filter(r => r.status === 'pending').length;
+  const total = unreadConvos + pendingSubs;
+  setBadge('navBadge-support', total);
+  setBadge('mobileBadge-support', total);
+  // Offers tab badge = pending payment requests only (same data, different view)
+  setBadge('navBadge-offers', pendingSubs);
+  setBadge('mobileBadge-offers', pendingSubs);
+}
+
 /* ===== SUPPORT MESSAGES ===== */
 function renderConversations(){
   const list=document.getElementById('conversationsList');
   document.getElementById('convCount').textContent=state.convos.length;
   if(state.convos.length===0){list.innerHTML=`<div class="empty">${ICONS.bell2}<div>No conversations yet</div></div>`;return}
-  const sorted=[...state.convos].sort((a,b)=>{if(a.unread!==b.unread)return a.unread?-1:1;return new Date(b.messages.at(-1)?.at||0)-new Date(a.messages.at(-1)?.at||0)});
+  // Apply search filter if the search box has a value
+  const q=(document.getElementById('convSearch')?.value || '').trim().toLowerCase();
+  const filtered = state.convos.filter(c=>{
+    if(!q) return true;
+    const last=c.messages.at(-1);
+    const preview = last ? (last.text||'') : '';
+    return (c.userName||'').toLowerCase().includes(q)
+        || (c.userEmail||'').toLowerCase().includes(q)
+        || preview.toLowerCase().includes(q);
+  });
+  const sorted=[...filtered].sort((a,b)=>{if(a.unread!==b.unread)return a.unread?-1:1;return new Date(b.messages.at(-1)?.at||0)-new Date(a.messages.at(-1)?.at||0)});
+  if(sorted.length===0){
+    list.innerHTML=`<div class="empty">${ICONS.bell2}<div>No conversations match "${escapeHTML(q)}"</div></div>`;
+    return;
+  }
   list.innerHTML=sorted.map(c=>{const last=c.messages.at(-1);const preview=last?(last.image?'📎 Image attachment':last.text):'—';return`<div class="conversation-item ${selectedConvoId===c.id?'active':''}" onclick="selectConversation('${c.id}')"><div class="conv-avatar">${initials(c.userName)}${c.unread?'<span class="unread-dot"></span>':''}</div><div class="conv-info"><div class="conv-name">${c.userName}</div><div class="conv-preview">${preview}</div></div><div class="conv-time">${last?formatShortTime(last.at):''}</div></div>`}).join('');
+  updateSupportBadge();
 }
+// Filter helper called from the search input — just re-renders the list
+function filterConversations(_q){ renderConversations(); updateSupportBadge(); }
 function selectConversation(id){
   const c=state.convos.find(x=>x.id===id);if(!c)return;
   selectedConvoId=id;c.unread=false;saveConvos(state.convos);
@@ -2445,11 +2508,25 @@ function renderSubRequests(){
     list.innerHTML = `<div class="empty">${ICONS.credit}<div>No payment requests yet</div></div>`;
     return;
   }
-  const sorted = [...reqs].sort((a,b)=>{
+  // Apply search filter if the search box has a value
+  const q=(document.getElementById('subReqSearch')?.value || '').trim().toLowerCase();
+  const filtered = reqs.filter(r=>{
+    if(!q) return true;
+    return (r.userName||'').toLowerCase().includes(q)
+        || (r.userEmail||'').toLowerCase().includes(q)
+        || (r.planName||'').toLowerCase().includes(q)
+        || (r.transactionId||'').toLowerCase().includes(q)
+        || (r.paymentMethodLabel||'').toLowerCase().includes(q);
+  });
+  const sorted = [...filtered].sort((a,b)=>{
     const statusOrder = {pending:0, approved:1, rejected:2};
     if(statusOrder[a.status] !== statusOrder[b.status]) return statusOrder[a.status] - statusOrder[b.status];
     return new Date(b.requestedAt) - new Date(a.requestedAt);
   });
+  if(sorted.length===0){
+    list.innerHTML = `<div class="empty">${ICONS.credit}<div>No payment requests match "${escapeHTML(q)}"</div></div>`;
+    return;
+  }
   list.innerHTML = sorted.map(r=>{
     const statusClass = r.status;
     const statusLabel = r.status.charAt(0).toUpperCase() + r.status.slice(1);
@@ -2470,7 +2547,10 @@ function renderSubRequests(){
       <div class="conv-time">${formatShortTime(r.requestedAt)}</div>
     </div>`;
   }).join('');
+  updateSupportBadge();
 }
+// Filter helper called from the search input — just re-renders the list
+function filterSubRequests(_q){ renderSubRequests(); updateSupportBadge(); }
 
 function selectSubRequest(id){
   const r = (state.subRequests||[]).find(x=>x.id===id);
@@ -2758,7 +2838,10 @@ function updatePassword(){const current=document.getElementById('currentPass').v
 const savedTheme = localStorage.getItem('ad_theme') || 'light';
 applyTheme(savedTheme);
 
-if(isLoggedIn()){hideLogin();renderDashboard()}else{showLogin()}
+if(isLoggedIn()){try{hideLogin();renderDashboard()}catch(e){console.warn('init error:',e)}}else{try{showLogin()}catch(e){console.warn('login show error:',e)}}
+// Initialize nav badges on first load (unread convos + pending payment requests)
+// (always runs, even if the dashboard init above threw)
+try{updateSupportBadge()}catch(e){console.warn('badge init error:',e)}
 </script>
 </body>
 </html>
