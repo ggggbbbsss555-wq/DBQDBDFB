@@ -1479,6 +1479,25 @@ let selectedSubReqId = null;
 let pendingImage = null;
 let pendingConfirmAction = null;
 
+// ===== Nav badge "seen" tracking =====
+// When the admin opens the Support (or Offers) tab, the red badge disappears —
+// we mark that tab as "seen" so the badge stays hidden even though there are
+// still pending items. The badge comes back only when NEW activity arrives:
+//   - new unread conversation → support badge re-arms
+//   - new pending payment request → both badges re-arm
+// We track the high-water mark (last seen unread/pending counts) so that
+// "seen" only resets when the count goes UP, not when it goes back down.
+let badgeSeen = {
+  support: { seen:false, lastUnread:0, lastPending:0 },
+  offers:  { seen:false, lastPending:0 },
+};
+// Persist across reloads so a refresh doesn't un-dismiss the badge.
+try {
+  const saved = JSON.parse(localStorage.getItem('ad_badge_seen') || 'null');
+  if(saved && typeof saved === 'object'){ badgeSeen = Object.assign(badgeSeen, saved); }
+} catch(_) {}
+function saveBadgeSeen(){ try{ localStorage.setItem('ad_badge_seen', JSON.stringify(badgeSeen)); }catch(_){} }
+
 const STORAGE_KEYS = {
   USERS: 'ad_users', NOTIFS: 'ad_notifications', PROMOS: 'ad_promos',
   SETTINGS: 'ad_settings', OFFERS: 'ad_offers', PLANS: 'ad_plans',
@@ -1982,8 +2001,8 @@ function goTo(tab){
   if(tab==='users')renderUsers();
   if(tab==='notifications')renderNotifHistory();
   if(tab==='promo')renderPromos();
-  if(tab==='offers'){renderOffers();renderPlans()}
-  if(tab==='support'){renderConversations();renderSubRequests()}
+  if(tab==='offers'){renderOffers();renderPlans(); markBadgeSeen('offers')}
+  if(tab==='support'){renderConversations();renderSubRequests(); markBadgeSeen('support')}
   if(tab==='settings')renderSettings();
   window.scrollTo({top:0,behavior:'smooth'});
 }
@@ -2356,12 +2375,39 @@ function setBadge(id, count){
 function updateSupportBadge(){
   const unreadConvos = (state.convos || []).filter(c => c.unread).length;
   const pendingSubs  = (state.subRequests || []).filter(r => r.status === 'pending').length;
-  const total = unreadConvos + pendingSubs;
-  setBadge('navBadge-support', total);
-  setBadge('mobileBadge-support', total);
-  // Offers tab badge = pending payment requests only (same data, different view)
-  setBadge('navBadge-offers', pendingSubs);
-  setBadge('mobileBadge-offers', pendingSubs);
+
+  // Re-arm badges if NEW activity arrived since the admin last saw the tab.
+  // We compare current counts to the high-water marks stored at "seen" time.
+  if(unreadConvos > badgeSeen.support.lastUnread || pendingSubs > badgeSeen.support.lastPending){
+    badgeSeen.support.seen = false;
+  }
+  if(pendingSubs > badgeSeen.offers.lastPending){
+    badgeSeen.offers.seen = false;
+  }
+  saveBadgeSeen();
+
+  // Support badge shows total (unread + pending) unless the admin has seen it.
+  const supportTotal = badgeSeen.support.seen ? 0 : (unreadConvos + pendingSubs);
+  const offersTotal  = badgeSeen.offers.seen  ? 0 : pendingSubs;
+
+  setBadge('navBadge-support', supportTotal);
+  setBadge('mobileBadge-support', supportTotal);
+  setBadge('navBadge-offers', offersTotal);
+  setBadge('mobileBadge-offers', offersTotal);
+}
+
+// Mark a tab's badge as "seen" — called when the admin opens that tab.
+// Captures the current high-water mark so the badge only re-arms on NEW activity.
+function markBadgeSeen(tab){
+  const unreadConvos = (state.convos || []).filter(c => c.unread).length;
+  const pendingSubs  = (state.subRequests || []).filter(r => r.status === 'pending').length;
+  if(tab === 'support'){
+    badgeSeen.support = { seen:true, lastUnread:unreadConvos, lastPending:pendingSubs };
+  } else if(tab === 'offers'){
+    badgeSeen.offers = { seen:true, lastPending:pendingSubs };
+  }
+  saveBadgeSeen();
+  updateSupportBadge();
 }
 
 /* ===== SUPPORT MESSAGES ===== */
@@ -2836,7 +2882,7 @@ function updateEmail(){const newEmail=document.getElementById('newEmail').value.
 function updatePassword(){const current=document.getElementById('currentPass').value;const next=document.getElementById('newPass').value;const confirmP=document.getElementById('confirmPass').value;if(!current||!next||!confirmP){toast('Please fill in all fields','error');return}if(current!==state.settings.password){toast('Current password is incorrect','error');return}if(next.length<8){toast('New password must be at least 8 characters','error');return}if(next!==confirmP){toast('Passwords do not match','error');return}state.settings.password=next;saveSettings(state.settings);document.getElementById('currentPass').value='';document.getElementById('newPass').value='';document.getElementById('confirmPass').value='';toast('Password updated successfully','success')}
 
 const savedTheme = localStorage.getItem('ad_theme') || 'light';
-applyTheme(savedTheme);
+try{applyTheme(savedTheme)}catch(e){console.warn('theme init error:',e)}
 
 if(isLoggedIn()){try{hideLogin();renderDashboard()}catch(e){console.warn('init error:',e)}}else{try{showLogin()}catch(e){console.warn('login show error:',e)}}
 // Initialize nav badges on first load (unread convos + pending payment requests)
