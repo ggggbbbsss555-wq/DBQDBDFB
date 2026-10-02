@@ -532,6 +532,45 @@ tbody tr:hover{background:var(--bg-soft)}
 .sub-receipt-preview:hover{border-color:var(--accent)}
 
 .sub-status-timeline{display:flex;flex-direction:column;gap:.65rem;padding:.75rem;background:var(--bg-soft);border-radius:8px;border:1px solid var(--border-soft)}
+
+/* ===== Trading Signals tab ===== */
+.signals-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:.75rem}
+.signal-card{background:var(--bg-elev);border:1px solid var(--border);border-radius:10px;padding:.85rem 1rem;display:flex;align-items:center;gap:.85rem;transition:border-color .15s ease;min-width:0}
+.signal-card.buy{border-left:3px solid var(--success)}
+.signal-card.sell{border-left:3px solid var(--danger)}
+.signal-card.closed{opacity:.7}
+.signal-card-type{width:38px;height:38px;border-radius:8px;display:grid;place-items:center;font-weight:700;font-size:.7rem;letter-spacing:.04em;color:#fff;flex-shrink:0;text-transform:uppercase}
+.signal-card-type.buy{background:var(--success)}
+.signal-card-type.sell{background:var(--danger)}
+.signal-card-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:.15rem}
+.signal-card-symbol{font-weight:700;font-size:.92rem;color:var(--text)}
+.signal-card-meta{font-size:.72rem;color:var(--text-muted);display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
+.signal-card-result{font-size:.7rem;font-weight:700;padding:.15rem .45rem;border-radius:4px;flex-shrink:0}
+.signal-card-result.win{background:rgba(22,163,74,.12);color:var(--success)}
+.signal-card-result.lose{background:rgba(220,38,38,.12);color:var(--danger)}
+.signal-card-result.pending{background:rgba(217,119,6,.12);color:var(--warning)}
+@media(max-width:600px){.signals-grid{grid-template-columns:1fr}}
+
+/* ===== Platform & Strategy cards in Trading Signals tab ===== */
+.platform-row{display:flex;align-items:center;gap:.85rem;padding:.75rem .9rem;background:var(--bg-soft);border:1px solid var(--border-soft);border-radius:8px}
+.platform-row.disabled{opacity:.55}
+.platform-row-icon{width:38px;height:38px;border-radius:8px;display:grid;place-items:center;font-weight:800;color:#fff;font-size:.68rem;letter-spacing:.04em;flex-shrink:0}
+.platform-row-info{flex:1;min-width:0}
+.platform-row-name{font-weight:700;font-size:.92rem;color:var(--text)}
+.platform-row-desc{font-size:.72rem;color:var(--text-muted)}
+
+.strategy-card{background:var(--bg-soft);border:1px solid var(--border-soft);border-radius:10px;padding:1rem 1.1rem}
+.strategy-card.disabled{opacity:.6}
+.strategy-card-top{display:flex;align-items:center;gap:.75rem;margin-bottom:.75rem}
+.strategy-card-dot{width:14px;height:14px;border-radius:50%;flex-shrink:0;box-shadow:0 0 0 3px rgba(0,0,0,0.04)}
+.strategy-card-name{font-weight:700;font-size:1rem;color:var(--text);flex:1;min-width:0}
+.strategy-card-tag{font-size:.72rem;color:var(--text-muted);margin-bottom:.5rem}
+.strategy-card-stats{display:flex;gap:1rem;flex-wrap:wrap;margin:.5rem 0 .75rem;padding:.5rem .75rem;background:var(--bg-elev);border-radius:6px;border:1px solid var(--border-soft)}
+.strategy-card-stat{display:flex;flex-direction:column;gap:.1rem;min-width:70px}
+.strategy-card-stat-label{font-size:.6rem;text-transform:uppercase;letter-spacing:.04em;color:var(--text-faint);font-weight:600}
+.strategy-card-stat-value{font-size:.85rem;font-weight:700;color:var(--text)}
+.strategy-card-actions{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem}
+
 .sub-timeline-item{display:flex;gap:.65rem;align-items:flex-start;font-size:.78rem}
 .sub-timeline-dot{width:8px;height:8px;border-radius:50%;margin-top:6px;flex-shrink:0}
 .sub-timeline-dot.pending{background:var(--warning)}
@@ -707,6 +746,10 @@ Promo Codes
 <button class="nav-item" data-tab="offers">
 <svg class="icon" viewBox="0 0 24 24"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
 Offers & Plans
+</button>
+<button class="nav-item" data-tab="signals">
+<svg class="icon" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+Trading Signals
 </button>
 <button class="nav-item" data-tab="support">
 <svg class="icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
@@ -1123,6 +1166,42 @@ Add Plan
 </div>
 </div>
 </section>
+<section class="tab-content" id="tab-signals">
+<div class="page-header">
+<div class="page-header-text">
+<h1>Trading Signals</h1>
+<p>Live trading signals feed (QuantVexa-compatible — syncs with quantvexa/#signals)</p>
+</div>
+</div>
+<div class="stats-grid" id="signalsStatsGrid"></div>
+<div class="panel">
+<div class="panel-header">
+<div>
+<h2>Live Signals</h2>
+<p>All active and recently closed trading signals. Mirror of quantvexa/#signals.</p>
+</div>
+</div>
+<div class="signals-grid" id="signalsGrid"></div>
+</div>
+<div class="panel">
+<div class="panel-header">
+<div>
+<h2>Platforms</h2>
+<p>Toggle which trading platforms (QUOTEX / BINOLLA) are available to users. Mirrors quantvexa platform selector.</p>
+</div>
+</div>
+<div id="platformsList" style="display:flex;flex-direction:column;gap:.65rem"></div>
+</div>
+<div class="panel">
+<div class="panel-header">
+<div>
+<h2>Signal Strategies</h2>
+<p>Edit strategy parameters. These flow 1:1 to the quantvexa/#dashboard STRATEGIES config.</p>
+</div>
+</div>
+<div id="strategiesList" style="display:flex;flex-direction:column;gap:.85rem"></div>
+</div>
+</section>
 <section class="tab-content" id="tab-support">
 <div class="page-header">
 <div class="page-header-text">
@@ -1358,6 +1437,10 @@ You will need to sign in again with your admin credentials to access the dashboa
 <svg class="icon" viewBox="0 0 24 24"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
 <span class="label">Offers</span>
 </button>
+<button class="mobile-nav-item" data-tab="signals" onclick="goTo('signals')" title="Trading Signals">
+<svg class="icon" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+<span class="label">Signals</span>
+</button>
 <button class="mobile-nav-item" data-tab="support" onclick="goTo('support')" title="Support">
 <svg class="icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
 <span class="label">Chat</span>
@@ -1409,7 +1492,66 @@ const STORAGE_KEYS = {
   SETTINGS: 'ad_settings', OFFERS: 'ad_offers', PLANS: 'ad_plans',
   CONVOS: 'ad_convos', SUBSCRIPTIONS: 'ad_subscriptions',
   SUB_REQUESTS: 'ad_sub_requests',
+  SIGNALS: 'ad_signals',           // QuantVexa-compatible: live trading signals
+  PLATFORMS: 'ad_platforms',       // QuantVexa-compatible: QUOTEX / BINOLLA toggles
+  STRATEGIES: 'ad_strategies',     // QuantVexa-compatible: strong / medium / pro strategies
 };
+
+// ===== QuantVexa-compatible platform & strategy catalogs =====
+// These mirror the values used by the quantvexa user-facing pages (dashboard / signals / wallet / settings)
+// so when an admin toggles a platform or edits a strategy's accuracy, the change can later be
+// synced to the database and propagated to all quantvexa iframes.
+const DEFAULT_PLATFORMS = [
+  { id:'QUOTEX',   name:'QUOTEX',   description:'Binary options trading', enabled:true, color:'#00d2ff' },
+  { id:'BINOLLA',  name:'BINOLLA',  description:'Smart advanced trading',  enabled:true, color:'#00ff88' },
+];
+
+// Each strategy mirrors the shape used by the quantvexa dashboard's STRATEGIES object
+// (winRate, profitRange, lossRange, stats, features) so the admin's edits flow 1:1 to users.
+const DEFAULT_STRATEGIES = [
+  {
+    id:'strong', name:'Strong', tag:'High frequency, moderate accuracy',
+    color:'#00ff88', winRate:0.55, profitRange:[0.3, 1.8], lossRange:[0.4, 1.6],
+    costPerSignal:1, signalsPerDay:'15-25', accuracy:'70%', duration:'1-3m',
+    description:'Generates up to 25 signals per day to capture maximum market opportunities.',
+    features:[
+      'Generates up to 25 signals per day to capture maximum market opportunities',
+      'Real-time scanning across multiple timeframes simultaneously for faster entries',
+      'Instant alerts when a signal is confirmed, with precise entry point detection',
+      'Supports all major assets: currencies, crypto, commodities, and indices',
+      '70% accuracy rate with preliminary filtering to discard weak signals'
+    ],
+    enabled:true,
+  },
+  {
+    id:'medium', name:'Medium', tag:'Balanced signals, steady results',
+    color:'#00d2ff', winRate:0.65, profitRange:[0.3, 2.0], lossRange:[0.3, 1.5],
+    costPerSignal:3, signalsPerDay:'8-12', accuracy:'80%', duration:'2-5m',
+    description:'Perfect balance between signal volume and quality for steady, consistent results.',
+    features:[
+      'Perfect balance between signal volume and quality for steady, consistent results',
+      'Multi-timeframe analysis to confirm trend direction before sending any signal',
+      'Advanced filtering system automatically excludes low-quality setups',
+      'Up to 80% accuracy with built-in risk management rules',
+      'Signals distributed throughout the day with smart timing for optimal sessions'
+    ],
+    enabled:true,
+  },
+  {
+    id:'pro', name:'Pro', tag:'Premium accuracy, low frequency',
+    color:'#ab82ff', winRate:0.78, profitRange:[0.5, 2.5], lossRange:[0.3, 1.2],
+    costPerSignal:6, signalsPerDay:'3-5', accuracy:'92%', duration:'5-15m',
+    description:'Hand-picked signals limited to 5 per day at the highest quality tier.',
+    features:[
+      'Hand-picked signals limited to 5 per day at the highest quality tier',
+      'Exceptional 92% accuracy rate with multi-source confirmation',
+      'Deep analysis powered by AI algorithms and machine-learning models',
+      'Every signal confirmed across multiple technical indicators before delivery',
+      'Includes news and economic event impact analysis for smarter entries'
+    ],
+    enabled:true,
+  },
+];
 const SAMPLE_NAMES = [
   'James','Sarah','Michael','Emma','John','Olivia','David','Sophia',
   'Robert','Isabella','William','Ava','Joseph','Mia','Daniel','Charlotte',
@@ -1473,6 +1615,22 @@ function loadData() {
       else if (i < 5) level = 2;
       else if (i < 9) level = 1;
       const promotedAt = level > 0 ? new Date(Date.now() - (i+1) * 86400000).toISOString() : null;
+      // ===== QuantVexa-compatible fields (for future DB sync with the 4 quantvexa pages) =====
+      // - platform: matches quantvexa platform selector (QUOTEX / BINOLLA)
+      // - strategy: matches quantvexa dashboard STRATEGIES keys (strong / medium / pro)
+      // - tgId / tgUsername / tgPhotoUrl: mirror what each quantvexa iframe receives via ?tg_* params
+      // - signalsRemaining / signalsSent / signalsTotal: mirror dashboard's credits counter
+      // - subscriptionStatus / subscriptionPlan / subscriptionExpiresAt: mirror wallet page state
+      // - botRunning: whether the user's bot session is currently active (dashboard page)
+      const tgId = 100000000 + i;
+      const platform = i % 2 === 0 ? 'QUOTEX' : 'BINOLLA';
+      const strategy = ['strong', 'medium', 'pro'][i % 3];
+      const plan = level === 3 ? 'Enterprise' : level === 2 ? 'Pro' : level === 1 ? 'Pro' : 'Starter';
+      const planAmount = plan === 'Enterprise' ? 100 : plan === 'Pro' ? 75 : 50;
+      const isPaid = level > 0 || i < 12;
+      const signalsTotal = isPaid ? 900 : 0;
+      const signalsSent = Math.floor(Math.random() * signalsTotal);
+      const subExpiresIn = isPaid ? Math.floor((30 - (i % 25)) * 86400000) : 0;
       users.push({
         id: uid(), email: `user${i+1}@dashboard.io`,
         name: SAMPLE_NAMES[i] ?? `User${i+1}`,
@@ -1484,10 +1642,55 @@ function loadData() {
         joinedAt: new Date(Date.now() - (i+1) * 86400000 * Math.floor(1 + Math.random() * 5)).toISOString(),
         promotedAt,
         promotionHistory: level > 0 ? [{ level, at: promotedAt, note: `Promoted to Level ${level}` }] : [],
+        // QuantVexa-compatible fields
+        tgId: String(tgId),
+        tgUsername: `user${i+1}`,
+        tgPhotoUrl: '',
+        platform,
+        strategy,
+        botRunning: false,
+        signalsRemaining: Math.max(0, signalsTotal - signalsSent),
+        signalsSent,
+        signalsTotal,
+        signalsDailyLimit: 50,
+        subscriptionStatus: isPaid ? 'ACTIVE' : 'INACTIVE',
+        subscriptionPlan: isPaid ? plan : null,
+        subscriptionPlanId: isPaid ? ('pl' + (plan === 'Enterprise' ? 3 : plan === 'Pro' ? 2 : 1)) : null,
+        subscriptionAmount: isPaid ? planAmount : 0,
+        subscriptionStartedAt: isPaid ? new Date(Date.now() - 86400000 * (i % 10 + 1)).toISOString() : null,
+        subscriptionExpiresAt: isPaid ? new Date(Date.now() + subExpiresIn).toISOString() : null,
+        autoRenewal: isPaid,
       });
     }
     localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(users));
   }
+  // ===== Migration: back-fill quantvexa-compatible fields on existing user records =====
+  // This runs every load and patches any user missing the new fields (no version bump needed
+  // because we always derive sane defaults from existing data).
+  let userSchemaDirty = false;
+  users.forEach(u => {
+    if(u.tgId === undefined){
+      u.tgId = '10' + String(users.indexOf(u)).padStart(8, '0');
+      u.tgUsername = (u.name || 'user').toLowerCase().replace(/\s+/g, '');
+      u.tgPhotoUrl = '';
+      u.platform = 'QUOTEX';
+      u.strategy = 'strong';
+      u.botRunning = false;
+      u.signalsRemaining = (u.level || 0) > 0 ? 900 : 0;
+      u.signalsSent = 0;
+      u.signalsTotal = (u.level || 0) > 0 ? 900 : 0;
+      u.signalsDailyLimit = 50;
+      u.subscriptionStatus = (u.level || 0) > 0 ? 'ACTIVE' : 'INACTIVE';
+      u.subscriptionPlan = (u.level || 0) > 0 ? (u.level === 3 ? 'Enterprise' : 'Pro') : null;
+      u.subscriptionPlanId = (u.level || 0) > 0 ? ('pl' + (u.level === 3 ? 3 : 2)) : null;
+      u.subscriptionAmount = (u.level || 0) > 0 ? (u.level === 3 ? 100 : 75) : 0;
+      u.subscriptionStartedAt = u.joinedAt;
+      u.subscriptionExpiresAt = (u.level || 0) > 0 ? new Date(Date.now() + 30*86400000).toISOString() : null;
+      u.autoRenewal = (u.level || 0) > 0;
+      userSchemaDirty = true;
+    }
+  });
+  if(userSchemaDirty){ localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(users)); }
   let notifs = JSON.parse(localStorage.getItem(STORAGE_KEYS.NOTIFS) || '[]');
   if (notifs.length === 0) {
     notifs = [
@@ -1667,7 +1870,45 @@ function loadData() {
     localStorage.setItem(STORAGE_KEYS.SUB_REQUESTS, JSON.stringify(subRequests));
     localStorage.setItem(STORAGE_KEYS.SUB_REQUESTS + '_version', SUB_REQ_VERSION);
   }
-  return { users, notifs, promos, settings, offers, plans, convos, subscriptions, subRequests };
+
+  // ===== QuantVexa-compatible: live trading signals =====
+  // Signal shape mirrors the quantvexa signals page (erqq) so they can be synced later:
+  //   { id, symbol, type, entry, duration, startTime, result, profit, userId, strategy, platform }
+  let signals = JSON.parse(localStorage.getItem(STORAGE_KEYS.SIGNALS) || 'null');
+  if(!signals){
+    const nowSec = Math.floor(Date.now() / 1000);
+    const sampleSymbols = ['EURUSD-OTC','GBPUSD-OTC','USDJPY-OTC','AUDUSD-OTC','USDCAD-OTC','EURJPY-OTC'];
+    const sampleTypes = ['buy','buy','sell','buy','sell','sell'];
+    signals = sampleSymbols.map((sym, i) => ({
+      id: 'sig' + (i+1),
+      symbol: sym,
+      type: sampleTypes[i],
+      entry: [1.0852, 1.3025, 149.85, 0.6582, 1.3585, 163.45][i],
+      duration: [120, 180, 90, 240, 60, 150][i],
+      startTime: nowSec - [30, 90, 60, 10, 45, 120][i],
+      result: null,
+      profit: null,
+      userId: users[i % users.length].id,
+      strategy: ['strong','medium','pro','strong','medium','pro'][i],
+      platform: 'QUOTEX',
+      createdAt: new Date(Date.now() - i * 60000).toISOString(),
+    }));
+    localStorage.setItem(STORAGE_KEYS.SIGNALS, JSON.stringify(signals));
+  }
+
+  // ===== QuantVexa-compatible: platforms & strategies (admin-editable) =====
+  let platforms = JSON.parse(localStorage.getItem(STORAGE_KEYS.PLATFORMS) || 'null');
+  if(!platforms){
+    platforms = JSON.parse(JSON.stringify(DEFAULT_PLATFORMS));
+    localStorage.setItem(STORAGE_KEYS.PLATFORMS, JSON.stringify(platforms));
+  }
+  let strategies = JSON.parse(localStorage.getItem(STORAGE_KEYS.STRATEGIES) || 'null');
+  if(!strategies){
+    strategies = JSON.parse(JSON.stringify(DEFAULT_STRATEGIES));
+    localStorage.setItem(STORAGE_KEYS.STRATEGIES, JSON.stringify(strategies));
+  }
+
+  return { users, notifs, promos, settings, offers, plans, convos, subscriptions, subRequests, signals, platforms, strategies };
 }
 
 function saveUsers(u){localStorage.setItem(STORAGE_KEYS.USERS,JSON.stringify(u))}
@@ -1679,6 +1920,10 @@ function savePlans(p){localStorage.setItem(STORAGE_KEYS.PLANS,JSON.stringify(p))
 function saveConvos(c){localStorage.setItem(STORAGE_KEYS.CONVOS,JSON.stringify(c))}
 function saveSubscriptions(s){localStorage.setItem(STORAGE_KEYS.SUBSCRIPTIONS,JSON.stringify(s))}
 function saveSubRequests(r){localStorage.setItem(STORAGE_KEYS.SUB_REQUESTS,JSON.stringify(r))}
+// QuantVexa-compatible save helpers
+function saveSignals(s){localStorage.setItem(STORAGE_KEYS.SIGNALS,JSON.stringify(s))}
+function savePlatforms(p){localStorage.setItem(STORAGE_KEYS.PLATFORMS,JSON.stringify(p))}
+function saveStrategies(s){localStorage.setItem(STORAGE_KEYS.STRATEGIES,JSON.stringify(s))}
 
 const state = loadData();
 
@@ -1748,6 +1993,7 @@ function goTo(tab){
   if(tab==='notifications')renderNotifHistory();
   if(tab==='promo')renderPromos();
   if(tab==='offers'){renderOffers();renderPlans()}
+  if(tab==='signals')renderSignalsTab();
   if(tab==='support'){renderConversations();renderSubRequests()}
   if(tab==='settings')renderSettings();
   window.scrollTo({top:0,behavior:'smooth'});
@@ -2015,6 +2261,140 @@ function clearPlanForm(){document.getElementById('planName').value='';document.g
 function addPlan(){const name=document.getElementById('planName').value.trim();const price=parseFloat(document.getElementById('planPrice').value);const duration=document.getElementById('planDuration').value;const featured=document.getElementById('planFeatured').value==='true';const featuresRaw=document.getElementById('planFeatures').value;const features=featuresRaw.split('\n').map(s=>s.trim()).filter(Boolean);if(!name){toast('Please enter a plan name','error');return}if(![50,75,100].includes(price)){toast('Price must be $50, $75, or $100','error');return}if(features.length===0){toast('Please add at least one feature','error');return}state.plans.unshift({id:'pl'+Date.now(),name,price,duration,features,featured,active:true,createdAt:new Date().toISOString()});savePlans(state.plans);clearPlanForm();toast('Subscription plan added','success');renderPlans()}
 function deletePlan(id){const p=state.plans.find(x=>x.id===id);if(!p)return;showConfirmCard({title:'Delete plan?',message:`Plan "${p.name}" ($${Number(p.price).toFixed(2)}) will be permanently removed.`,icon:'danger',confirmText:'Delete Plan',onConfirm:()=>{state.plans=state.plans.filter(x=>x.id!==id);savePlans(state.plans);toast(`Plan ${p.name} deleted`,'info');renderPlans()}})}
 function renderPlans(){const grid=document.getElementById('plansGrid');if(state.plans.length===0){grid.innerHTML=`<div class="empty" style="grid-column:1/-1">${ICONS.credit}<div>No plans yet — create one above</div></div>`;return}const cycleLabels={month:'/mo',year:'/yr',week:'/wk'};grid.innerHTML=state.plans.map(p=>`<div class="plan-card ${p.featured?'featured':''}"><div class="plan-name">${p.name}</div><div class="plan-price">$${Number(p.price).toFixed(2)} <small>${cycleLabels[p.duration]||''}</small></div><div class="plan-duration">${p.duration==='month'?'Billed monthly':p.duration==='year'?'Billed annually':'Billed weekly'}</div><ul class="plan-features">${p.features.map(f=>`<li>${ICONS.check}<span>${f}</span></li>`).join('')}</ul><div class="plan-actions"><button class="btn-danger-soft" onclick="deletePlan('${p.id}')" style="flex:1;justify-content:center">${ICONS.trash}<span style="margin-left:.35rem">Delete Plan</span></button></div></div>`).join('')}
+
+/* ===== TRADING SIGNALS TAB (QuantVexa-compatible) =====
+   All rendering in this section produces data that mirrors what the user-facing
+   quantvexa pages show. When a backend is wired up later, these localStorage
+   reads/writes can be replaced with fetch() calls without touching the UI. */
+function renderSignalsTab(){
+  renderSignalsStats();
+  renderSignalsGrid();
+  renderPlatforms();
+  renderStrategies();
+}
+
+function renderSignalsStats(){
+  const grid = document.getElementById('signalsStatsGrid');
+  if(!grid) return;
+  const sigs = state.signals || [];
+  let active=0, wins=0, losses=0;
+  sigs.forEach(s => {
+    if(s.result === 'win') wins++;
+    else if(s.result === 'lose') losses++;
+    else active++;
+  });
+  const total = wins + losses;
+  const winRate = total > 0 ? Math.round((wins/total)*100) : 0;
+  grid.innerHTML = [
+    {label:'Active', value:active, icon:'<svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>', color:'var(--accent)'},
+    {label:'Wins', value:wins, icon:'<svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>', color:'var(--success)'},
+    {label:'Losses', value:losses, icon:'<svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>', color:'var(--danger)'},
+    {label:'Win Rate', value:winRate+'%', icon:'<svg class="icon" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>', color:'var(--warning)'},
+    {label:'Total Signals', value:sigs.length, icon:'<svg class="icon" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>', color:'var(--accent)'},
+    {label:'Symbols Covered', value:new Set(sigs.map(s=>s.symbol)).size, icon:'<svg class="icon" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-5"/></svg>', color:'var(--success)'},
+  ].map(s => `<div class="stat-card"><div class="stat-icon" style="color:${s.color};background:rgba(127,127,127,0.06)">${s.icon}</div><div class="stat-label">${s.label}</div><div class="stat-value">${s.value}</div></div>`).join('');
+}
+
+function renderSignalsGrid(){
+  const grid = document.getElementById('signalsGrid');
+  if(!grid) return;
+  const sigs = state.signals || [];
+  if(sigs.length === 0){
+    grid.innerHTML = `<div class="empty" style="grid-column:1/-1">${ICONS.bell}<div>No signals yet</div></div>`;
+    return;
+  }
+  grid.innerHTML = sigs.map(s => {
+    const isBuy = s.type === 'buy';
+    const resultBadge = s.result === 'win'
+      ? `<span class="signal-card-result win">WIN ${s.profit != null ? (s.profit>=0?'+':'')+Number(s.profit).toFixed(2)+'%' : ''}</span>`
+      : s.result === 'lose'
+        ? `<span class="signal-card-result lose">LOSS ${s.profit != null ? (s.profit>=0?'+':'')+Number(s.profit).toFixed(2)+'%' : ''}</span>`
+        : `<span class="signal-card-result pending">PENDING</span>`;
+    const user = (state.users || []).find(u => u.id === s.userId);
+    return `<div class="signal-card ${isBuy?'buy':'sell'} ${s.result?'closed':''}">
+      <div class="signal-card-type ${isBuy?'buy':'sell'}">${isBuy?'BUY':'SELL'}</div>
+      <div class="signal-card-info">
+        <div class="signal-card-symbol">${s.symbol}</div>
+        <div class="signal-card-meta">
+          <span>Entry: ${s.entry}</span>
+          <span>•</span>
+          <span>Strategy: ${s.strategy || '—'}</span>
+          <span>•</span>
+          <span>Platform: ${s.platform || '—'}</span>
+          ${user ? `<span>•</span><span>User: ${user.name}</span>` : ''}
+        </div>
+      </div>
+      ${resultBadge}
+    </div>`;
+  }).join('');
+}
+
+function renderPlatforms(){
+  const wrap = document.getElementById('platformsList');
+  if(!wrap) return;
+  const platforms = state.platforms || [];
+  if(platforms.length === 0){
+    wrap.innerHTML = `<div class="empty">${ICONS.credit}<div>No platforms configured</div></div>`;
+    return;
+  }
+  wrap.innerHTML = platforms.map(p => `
+    <div class="platform-row ${p.enabled?'':'disabled'}">
+      <div class="platform-row-icon" style="background:${p.color}">${p.name.slice(0,2)}</div>
+      <div class="platform-row-info">
+        <div class="platform-row-name">${p.name}</div>
+        <div class="platform-row-desc">${p.description || ''}</div>
+      </div>
+      <button type="button" class="pay-method-toggle ${p.enabled?'on':''}" onclick="togglePlatform('${p.id}')" aria-label="Toggle ${p.name}"></button>
+    </div>
+  `).join('');
+}
+
+function togglePlatform(id){
+  const p = (state.platforms || []).find(x => x.id === id);
+  if(!p) return;
+  p.enabled = !p.enabled;
+  savePlatforms(state.platforms);
+  renderPlatforms();
+  toast(`${p.name} ${p.enabled?'enabled':'disabled'}`, p.enabled?'success':'info');
+}
+
+function renderStrategies(){
+  const wrap = document.getElementById('strategiesList');
+  if(!wrap) return;
+  const strategies = state.strategies || [];
+  if(strategies.length === 0){
+    wrap.innerHTML = `<div class="empty">${ICONS.gear}<div>No strategies configured</div></div>`;
+    return;
+  }
+  wrap.innerHTML = strategies.map(s => `
+    <div class="strategy-card ${s.enabled?'':'disabled'}">
+      <div class="strategy-card-top">
+        <div class="strategy-card-dot" style="background:${s.color}"></div>
+        <div class="strategy-card-name">${s.name}</div>
+        <button type="button" class="pay-method-toggle ${s.enabled?'on':''}" onclick="toggleStrategy('${s.id}')" aria-label="Toggle ${s.name}"></button>
+      </div>
+      <div class="strategy-card-tag">${s.tag || ''}</div>
+      <div style="font-size:.78rem;color:var(--text-muted);margin-bottom:.5rem">${s.description || ''}</div>
+      <div class="strategy-card-stats">
+        <div class="strategy-card-stat"><span class="strategy-card-stat-label">Signals/day</span><span class="strategy-card-stat-value">${s.signalsPerDay || '—'}</span></div>
+        <div class="strategy-card-stat"><span class="strategy-card-stat-label">Accuracy</span><span class="strategy-card-stat-value">${s.accuracy || '—'}</span></div>
+        <div class="strategy-card-stat"><span class="strategy-card-stat-label">Duration</span><span class="strategy-card-stat-value">${s.duration || '—'}</span></div>
+        <div class="strategy-card-stat"><span class="strategy-card-stat-label">Cost</span><span class="strategy-card-stat-value">${s.costPerSignal || 1} pt</span></div>
+        <div class="strategy-card-stat"><span class="strategy-card-stat-label">Win Rate</span><span class="strategy-card-stat-value">${Math.round((s.winRate||0)*100)}%</span></div>
+      </div>
+      ${s.features && s.features.length ? `<ul class="plan-features" style="margin-top:.5rem">${s.features.map(f=>`<li>${ICONS.check}<span>${f}</span></li>`).join('')}</ul>` : ''}
+    </div>
+  `).join('');
+}
+
+function toggleStrategy(id){
+  const s = (state.strategies || []).find(x => x.id === id);
+  if(!s) return;
+  s.enabled = !s.enabled;
+  saveStrategies(state.strategies);
+  renderStrategies();
+  toast(`${s.name} strategy ${s.enabled?'enabled':'disabled'}`, s.enabled?'success':'info');
+}
 
 /* ===== SUPPORT TAB SWITCHING ===== */
 function switchSupportTab(which, btn){
