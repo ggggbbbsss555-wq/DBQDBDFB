@@ -845,7 +845,7 @@ Settings
 <div class="chart-card">
 <div class="chart-card-header">
 <div>
-<h3>Enterprise Plan</h3>
+<h3>Elite Plan</h3>
 <p>Business tier subscribers</p>
 </div>
 <div class="chart-icon red">
@@ -1636,8 +1636,8 @@ function loadData() {
       const tgId = 100000000 + i;
       const platform = i % 2 === 0 ? 'QUOTEX' : 'BINOLLA';
       const strategy = ['strong', 'medium', 'pro'][i % 3];
-      const plan = level === 3 ? 'Enterprise' : level === 2 ? 'Pro' : level === 1 ? 'Pro' : 'Starter';
-      const planAmount = plan === 'Enterprise' ? 100 : plan === 'Pro' ? 75 : 50;
+      const plan = level === 3 ? 'Elite' : level === 2 ? 'Pro' : level === 1 ? 'Pro' : 'Basic';
+      const planAmount = plan === 'Elite' ? 100 : plan === 'Pro' ? 75 : 50;
       const isPaid = level > 0 || i < 12;
       const signalsTotal = isPaid ? 900 : 0;
       const signalsSent = Math.floor(Math.random() * signalsTotal);
@@ -1666,7 +1666,7 @@ function loadData() {
         signalsDailyLimit: 50,
         subscriptionStatus: isPaid ? 'ACTIVE' : 'INACTIVE',
         subscriptionPlan: isPaid ? plan : null,
-        subscriptionPlanId: isPaid ? ('pl' + (plan === 'Enterprise' ? 3 : plan === 'Pro' ? 2 : 1)) : null,
+        subscriptionPlanId: isPaid ? ('pl' + (plan === 'Elite' ? 3 : plan === 'Pro' ? 2 : 1)) : null,
         subscriptionAmount: isPaid ? planAmount : 0,
         subscriptionStartedAt: isPaid ? new Date(Date.now() - 86400000 * (i % 10 + 1)).toISOString() : null,
         subscriptionExpiresAt: isPaid ? new Date(Date.now() + subExpiresIn).toISOString() : null,
@@ -1692,7 +1692,7 @@ function loadData() {
       u.signalsTotal = (u.level || 0) > 0 ? 900 : 0;
       u.signalsDailyLimit = 50;
       u.subscriptionStatus = (u.level || 0) > 0 ? 'ACTIVE' : 'INACTIVE';
-      u.subscriptionPlan = (u.level || 0) > 0 ? (u.level === 3 ? 'Enterprise' : 'Pro') : null;
+      u.subscriptionPlan = (u.level || 0) > 0 ? (u.level === 3 ? 'Elite' : 'Pro') : null;
       u.subscriptionPlanId = (u.level || 0) > 0 ? ('pl' + (u.level === 3 ? 3 : 2)) : null;
       u.subscriptionAmount = (u.level || 0) > 0 ? (u.level === 3 ? 100 : 75) : 0;
       u.subscriptionStartedAt = u.joinedAt;
@@ -1700,6 +1700,9 @@ function loadData() {
       u.autoRenewal = (u.level || 0) > 0;
       userSchemaDirty = true;
     }
+    // Also rename any existing 'Starter'/'Enterprise' plan names on user records
+    if(u.subscriptionPlan === 'Starter'){ u.subscriptionPlan = 'Basic'; userSchemaDirty = true; }
+    if(u.subscriptionPlan === 'Enterprise'){ u.subscriptionPlan = 'Elite'; userSchemaDirty = true; }
   });
   if(userSchemaDirty){ localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(users)); }
   let notifs = JSON.parse(localStorage.getItem(STORAGE_KEYS.NOTIFS) || '[]');
@@ -1752,17 +1755,19 @@ function loadData() {
     localStorage.setItem(STORAGE_KEYS.OFFERS, JSON.stringify(offers));
   }
   // ===== PLANS WITH PRICES: 50, 75, 100 (locked tiers) =====
-  const PLANS_VERSION = 'v2-50-75-100';
+  const PLANS_VERSION = 'v3-basic-pro-elite';
   const ALLOWED_PLAN_PRICES = [50, 75, 100];
   let plansVersion = localStorage.getItem(STORAGE_KEYS.PLANS + '_version');
   let plans = JSON.parse(localStorage.getItem(STORAGE_KEYS.PLANS) || '[]');
   // Reset to defaults if first load OR version mismatch OR existing plans contain invalid prices
+  // OR existing plans still use the old names (Starter / Enterprise)
   const hasInvalidPrice = plans.length > 0 && plans.some(p => !ALLOWED_PLAN_PRICES.includes(Number(p.price)));
-  if (plans.length === 0 || plansVersion !== PLANS_VERSION || hasInvalidPrice) {
+  const hasOldName = plans.length > 0 && plans.some(p => p.name === 'Starter' || p.name === 'Enterprise');
+  if (plans.length === 0 || plansVersion !== PLANS_VERSION || hasInvalidPrice || hasOldName) {
     plans = [
-      { id:'pl1', name:'Starter', price:50, duration:'month', features:['Up to 1,000 users','Basic analytics','Email support','Standard reports'], featured:false, active:true, createdAt:new Date(Date.now()-86400000).toISOString() },
-      { id:'pl2', name:'Pro', price:75, duration:'month', features:['Up to 10,000 users','Advanced analytics','Priority support','Custom branding','API access'], featured:true, active:true, createdAt:new Date(Date.now()-43200000).toISOString() },
-      { id:'pl3', name:'Enterprise', price:100, duration:'month', features:['Unlimited users','White-label dashboard','Dedicated manager','24/7 phone support','Custom integrations','SLA guarantee'], featured:false, active:true, createdAt:new Date(Date.now()-7200000).toISOString() },
+      { id:'pl1', name:'Basic',    price:50,  duration:'month', features:['Up to 100 signals per month','Strong strategy access','Telegram bot integration','Basic trade history (30 days)'],                                featured:false, active:true, createdAt:new Date(Date.now()-86400000).toISOString() },
+      { id:'pl2', name:'Pro',      price:75,  duration:'month', features:['Up to 500 signals per month','All strategies (Strong, Medium, Pro)','Advanced analytics dashboard','Full trade history (unlimited)','Priority 24/7 support','Multi-exchange support'], featured:true,  active:true, createdAt:new Date(Date.now()-43200000).toISOString() },
+      { id:'pl3', name:'Elite',    price:100, duration:'month', features:['Unlimited signals','All strategies + early access','White-label dashboard','Dedicated account manager','24/7 phone support','Custom integrations','SLA guarantee'],           featured:false, active:true, createdAt:new Date(Date.now()-7200000).toISOString() },
     ];
     localStorage.setItem(STORAGE_KEYS.PLANS, JSON.stringify(plans));
     localStorage.setItem(STORAGE_KEYS.PLANS + '_version', PLANS_VERSION);
@@ -1808,15 +1813,17 @@ function loadData() {
   }
   // ===== Subscription payment requests: Binance / USDT TRC20 / USDT BEP20 (QuantVexa wallet methods) =====
   // Prices are ALWAYS locked to 50 / 75 / 100 — never any other value.
-  const SUB_REQ_VERSION = 'v3-locked-prices-50-75-100';
+  const SUB_REQ_VERSION = 'v4-basic-pro-elite';
   const ALLOWED_AMOUNTS = [50, 75, 100];
   let subReqVersion = localStorage.getItem(STORAGE_KEYS.SUB_REQUESTS + '_version');
   let subRequests = JSON.parse(localStorage.getItem(STORAGE_KEYS.SUB_REQUESTS) || 'null');
   // Re-seed when version changes, OR if any request still uses old method IDs (paypal/usdt),
-  // OR if any request has an amount outside the locked [50,75,100] set (e.g. old $19.99 demos).
+  // OR if any request has an amount outside the locked [50,75,100] set (e.g. old $19.99 demos),
+  // OR if any request still references the old plan names (Starter / Enterprise).
   const hasOldMethod = subRequests && subRequests.some(r => ['paypal','usdt'].includes(r.paymentMethod));
   const hasInvalidAmount = subRequests && subRequests.some(r => !ALLOWED_AMOUNTS.includes(Number(r.amount)));
-  if (!subRequests || subReqVersion !== SUB_REQ_VERSION || hasOldMethod || hasInvalidAmount) {
+  const hasOldPlanName = subRequests && subRequests.some(r => r.planName === 'Starter' || r.planName === 'Enterprise');
+  if (!subRequests || subReqVersion !== SUB_REQ_VERSION || hasOldMethod || hasInvalidAmount || hasOldPlanName) {
     subRequests = [
       {
         id: 'sr1',
@@ -1843,13 +1850,13 @@ function loadData() {
         userName: users[1].name,
         userEmail: users[1].email,
         planId: 'pl3',
-        planName: 'Enterprise',
+        planName: 'Elite',
         planPrice: 100,
         paymentMethod: 'trc20',
         paymentMethodLabel: 'USDT TRC20',
         amount: 100,
         transactionId: 'T' + Math.random().toString(36).slice(2,14).toUpperCase() + Math.random().toString(36).slice(2,10).toUpperCase(),
-        receiptImage: 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="260"><rect width="400" height="260" fill="#f8fafc"/><rect x="20" y="20" width="360" height="220" fill="#fff" stroke="#e2e8f0" stroke-width="2" rx="8"/><text x="200" y="60" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold" fill="#0f172a">USDT TRC20</text><text x="200" y="90" text-anchor="middle" font-family="Arial" font-size="12" fill="#64748b">TRON Transfer</text><line x1="40" y1="105" x2="360" y2="105" stroke="#e2e8f0"/><text x="40" y="135" font-family="Arial" font-size="13" fill="#475569">Amount:</text><text x="360" y="135" text-anchor="end" font-family="Arial" font-size="13" font-weight="bold" fill="#0f172a">100 USDT</text><text x="40" y="165" font-family="Arial" font-size="13" fill="#475569">Plan:</text><text x="360" y="165" text-anchor="end" font-family="Arial" font-size="13" font-weight="bold" fill="#0f172a">Enterprise (Monthly)</text><text x="40" y="195" font-family="Arial" font-size="13" fill="#475569">TX Hash:</text><text x="360" y="195" text-anchor="end" font-family="Arial" font-size="10" font-weight="bold" fill="#0f172a">T8f3a...b2c1</text><circle cx="200" cy="225" r="8" fill="#f59e0b"/><text x="200" y="230" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="#fff">!</text></svg>'),
+        receiptImage: 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="260"><rect width="400" height="260" fill="#f8fafc"/><rect x="20" y="20" width="360" height="220" fill="#fff" stroke="#e2e8f0" stroke-width="2" rx="8"/><text x="200" y="60" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold" fill="#0f172a">USDT TRC20</text><text x="200" y="90" text-anchor="middle" font-family="Arial" font-size="12" fill="#64748b">TRON Transfer</text><line x1="40" y1="105" x2="360" y2="105" stroke="#e2e8f0"/><text x="40" y="135" font-family="Arial" font-size="13" fill="#475569">Amount:</text><text x="360" y="135" text-anchor="end" font-family="Arial" font-size="13" font-weight="bold" fill="#0f172a">100 USDT</text><text x="40" y="165" font-family="Arial" font-size="13" fill="#475569">Plan:</text><text x="360" y="165" text-anchor="end" font-family="Arial" font-size="13" font-weight="bold" fill="#0f172a">Elite (Monthly)</text><text x="40" y="195" font-family="Arial" font-size="13" fill="#475569">TX Hash:</text><text x="360" y="195" text-anchor="end" font-family="Arial" font-size="10" font-weight="bold" fill="#0f172a">T8f3a...b2c1</text><circle cx="200" cy="225" r="8" fill="#f59e0b"/><text x="200" y="230" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="#fff">!</text></svg>'),
         status: 'pending',
         requestedAt: new Date(Date.now() - 7200000).toISOString(),
         messages: [
@@ -2014,7 +2021,7 @@ function renderAllCharts(){
   renderStatusDonutChart();
   renderPlanChart('free','freePlanChart','freePlanLegend','#10b981','Free Plan');
   renderPlanChart('pro','proPlanChart','proPlanLegend','#f59e0b','Pro Plan');
-  renderPlanChart('enterprise','enterprisePlanChart','enterprisePlanLegend','#ef4444','Enterprise Plan');
+  renderPlanChart('enterprise','enterprisePlanChart','enterprisePlanLegend','#ef4444','Elite Plan');
 }
 function renderUserGrowthChart(){
   destroyChart('userGrowth');
@@ -2490,8 +2497,9 @@ function toggleConversationStatus(){
 /* ===== SUBSCRIPTIONS & PAYMENTS ===== */
 function getPlanIcon(planName){
   const n = (planName||'').toLowerCase();
-  if(n.includes('enterprise')) return {cls:'enterprise', svg:ICONS.shield};
-  if(n.includes('pro')) return {cls:'pro', svg:ICONS.star};
+  if(n.includes('elite'))      return {cls:'enterprise', svg:ICONS.shield};
+  if(n.includes('enterprise')) return {cls:'enterprise', svg:ICONS.shield};  // backward compat
+  if(n.includes('pro'))        return {cls:'pro', svg:ICONS.star};
   return {cls:'free', svg:ICONS.user};
 }
 
@@ -2524,7 +2532,7 @@ function getPaymentValue(methodId){
 //   1. Look up the plan by r.planId in state.plans
 //   2. If found and its price is in [50,75,100] → use it
 //   3. Else, try r.amount (only if it's in [50,75,100])
-//   4. Else, infer from r.planName: 'enterprise'→100, 'pro'→75, else 50
+//   4. Else, infer from r.planName: 'elite'/'enterprise'→100, 'pro'→75, else 50
 //   5. Last resort: 50 (lowest tier)
 function getPlanAmount(r){
   const ALLOWED = [50, 75, 100];
@@ -2538,7 +2546,7 @@ function getPlanAmount(r){
   // 3. Infer from plan name
   if(r && r.planName){
     const n = String(r.planName).toLowerCase();
-    if(n.includes('enterprise')) return 100;
+    if(n.includes('elite') || n.includes('enterprise')) return 100;
     if(n.includes('pro')) return 75;
     if(n.includes('starter') || n.includes('basic') || n.includes('free')) return 50;
   }
