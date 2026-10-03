@@ -2269,7 +2269,7 @@ function renderSubRequests(){
           ${r.userName}
           <span class="badge ${statusClass}" style="font-size:.58rem;padding:.1rem .35rem">${statusLabel}</span>
         </div>
-        <div class="conv-preview">${r.planName} · $${getPlanAmount(r)} · ${preview}</div>
+        <div class="conv-preview">${r.planName} · $${getPlanAmount(r)}${r.verificationCode ? ' · '+r.verificationCode : ''} · ${preview}</div>
       </div>
       <div class="conv-time">${formatShortTime(r.requestedAt)}</div>
     </div>`;
@@ -2348,6 +2348,11 @@ function renderSubMessages(r){
           <span class="sub-detail-label">Plan</span>
           <span class="sub-detail-value">${r.planName} — $${planAmount}/mo</span>
         </div>
+        ${r.verificationCode ? `
+        <div class="sub-detail-row" style="background:rgba(245,158,11,.08);border-color:rgba(245,158,11,.25)">
+          <span class="sub-detail-label" style="color:#f59e0b">Verification Code</span>
+          <span class="sub-detail-value mono" style="color:#f59e0b;font-size:1rem;font-weight:800;letter-spacing:.05em">${r.verificationCode}</span>
+        </div>` : ''}
         <div class="sub-detail-row">
           <span class="sub-detail-label">Transaction ID</span>
           <span class="sub-detail-value mono" title="${r.transactionId}">${r.transactionId}</span>
