@@ -682,7 +682,7 @@ tbody tr:hover{background:var(--bg-soft)}
 <form class="login-form" id="loginForm" onsubmit="return doLogin(event)">
 <div class="field">
 <label>Email</label>
-<input type="email" id="loginEmail" placeholder="admin@dashboard.io" autocomplete="username" required />
+<input type="email" id="loginEmail" placeholder="Enter your email" autocomplete="username" required />
 </div>
 <div class="field">
 <label>Password</label>
@@ -701,7 +701,7 @@ tbody tr:hover{background:var(--bg-soft)}
 </button>
 </form>
 <div class="login-hint">
-Default: <strong>admin@dashboard.io</strong> / <strong>Admin@2024</strong>
+Enter your admin credentials to access the dashboard.
 </div>
 </div>
 </div>
@@ -771,7 +771,7 @@ Settings
 <div class="sidebar-footer">
 <div class="avatar">M</div>
 <div style="flex:1;min-width:0">
-<div class="info-name" id="adminEmail">admin@dashboard.io</div>
+<div class="info-name" id="adminEmail">—</div>
 <div class="info-role">Administrator</div>
 </div>
 <button class="logout-btn" onclick="doLogout()" title="Sign out">
@@ -1498,450 +1498,89 @@ try {
 } catch(_) {}
 function saveBadgeSeen(){ try{ localStorage.setItem('ad_badge_seen', JSON.stringify(badgeSeen)); }catch(_){} }
 
-const STORAGE_KEYS = {
-  USERS: 'ad_users', NOTIFS: 'ad_notifications', PROMOS: 'ad_promos',
-  SETTINGS: 'ad_settings', OFFERS: 'ad_offers', PLANS: 'ad_plans',
-  CONVOS: 'ad_convos', SUBSCRIPTIONS: 'ad_subscriptions',
-  SUB_REQUESTS: 'ad_sub_requests',
-  SIGNALS: 'ad_signals',           // QuantVexa-compatible: live trading signals
-  PLATFORMS: 'ad_platforms',       // QuantVexa-compatible: QUOTEX / BINOLLA toggles
-  STRATEGIES: 'ad_strategies',     // QuantVexa-compatible: strong / medium / pro strategies
-};
+// ============================================================================
+// API CLIENT — connects to the Node.js backend on Railway
+// All data comes from the API. NO localStorage, NO fake data.
+// ============================================================================
+const API_URL = 'https://backend-server-production-4c03.up.railway.app';
+let adminToken = sessionStorage.getItem('ad_admin_token') || '';
 
-// ===== QuantVexa-compatible platform & strategy catalogs =====
-// These mirror the values used by the quantvexa user-facing pages (dashboard / signals / wallet / settings)
-// so when an admin toggles a platform or edits a strategy's accuracy, the change can later be
-// synced to the database and propagated to all quantvexa iframes.
-const DEFAULT_PLATFORMS = [
-  { id:'QUOTEX',   name:'QUOTEX',   description:'Binary options trading', enabled:true, color:'#00d2ff' },
-  { id:'BINOLLA',  name:'BINOLLA',  description:'Smart advanced trading',  enabled:true, color:'#00ff88' },
-];
-
-// Each strategy mirrors the shape used by the quantvexa dashboard's STRATEGIES object
-// (winRate, profitRange, lossRange, stats, features) so the admin's edits flow 1:1 to users.
-const DEFAULT_STRATEGIES = [
-  {
-    id:'strong', name:'Strong', tag:'High frequency, moderate accuracy',
-    color:'#00ff88', winRate:0.55, profitRange:[0.3, 1.8], lossRange:[0.4, 1.6],
-    costPerSignal:1, signalsPerDay:'15-25', accuracy:'70%', duration:'1-3m',
-    description:'Generates up to 25 signals per day to capture maximum market opportunities.',
-    features:[
-      'Generates up to 25 signals per day to capture maximum market opportunities',
-      'Real-time scanning across multiple timeframes simultaneously for faster entries',
-      'Instant alerts when a signal is confirmed, with precise entry point detection',
-      'Supports all major assets: currencies, crypto, commodities, and indices',
-      '70% accuracy rate with preliminary filtering to discard weak signals'
-    ],
-    enabled:true,
-  },
-  {
-    id:'medium', name:'Medium', tag:'Balanced signals, steady results',
-    color:'#00d2ff', winRate:0.65, profitRange:[0.3, 2.0], lossRange:[0.3, 1.5],
-    costPerSignal:3, signalsPerDay:'8-12', accuracy:'80%', duration:'2-5m',
-    description:'Perfect balance between signal volume and quality for steady, consistent results.',
-    features:[
-      'Perfect balance between signal volume and quality for steady, consistent results',
-      'Multi-timeframe analysis to confirm trend direction before sending any signal',
-      'Advanced filtering system automatically excludes low-quality setups',
-      'Up to 80% accuracy with built-in risk management rules',
-      'Signals distributed throughout the day with smart timing for optimal sessions'
-    ],
-    enabled:true,
-  },
-  {
-    id:'pro', name:'Pro', tag:'Premium accuracy, low frequency',
-    color:'#ab82ff', winRate:0.78, profitRange:[0.5, 2.5], lossRange:[0.3, 1.2],
-    costPerSignal:6, signalsPerDay:'3-5', accuracy:'92%', duration:'5-15m',
-    description:'Hand-picked signals limited to 5 per day at the highest quality tier.',
-    features:[
-      'Hand-picked signals limited to 5 per day at the highest quality tier',
-      'Exceptional 92% accuracy rate with multi-source confirmation',
-      'Deep analysis powered by AI algorithms and machine-learning models',
-      'Every signal confirmed across multiple technical indicators before delivery',
-      'Includes news and economic event impact analysis for smarter entries'
-    ],
-    enabled:true,
-  },
-];
-const SAMPLE_NAMES = [
-  'James','Sarah','Michael','Emma','John','Olivia','David','Sophia',
-  'Robert','Isabella','William','Ava','Joseph','Mia','Daniel','Charlotte',
-  'Matthew','Amelia','Andrew','Harper','Christopher','Evelyn','Thomas','Abigail',
-];
-const COUNTRIES = ['USA','UK','Germany','France','Canada','Australia','Spain','Italy'];
-
-// ===== Payment Method Icons (sourced from the QuantVexa wallet page — exact same assets) =====
-// Original URLs (kept for reference):
-//   binance: https://raw.githubusercontent.com/bnb-chain/wallet-assets/master/assets/BNB/logo.svg
-//   trc20:   https://cdn.jsdelivr.net/gh/GMWalletApp/crypto-icons@latest/assets/networks/branded/tron.svg
-//   bep20:   https://cdn.jsdelivr.net/gh/GMWalletApp/crypto-icons@latest/assets/networks/branded/binance-smart-chain.svg
-// Inlined as base64 data URIs so the dashboard makes no network calls AND matches the
-// QuantVexa wallet page icons exactly (same brand logos / colors).
-const PAYMENT_ICONS = {
-  binance: `<img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iOTYiIHZpZXdCb3g9IjAgMCA5NiA5NiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iNDgiIGN5PSI0OCIgcj0iNDgiIGZpbGw9IiMwQjBFMTEiLz4KPHBhdGggZD0iTTM0LjUzNTUgNDIuNDY3Nkw0OC4wMDAyIDI5LjAwMzJMNjEuNDcxNyA0Mi40NzQ3TDY5LjMwNjMgMzQuNjM5N0w0OC4wMDAyIDEzLjMzMzNMMjYuNzAwNyAzNC42MzI4TDM0LjUzNTUgNDIuNDY3NlpNMjEuMTY4MyA0MC4xNjQ2TDI5LjAwMyA0Ny45OTkzTDIxLjE2NzkgNTUuODM0NEwxMy4zMzMzIDQ3Ljk5OTdMMjEuMTY4MyA0MC4xNjQ2Wk0zNC41MzU1IDUzLjUzMjJMNDguMDAwMiA2Ni45OTYyTDYxLjQ3MTQgNTMuNTI1NEw2OS4zMTA1IDYxLjM1NjJMNjkuMzA2MyA2MS4zNjAyTDQ4LjAwMDIgODIuNjY2NkwyNi43MDA0IDYxLjM2NzJMMjYuNjg5NSA2MS4zNTY0TDM0LjUzNTUgNTMuNTMyMlpNODIuNjY3NCA0OC4wMDA3TDc0LjgzMjcgNTUuODM1M0w2Ni45OTgxIDQ4LjAwMDdMNzQuODMyNyA0MC4xNjZMODIuNjY3NCA0OC4wMDA3WiIgZmlsbD0iI0YwQjkwQiIvPgo8cGF0aCBkPSJNNTUuOTQ2NiA0Ny45OTZINTUuOTUwMkw0Ny45OTk5IDQwLjA0NTZMNDAuMDQ1NyA0Ny45OTk4TDQwLjA1NjUgNDguMDEwOUw0Ny45OTk5IDU1Ljk1NDNMNTUuOTUzOSA0Ny45OTk4TDU1Ljk0NjYgNDcuOTk2WiIgZmlsbD0iI0YwQjkwQiIvPgo8L3N2Zz4K" alt="BNB" width="32" height="32" loading="lazy" onerror="this.style.opacity='0.3'">`,
-  trc20:   `<img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik00LjQxOTU4IDMuMTg1NzlDNC40ODc5NSAzLjExMDM5IDQuNTc1NCAzLjA1NDgzIDQuNjcyNjkgMy4wMjQ5NUM0Ljc2OTk3IDIuOTk1MDcgNC44NzM1MiAyLjk5MTk2IDQuOTcyNDMgMy4wMTU5OEwxNi44NzU3IDUuOTMwMjhDMTYuOTQ3MiA1Ljk0Njg5IDE3LjAxNDUgNS45NzgyNyAxNy4wNzMyIDYuMDIyNDJMMTkuNDk1MiA3Ljc4ODlDMTkuNjEyOSA3Ljg3NTYxIDE5LjY5MjQgOC4wMDQ0NyAxOS43MTcxIDguMTQ4NDhDMTkuNzQxOSA4LjI5MjUxIDE5LjcxIDguNDQwNDcgMTkuNjI4MSA4LjU2MTU3TDExLjI5NTkgMjAuNzUzMUMxMS4yMzczIDIwLjgzOTUgMTEuMTU1OSAyMC45MDc4IDExLjA2MDggMjAuOTUwNkMxMC45NjU1IDIwLjk5MzIgMTAuODYwNCAyMS4wMDg4IDEwLjc1NjkgMjAuOTk1MkMxMC42NTM0IDIwLjk4MTggMTAuNTU1OCAyMC45Mzk4IDEwLjQ3NDkgMjAuODc0QzEwLjM5MzkgMjAuODA4MyAxMC4zMzI3IDIwLjcyMTMgMTAuMjk4MiAyMC42MjI4TDQuMzA2MzggMy43NTMxMUM0LjI3Mjc0IDMuNjU3MjkgNC4yNjU0OCAzLjU1NDE4IDQuMjg1NDIgMy40NTQ1OUM0LjMwNTMyIDMuMzU1MDEgNC4zNTE2NyAzLjI2MjYyIDQuNDE5NTggMy4xODcxTTYuMzgzNSA2LjIzMDRMMTAuNTQzIDE3Ljk0MTVMMTEuMjI3NSAxMS44NzM0TDYuMzgzNSA2LjIzMDRaTTEyLjM0MTEgMTIuMDY4MkwxMS42NDYxIDE4LjI0MjlMMTcuNTMgOS42MzMwM0wxMi4zNDExIDEyLjA2ODJaTTE4LjA2MDQgOC4xMzc3MkwxNC4yNjgyIDkuOTE3MzZMMTYuODEgNy4yMjY4NEwxOC4wNjA0IDguMTM3NzJaTTE1LjY2NDggNi43OTUwOUw2LjQxMTE1IDQuNTMxMDVMMTEuODM2OSAxMC44NDkzTDE1LjY2NDggNi43OTUwOVoiIGZpbGw9IiNDNDM0MkIiLz4KPC9zdmc+Cg=="   alt="TRC-20" width="32" height="32" loading="lazy" onerror="this.style.opacity='0.3'">`,
-  bep20:   `<img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTcuMDkgNS43NTUwMUwxMiAzTDE2LjkxIDUuNzU1MDFMMTUuMTA5OSA2Ljc3NTAxTDEyIDUuMDM1MDFMOC44OTUgNi43NzUwMUw3LjA5IDUuNzU1MDFaTTE2LjkxIDkuMjM1MDFMMTUuMTA5OSA4LjIxNUwxMiA5Ljk1NTA0TDguODk1IDguMjE1TDcuMDkgOS4yMzUwMVYxMS4yN0wxMC4xOSAxMy4wMVYxNi40ODVMMTIgMTcuNTA1TDEzLjgwNSAxNi40ODVWMTMuMDFMMTYuOTEgMTEuMjdWOS4yMzUwMVpNMTYuOTEgMTQuNzVWMTIuNzFMMTUuMTA5OSAxMy43MzAxVjE1Ljc2NTFMMTYuOTEgMTQuNzVaTTE4LjE5NSAxNS40N0wxNS4wOSAxNy4yMDUxVjE5LjI0NUwyMC4wMDAxIDE2LjQ4NVYxMC45NzUxTDE4LjE5NSAxMS45OTAxVjE1LjQ3Wk0xNi4zOSA3LjQ5NUwxOC4xOSA4LjUxNTAxVjEwLjU1TDIwLjAwMDEgOS41MzUwMVY3LjQ5NUwxOC4xOTUgNi40NzUwM0wxNi4zOSA3LjUwMDAxVjcuNDk1Wk0xMC4xOSAxNy45NDQ5VjE5Ljk3OTlMMTIgMjFMMTMuODA1IDE5Ljk3OTlWMTcuOTVMMTIgMTguOTY1TDEwLjE5NSAxNy45NDQ5SDEwLjE5Wk03LjA5IDE0Ljc0NUw4Ljg5MDAxIDE1Ljc2NTFWMTMuNzMwMUw3LjA5IDEyLjcxVjE0Ljc1VjE0Ljc0NVpNMTAuMTkgNy40OTVMMTIgOC41MTUwMUwxMy44MDUgNy40OTVMMTIgNi40NzUwM0wxMC4xOTUgNy41MDAwMUwxMC4xOSA3LjQ5NVpNNS44MDQ5OSA4LjUxNTAxTDcuNjEgNy40OTVMNS44MDk5OSA2LjQ3NTAzTDQgNy41MDAwMVY5LjU0MDAyTDUuODA0OTkgMTAuNTU1VjguNTIwMDFWOC41MTUwMVpNNS44MDQ5OSAxMS45OTAxTDQgMTAuOTc1MVYxNi40ODVMOC45MSAxOS4yNDVWMTcuMkw1LjgwOTk5IDE1LjQ2NVYxMS45ODUxTDUuODA0OTkgMTEuOTkwMVoiIGZpbGw9IiNGMEI5MEIiLz4KPC9zdmc+Cg=="   alt="BEP-20" width="32" height="32" loading="lazy" onerror="this.style.opacity='0.3'">`
-};
-
-// Static metadata (id / label / subtitle). The "enabled" flag and wallet info come from
-// state.settings.payments (so the admin can toggle / edit them from the Settings page).
-const PAYMENT_METHODS = [
-  { id:'binance', name:'Binance Pay', icon: PAYMENT_ICONS.binance, subtitle:'Pay via Binance Pay ID', label:'Binance Pay ID', fieldKey:'payUser', placeholder:'your-binance-pay-id' },
-  { id:'trc20',   name:'USDT TRC20',  icon: PAYMENT_ICONS.trc20,   subtitle:'USDT on TRON network', label:'Wallet Address',   fieldKey:'wallet',    placeholder:'TXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX' },
-  { id:'bep20',   name:'USDT BEP20',  icon: PAYMENT_ICONS.bep20,   subtitle:'USDT on BSC network',  label:'Wallet Address',   fieldKey:'wallet',    placeholder:'0xXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX' },
-];
-
-const ICONS = {
-  ban:'<svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>',
-  unban:'<svg class="icon" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>',
-  view:'<svg class="icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>',
-  trash:'<svg class="icon" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>',
-  check:'<svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>',
-  x:'<svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>',
-  info:'<svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>',
-  bell:'<svg class="icon" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>',
-  users:'<svg class="icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>',
-  star:'<svg class="icon" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
-  shield:'<svg class="icon" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',
-  bell2:'<svg class="icon" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/></svg>',
-  tag:'<svg class="icon" viewBox="0 0 24 24"><path d="M20 12V8H6a2 2 0 0 1 0-4h12v4"/><path d="M4 6v12a2 2 0 0 0 2 2h14v-4"/><path d="M18 12v4h2a2 2 0 0 0 0-4h-2z"/></svg>',
-  gift:'<svg class="icon" viewBox="0 0 24 24"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>',
-  credit:'<svg class="icon" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>',
-  gear:'<svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1.5"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>',
-  crown:'<svg class="icon" viewBox="0 0 24 24"><path d="M2 19h20l-2-9-4 4-4-7-4 7-4-4-2 9zM4 21h16"/></svg>',
-  user:'<svg class="icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
-  message:'<svg class="icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
-};
-
-function uid() { return 'usr_' + Math.random().toString(36).slice(2,10) + Date.now().toString(36).slice(-4); }
-function randomPhone() { return '+1' + Math.floor(2000000000 + Math.random() * 7999999999).toString().slice(1); }
-
-function loadData() {
-  let users = JSON.parse(localStorage.getItem(STORAGE_KEYS.USERS) || '[]');
-  if (users.length === 0) {
-    users = [];
-    for (let i = 0; i < 24; i++) {
-      let level = 0;
-      if (i < 2) level = 3;
-      else if (i < 5) level = 2;
-      else if (i < 9) level = 1;
-      const promotedAt = level > 0 ? new Date(Date.now() - (i+1) * 86400000).toISOString() : null;
-      // ===== QuantVexa-compatible fields (for future DB sync with the 4 quantvexa pages) =====
-      // - platform: matches quantvexa platform selector (QUOTEX / BINOLLA)
-      // - strategy: matches quantvexa dashboard STRATEGIES keys (strong / medium / pro)
-      // - tgId / tgUsername / tgPhotoUrl: mirror what each quantvexa iframe receives via ?tg_* params
-      // - signalsRemaining / signalsSent / signalsTotal: mirror dashboard's credits counter
-      // - subscriptionStatus / subscriptionPlan / subscriptionExpiresAt: mirror wallet page state
-      // - botRunning: whether the user's bot session is currently active (dashboard page)
-      const tgId = 100000000 + i;
-      const platform = i % 2 === 0 ? 'QUOTEX' : 'BINOLLA';
-      const strategy = ['strong', 'medium', 'pro'][i % 3];
-      const plan = level === 3 ? 'Elite' : level === 2 ? 'Pro' : level === 1 ? 'Pro' : 'Basic';
-      const planAmount = plan === 'Elite' ? 100 : plan === 'Pro' ? 75 : 50;
-      const isPaid = level > 0 || i < 12;
-      const signalsTotal = isPaid ? 900 : 0;
-      const signalsSent = Math.floor(Math.random() * signalsTotal);
-      const subExpiresIn = isPaid ? Math.floor((30 - (i % 25)) * 86400000) : 0;
-      users.push({
-        id: uid(), email: `user${i+1}@dashboard.io`,
-        name: SAMPLE_NAMES[i] ?? `User${i+1}`,
-        role: i === 23 ? 'ADMIN' : 'USER',
-        level: i === 23 ? 0 : level,
-        status: i % 9 === 0 ? 'BANNED' : 'ACTIVE',
-        phone: randomPhone(),
-        country: COUNTRIES[i % COUNTRIES.length],
-        joinedAt: new Date(Date.now() - (i+1) * 86400000 * Math.floor(1 + Math.random() * 5)).toISOString(),
-        promotedAt,
-        promotionHistory: level > 0 ? [{ level, at: promotedAt, note: `Promoted to Level ${level}` }] : [],
-        // QuantVexa-compatible fields
-        tgId: String(tgId),
-        tgUsername: `user${i+1}`,
-        tgPhotoUrl: '',
-        platform,
-        strategy,
-        botRunning: false,
-        signalsRemaining: Math.max(0, signalsTotal - signalsSent),
-        signalsSent,
-        signalsTotal,
-        signalsDailyLimit: 50,
-        subscriptionStatus: isPaid ? 'ACTIVE' : 'INACTIVE',
-        subscriptionPlan: isPaid ? plan : null,
-        subscriptionPlanId: isPaid ? ('pl' + (plan === 'Elite' ? 3 : plan === 'Pro' ? 2 : 1)) : null,
-        subscriptionAmount: isPaid ? planAmount : 0,
-        subscriptionStartedAt: isPaid ? new Date(Date.now() - 86400000 * (i % 10 + 1)).toISOString() : null,
-        subscriptionExpiresAt: isPaid ? new Date(Date.now() + subExpiresIn).toISOString() : null,
-        autoRenewal: isPaid,
-      });
-    }
-    localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(users));
+async function api(path, options = {}) {
+  const opts = {
+    method: options.method || 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      ...(adminToken ? { 'Authorization': `Bearer ${adminToken}` } : {}),
+      ...(options.headers || {}),
+    },
+    ...(options.body ? { body: JSON.stringify(options.body) } : {}),
+  };
+  try {
+    const r = await fetch(`${API_URL}${path}`, opts);
+    const data = await r.json();
+    if (!data.ok) throw new Error(data.error?.message || 'API error');
+    return data.data;
+  } catch (err) {
+    console.error('API error:', path, err.message);
+    toast(`API: ${err.message}`, 'error');
+    return null;
   }
-  // ===== Migration: back-fill quantvexa-compatible fields on existing user records =====
-  // This runs every load and patches any user missing the new fields (no version bump needed
-  // because we always derive sane defaults from existing data).
-  let userSchemaDirty = false;
-  users.forEach(u => {
-    if(u.tgId === undefined){
-      u.tgId = '10' + String(users.indexOf(u)).padStart(8, '0');
-      u.tgUsername = (u.name || 'user').toLowerCase().replace(/\s+/g, '');
-      u.tgPhotoUrl = '';
-      u.platform = 'QUOTEX';
-      u.strategy = 'strong';
-      u.botRunning = false;
-      u.signalsRemaining = (u.level || 0) > 0 ? 900 : 0;
-      u.signalsSent = 0;
-      u.signalsTotal = (u.level || 0) > 0 ? 900 : 0;
-      u.signalsDailyLimit = 50;
-      u.subscriptionStatus = (u.level || 0) > 0 ? 'ACTIVE' : 'INACTIVE';
-      u.subscriptionPlan = (u.level || 0) > 0 ? (u.level === 3 ? 'Elite' : 'Pro') : null;
-      u.subscriptionPlanId = (u.level || 0) > 0 ? ('pl' + (u.level === 3 ? 3 : 2)) : null;
-      u.subscriptionAmount = (u.level || 0) > 0 ? (u.level === 3 ? 100 : 75) : 0;
-      u.subscriptionStartedAt = u.joinedAt;
-      u.subscriptionExpiresAt = (u.level || 0) > 0 ? new Date(Date.now() + 30*86400000).toISOString() : null;
-      u.autoRenewal = (u.level || 0) > 0;
-      userSchemaDirty = true;
-    }
-    // Also rename any existing 'Starter'/'Enterprise' plan names on user records
-    if(u.subscriptionPlan === 'Starter'){ u.subscriptionPlan = 'Basic'; userSchemaDirty = true; }
-    if(u.subscriptionPlan === 'Enterprise'){ u.subscriptionPlan = 'Elite'; userSchemaDirty = true; }
-  });
-  if(userSchemaDirty){ localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(users)); }
-  let notifs = JSON.parse(localStorage.getItem(STORAGE_KEYS.NOTIFS) || '[]');
-  if (notifs.length === 0) {
-    notifs = [
-      { id:'n1', title:'Welcome to the platform', body:'Welcome to the admin dashboard. Thank you for joining us.', channel:'USER_ID', target:users[0]?.id||'—', sentAt:new Date(Date.now()-3600000).toISOString(), sentCount:1 },
-      { id:'n2', title:'Special offer for premium members', body:'An exclusive offer has been activated for all premium members for 7 days.', channel:'PREMIUM', target:null, sentAt:new Date(Date.now()-7200000).toISOString(), sentCount:6 },
-      { id:'n3', title:'New system update', body:'Version 2.0 of the platform has been released with many improvements.', channel:'ALL', target:null, sentAt:new Date(Date.now()-86400000).toISOString(), sentCount:24 },
-    ];
-    localStorage.setItem(STORAGE_KEYS.NOTIFS, JSON.stringify(notifs));
-  }
-  let promos = JSON.parse(localStorage.getItem(STORAGE_KEYS.PROMOS) || '[]');
-  if (promos.length === 0) {
-    promos = [
-      { id:'p1', code:'WELCOME', audience:'ALL', maxUsers:60, activated:12, discountPct:15, createdAt:new Date(Date.now()-86400000).toISOString() },
-      { id:'p2', code:'VIP2024', audience:'PREMIUM', maxUsers:30, activated:5, discountPct:25, createdAt:new Date(Date.now()-43200000).toISOString() },
-      { id:'p3', code:'NEW50', audience:'NEW', maxUsers:50, activated:0, discountPct:10, createdAt:new Date(Date.now()-7200000).toISOString() },
-    ];
-    localStorage.setItem(STORAGE_KEYS.PROMOS, JSON.stringify(promos));
-  }
-  let settings = JSON.parse(localStorage.getItem(STORAGE_KEYS.SETTINGS) || 'null');
-  if (!settings) {
-    settings = {
-      email:'admin@dashboard.io',
-      password:'Admin@2024',
-      payments:{
-        binance:{ enabled:true, payUser:'YOUR_BINANCE_PAY_ID' },
-        trc20:{ enabled:true, wallet:'TXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX' },
-        bep20:{ enabled:true, wallet:'0xXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX' }
-      }
-    };
-    localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(settings));
-  }
-  // Migration: ensure payments config exists (back-fill for older saved settings)
-  if(!settings.payments){
-    settings.payments = {
-      binance:{ enabled:true, payUser:'YOUR_BINANCE_PAY_ID' },
-      trc20:{ enabled:true, wallet:'TXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX' },
-      bep20:{ enabled:true, wallet:'0xXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX' }
-    };
-    localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(settings));
-  }
-  let offers = JSON.parse(localStorage.getItem(STORAGE_KEYS.OFFERS) || '[]');
-  if (offers.length === 0) {
-    offers = [
-      { id:'o'+Date.now(), title:'Summer Mega Sale — 50% Off', body:'Beat the heat with our biggest summer sale! Get 50% off all annual plans.', active:true, createdAt:new Date(Date.now()-3*86400000).toISOString() },
-      { id:'o'+(Date.now()+1), title:'Refer a Friend — Both Get 1 Month Free', body:'Invite friends to the platform.', active:true, createdAt:new Date(Date.now()-86400000).toISOString() },
-      { id:'o'+(Date.now()+2), title:'Black Friday Preview', body:'Coming soon — exclusive Black Friday deals for premium members only.', active:false, createdAt:new Date(Date.now()-7*86400000).toISOString() },
-    ];
-    localStorage.setItem(STORAGE_KEYS.OFFERS, JSON.stringify(offers));
-  }
-  // ===== PLANS WITH PRICES: 50, 75, 100 (locked tiers) =====
-  const PLANS_VERSION = 'v3-basic-pro-elite';
-  const ALLOWED_PLAN_PRICES = [50, 75, 100];
-  let plansVersion = localStorage.getItem(STORAGE_KEYS.PLANS + '_version');
-  let plans = JSON.parse(localStorage.getItem(STORAGE_KEYS.PLANS) || '[]');
-  // Reset to defaults if first load OR version mismatch OR existing plans contain invalid prices
-  // OR existing plans still use the old names (Starter / Enterprise)
-  const hasInvalidPrice = plans.length > 0 && plans.some(p => !ALLOWED_PLAN_PRICES.includes(Number(p.price)));
-  const hasOldName = plans.length > 0 && plans.some(p => p.name === 'Starter' || p.name === 'Enterprise');
-  if (plans.length === 0 || plansVersion !== PLANS_VERSION || hasInvalidPrice || hasOldName) {
-    plans = [
-      { id:'pl1', name:'Basic',    price:50,  duration:'month', features:['Up to 100 signals per month','Strong strategy access','Telegram bot integration','Basic trade history (30 days)'],                                featured:false, active:true, createdAt:new Date(Date.now()-86400000).toISOString() },
-      { id:'pl2', name:'Pro',      price:75,  duration:'month', features:['Up to 500 signals per month','All strategies (Strong, Medium, Pro)','Advanced analytics dashboard','Full trade history (unlimited)','Priority 24/7 support','Multi-exchange support'], featured:true,  active:true, createdAt:new Date(Date.now()-43200000).toISOString() },
-      { id:'pl3', name:'Elite',    price:100, duration:'month', features:['Unlimited signals','All strategies + early access','White-label dashboard','Dedicated account manager','24/7 phone support','Custom integrations','SLA guarantee'],           featured:false, active:true, createdAt:new Date(Date.now()-7200000).toISOString() },
-    ];
-    localStorage.setItem(STORAGE_KEYS.PLANS, JSON.stringify(plans));
-    localStorage.setItem(STORAGE_KEYS.PLANS + '_version', PLANS_VERSION);
-  }
-  let convos = JSON.parse(localStorage.getItem(STORAGE_KEYS.CONVOS) || '[]');
-  if (convos.length === 0) {
-    const u1=users[0], u2=users[1], u3=users.find(x=>x.status==='BANNED')||users[5];
-    convos = [
-      { id:'c1', userId:u1.id, userName:u1.name, userEmail:u1.email, status:'open', unread:true, messages:[
-        { from:'user', text:'Hi, I have trouble accessing my account.', image:null, at:new Date(Date.now()-7200000).toISOString() },
-      ]},
-      { id:'c2', userId:u2.id, userName:u2.name, userEmail:u2.email, status:'open', unread:false, messages:[
-        { from:'user', text:'How do I upgrade to the premium plan?', image:null, at:new Date(Date.now()-3600000).toISOString() },
-        { from:'admin', text:'Go to Settings → Subscription → Upgrade.', image:null, at:new Date(Date.now()-3500000).toISOString() },
-      ]},
-      { id:'c3', userId:u3.id, userName:u3.name, userEmail:u3.email, status:'resolved', unread:false, messages:[
-        { from:'user', text:'Why was my account banned?', image:null, at:new Date(Date.now()-86400000).toISOString() },
-      ]},
-    ];
-    localStorage.setItem(STORAGE_KEYS.CONVOS, JSON.stringify(convos));
-  }
-  let subscriptions = JSON.parse(localStorage.getItem(STORAGE_KEYS.SUBSCRIPTIONS) || 'null');
-  if (!subscriptions) {
-    const total = users.filter(u => u.status === 'ACTIVE').length;
-    const freeCount = Math.floor(total * 0.55);
-    const proCount = Math.floor(total * 0.30);
-    const enterpriseCount = Math.max(1, total - freeCount - proCount);
-    const genHistory = (base, variance) => {
-      const arr = [];
-      for (let i = 13; i >= 0; i--) {
-        const day = new Date(Date.now() - i * 86400000);
-        const noise = Math.floor((Math.random() - 0.5) * variance);
-        arr.push({ date: day.toISOString().slice(0,10), label: day.toLocaleDateString('en-US',{day:'2-digit',month:'short'}), count: Math.max(0, base + noise) });
-      }
-      return arr;
-    };
-    subscriptions = {
-      free: { total: freeCount, history: genHistory(Math.floor(freeCount*0.08), 3) },
-      pro: { total: proCount, history: genHistory(Math.floor(proCount*0.12), 2) },
-      enterprise: { total: enterpriseCount, history: genHistory(Math.floor(enterpriseCount*0.15), 1) },
-    };
-    localStorage.setItem(STORAGE_KEYS.SUBSCRIPTIONS, JSON.stringify(subscriptions));
-  }
-  // ===== Subscription payment requests: Binance / USDT TRC20 / USDT BEP20 (QuantVexa wallet methods) =====
-  // Prices are ALWAYS locked to 50 / 75 / 100 — never any other value.
-  const SUB_REQ_VERSION = 'v4-basic-pro-elite';
-  const ALLOWED_AMOUNTS = [50, 75, 100];
-  let subReqVersion = localStorage.getItem(STORAGE_KEYS.SUB_REQUESTS + '_version');
-  let subRequests = JSON.parse(localStorage.getItem(STORAGE_KEYS.SUB_REQUESTS) || 'null');
-  // Re-seed when version changes, OR if any request still uses old method IDs (paypal/usdt),
-  // OR if any request has an amount outside the locked [50,75,100] set (e.g. old $19.99 demos),
-  // OR if any request still references the old plan names (Starter / Enterprise).
-  const hasOldMethod = subRequests && subRequests.some(r => ['paypal','usdt'].includes(r.paymentMethod));
-  const hasInvalidAmount = subRequests && subRequests.some(r => !ALLOWED_AMOUNTS.includes(Number(r.amount)));
-  const hasOldPlanName = subRequests && subRequests.some(r => r.planName === 'Starter' || r.planName === 'Enterprise');
-  if (!subRequests || subReqVersion !== SUB_REQ_VERSION || hasOldMethod || hasInvalidAmount || hasOldPlanName) {
-    subRequests = [
-      {
-        id: 'sr1',
-        userId: users[0].id,
-        userName: users[0].name,
-        userEmail: users[0].email,
-        planId: 'pl2',
-        planName: 'Pro',
-        planPrice: 75,
-        paymentMethod: 'bep20',
-        paymentMethodLabel: 'USDT BEP20',
-        amount: 75,
-        transactionId: '0x' + Math.random().toString(16).slice(2,14) + Math.random().toString(16).slice(2,10),
-        receiptImage: 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="260"><rect width="400" height="260" fill="#f8fafc"/><rect x="20" y="20" width="360" height="220" fill="#fff" stroke="#e2e8f0" stroke-width="2" rx="8"/><text x="200" y="60" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold" fill="#0f172a">USDT BEP20</text><text x="200" y="90" text-anchor="middle" font-family="Arial" font-size="12" fill="#64748b">BSC Transfer</text><line x1="40" y1="105" x2="360" y2="105" stroke="#e2e8f0"/><text x="40" y="135" font-family="Arial" font-size="13" fill="#475569">Amount:</text><text x="360" y="135" text-anchor="end" font-family="Arial" font-size="13" font-weight="bold" fill="#0f172a">75 USDT</text><text x="40" y="165" font-family="Arial" font-size="13" fill="#475569">Plan:</text><text x="360" y="165" text-anchor="end" font-family="Arial" font-size="13" font-weight="bold" fill="#0f172a">Pro (Monthly)</text><text x="40" y="195" font-family="Arial" font-size="13" fill="#475569">TX Hash:</text><text x="360" y="195" text-anchor="end" font-family="Arial" font-size="10" font-weight="bold" fill="#0f172a">0x9f2b...c7d8</text><circle cx="200" cy="225" r="8" fill="#16a34a"/><path d="M196 225 L199 228 L205 222" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg>'),
-        status: 'pending',
-        requestedAt: new Date(Date.now() - 1800000).toISOString(),
-        messages: [
-          { from: 'user', text: 'Hi, I just sent the payment for the Pro plan via USDT BEP20. Here is my receipt. Please verify and upgrade my account. Thank you!', at: new Date(Date.now() - 1800000).toISOString() }
-        ]
-      },
-      {
-        id: 'sr2',
-        userId: users[1].id,
-        userName: users[1].name,
-        userEmail: users[1].email,
-        planId: 'pl3',
-        planName: 'Elite',
-        planPrice: 100,
-        paymentMethod: 'trc20',
-        paymentMethodLabel: 'USDT TRC20',
-        amount: 100,
-        transactionId: 'T' + Math.random().toString(36).slice(2,14).toUpperCase() + Math.random().toString(36).slice(2,10).toUpperCase(),
-        receiptImage: 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="260"><rect width="400" height="260" fill="#f8fafc"/><rect x="20" y="20" width="360" height="220" fill="#fff" stroke="#e2e8f0" stroke-width="2" rx="8"/><text x="200" y="60" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold" fill="#0f172a">USDT TRC20</text><text x="200" y="90" text-anchor="middle" font-family="Arial" font-size="12" fill="#64748b">TRON Transfer</text><line x1="40" y1="105" x2="360" y2="105" stroke="#e2e8f0"/><text x="40" y="135" font-family="Arial" font-size="13" fill="#475569">Amount:</text><text x="360" y="135" text-anchor="end" font-family="Arial" font-size="13" font-weight="bold" fill="#0f172a">100 USDT</text><text x="40" y="165" font-family="Arial" font-size="13" fill="#475569">Plan:</text><text x="360" y="165" text-anchor="end" font-family="Arial" font-size="13" font-weight="bold" fill="#0f172a">Elite (Monthly)</text><text x="40" y="195" font-family="Arial" font-size="13" fill="#475569">TX Hash:</text><text x="360" y="195" text-anchor="end" font-family="Arial" font-size="10" font-weight="bold" fill="#0f172a">T8f3a...b2c1</text><circle cx="200" cy="225" r="8" fill="#f59e0b"/><text x="200" y="230" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="#fff">!</text></svg>'),
-        status: 'pending',
-        requestedAt: new Date(Date.now() - 7200000).toISOString(),
-        messages: [
-          { from: 'user', text: 'Payment sent via USDT TRC20. Please check the receipt attached.', at: new Date(Date.now() - 7200000).toISOString() }
-        ]
-      },
-      {
-        id: 'sr3',
-        userId: users[4].id,
-        userName: users[4].name,
-        userEmail: users[4].email,
-        planId: 'pl2',
-        planName: 'Pro',
-        planPrice: 75,
-        paymentMethod: 'binance',
-        paymentMethodLabel: 'Binance Pay',
-        amount: 75,
-        transactionId: 'PAY-' + Math.random().toString(36).slice(2,10).toUpperCase(),
-        receiptImage: 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="260"><rect width="400" height="260" fill="#f8fafc"/><rect x="20" y="20" width="360" height="220" fill="#fff" stroke="#e2e8f0" stroke-width="2" rx="8"/><text x="200" y="60" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold" fill="#0f172a">Binance Pay</text><text x="200" y="90" text-anchor="middle" font-family="Arial" font-size="12" fill="#64748b">Order Confirmation</text><line x1="40" y1="105" x2="360" y2="105" stroke="#e2e8f0"/><text x="40" y="135" font-family="Arial" font-size="13" fill="#475569">Amount:</text><text x="360" y="135" text-anchor="end" font-family="Arial" font-size="13" font-weight="bold" fill="#0f172a">$75.00</text><text x="40" y="165" font-family="Arial" font-size="13" fill="#475569">Plan:</text><text x="360" y="165" text-anchor="end" font-family="Arial" font-size="13" font-weight="bold" fill="#0f172a">Pro (Monthly)</text><text x="40" y="195" font-family="Arial" font-size="13" fill="#475569">Verification Code:</text><text x="360" y="195" text-anchor="end" font-family="Arial" font-size="12" font-weight="bold" fill="#0f172a">PAY-9KX2M4</text><circle cx="200" cy="225" r="8" fill="#16a34a"/><path d="M196 225 L199 228 L205 222" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg>'),
-        status: 'approved',
-        requestedAt: new Date(Date.now() - 86400000).toISOString(),
-        resolvedAt: new Date(Date.now() - 82800000).toISOString(),
-        messages: [
-          { from: 'user', text: 'Payment completed via Binance Pay. Please verify.', at: new Date(Date.now() - 86400000).toISOString() },
-          { from: 'admin', text: 'Payment verified. You have been upgraded to the Pro plan. Enjoy your new features!', at: new Date(Date.now() - 82800000).toISOString() }
-        ]
-      }
-    ];
-    localStorage.setItem(STORAGE_KEYS.SUB_REQUESTS, JSON.stringify(subRequests));
-    localStorage.setItem(STORAGE_KEYS.SUB_REQUESTS + '_version', SUB_REQ_VERSION);
-  }
-
-  // ===== QuantVexa-compatible: live trading signals =====
-  // Signal shape mirrors the quantvexa signals page (erqq) so they can be synced later:
-  //   { id, symbol, type, entry, duration, startTime, result, profit, userId, strategy, platform }
-  // We no longer seed sample signals — the admin does not need to see hundreds of them.
-  // The storage key + schema are kept so a future backend can push real signals in.
-  let signals = JSON.parse(localStorage.getItem(STORAGE_KEYS.SIGNALS) || 'null');
-  if(!signals){
-    signals = [];
-    localStorage.setItem(STORAGE_KEYS.SIGNALS, JSON.stringify(signals));
-  }
-
-  // ===== QuantVexa-compatible: platforms & strategies (admin-editable) =====
-  // Each platform carries a `running` flag — when false, the QUOTEX/BINOLLA server
-  // is treated as stopped and users on that platform will see a "server unavailable"
-  // state. This is independent from the `enabled` flag (which controls whether the
-  // platform is offered to NEW users at all).
-  let platforms = JSON.parse(localStorage.getItem(STORAGE_KEYS.PLATFORMS) || 'null');
-  if(!platforms){
-    platforms = JSON.parse(JSON.stringify(DEFAULT_PLATFORMS));
-    // Default both servers to running on first load
-    platforms.forEach(p => { p.running = true; });
-    localStorage.setItem(STORAGE_KEYS.PLATFORMS, JSON.stringify(platforms));
-  }
-  // Migration: back-fill `running` field on older platform records
-  let platformSchemaDirty = false;
-  platforms.forEach(p => {
-    if(p.running === undefined){ p.running = true; platformSchemaDirty = true; }
-  });
-  if(platformSchemaDirty){ localStorage.setItem(STORAGE_KEYS.PLATFORMS, JSON.stringify(platforms)); }
-  let strategies = JSON.parse(localStorage.getItem(STORAGE_KEYS.STRATEGIES) || 'null');
-  if(!strategies){
-    strategies = JSON.parse(JSON.stringify(DEFAULT_STRATEGIES));
-    localStorage.setItem(STORAGE_KEYS.STRATEGIES, JSON.stringify(strategies));
-  }
-
-  return { users, notifs, promos, settings, offers, plans, convos, subscriptions, subRequests, signals, platforms, strategies };
 }
 
-function saveUsers(u){localStorage.setItem(STORAGE_KEYS.USERS,JSON.stringify(u))}
-function saveNotifs(n){localStorage.setItem(STORAGE_KEYS.NOTIFS,JSON.stringify(n))}
-function savePromos(p){localStorage.setItem(STORAGE_KEYS.PROMOS,JSON.stringify(p))}
-function saveSettings(s){localStorage.setItem(STORAGE_KEYS.SETTINGS,JSON.stringify(s))}
-function saveOffers(o){localStorage.setItem(STORAGE_KEYS.OFFERS,JSON.stringify(o))}
-function savePlans(p){localStorage.setItem(STORAGE_KEYS.PLANS,JSON.stringify(p))}
-function saveConvos(c){localStorage.setItem(STORAGE_KEYS.CONVOS,JSON.stringify(c))}
-function saveSubscriptions(s){localStorage.setItem(STORAGE_KEYS.SUBSCRIPTIONS,JSON.stringify(s))}
-function saveSubRequests(r){localStorage.setItem(STORAGE_KEYS.SUB_REQUESTS,JSON.stringify(r))}
-// QuantVexa-compatible save helpers
-function saveSignals(s){localStorage.setItem(STORAGE_KEYS.SIGNALS,JSON.stringify(s))}
-function savePlatforms(p){localStorage.setItem(STORAGE_KEYS.PLATFORMS,JSON.stringify(p))}
-function saveStrategies(s){localStorage.setItem(STORAGE_KEYS.STRATEGIES,JSON.stringify(s))}
+// State — populated from API (no fake data)
+const state = {
+  users: [], notifs: [], promos: [], settings: { email: '' }, offers: [], plans: [],
+  convos: [], subscriptions: { free: {total:0}, pro: {total:0}, enterprise: {total:0} },
+  subRequests: [], signals: [], platforms: [], strategies: [], payments: {},
+};
 
-const state = loadData();
+// Load all data from the API
+async function loadStateFromAPI() {
+  const [users, notifs, promos, offers, plans, subRequests, convos,
+         strategies, platforms, payments, signals] = await Promise.all([
+    api('/api/admin/users'),
+    api('/api/admin/notifications'),
+    api('/api/admin/promos'),
+    api('/api/admin/offers'),
+    api('/api/plans'),
+    api('/api/admin/subscriptions'),
+    api('/api/admin/support/convos'),
+    api('/api/admin/strategies'),
+    api('/api/admin/platforms'),
+    api('/api/admin/payments'),
+    api('/api/admin/signals?limit=100'),
+  ]);
+  state.users = users || [];
+  state.notifs = notifs || [];
+  state.promos = promos || [];
+  state.offers = offers || [];
+  state.plans = plans || [];
+  state.subRequests = subRequests || [];
+  state.convos = convos || [];
+  state.strategies = strategies || [];
+  state.platforms = platforms || [];
+  state.payments = payments || {};
+  state.signals = signals || [];
+}
+
+// Save helpers — now call the API instead of localStorage
+function saveNotifs(n){ /* API handles persistence */ }
+function savePromos(p){ /* API handles persistence */ }
+function saveOffers(o){ /* API handles persistence */ }
+function savePlans(p){ /* API handles persistence */ }
+function saveConvos(c){ /* API handles persistence */ }
+function saveSubRequests(r){ /* API handles persistence */ }
+function saveUsers(u){ /* API handles persistence */ }
+function saveSettings(s){ /* API handles persistence */ }
+function saveSubscriptions(s){ /* API handles persistence */ }
+function saveSignals(s){ /* API handles persistence */ }
+function savePlatforms(p){ /* API handles persistence */ }
+function saveStrategies(s){ /* API handles persistence */ }
+
+// Helpers kept for UI compatibility
+function uid() { return 'usr_' + Math.random().toString(36).slice(2,10) + Date.now().toString(36).slice(-4); }
+function randomPhone() { return '+1' + Math.floor(2000000000 + Math.random() * 7999999999).toString().slice(1); }
+const COUNTRIES = ['USA','UK','Germany','France','Canada','Australia','Spain','Italy'];
 
 function formatDate(iso){const d=new Date(iso);return d.toLocaleDateString('en-US',{day:'2-digit',month:'short',year:'numeric'})}
 function formatDateTime(iso){const d=new Date(iso);return d.toLocaleString('en-US',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}
@@ -1969,12 +1608,44 @@ function applyTheme(theme){
 function toggleTheme(){const c=document.documentElement.getAttribute('data-theme');applyTheme(c==='dark'?'light':'dark')}
 document.getElementById('themeToggle').addEventListener('click',toggleTheme);
 
-function isLoggedIn(){return localStorage.getItem('ad_session')==='yes'}
-function showLogin(){document.getElementById('loginOverlay').classList.remove('hidden');const s=JSON.parse(localStorage.getItem(STORAGE_KEYS.SETTINGS)||'{}');if(s.email)document.getElementById('loginEmail').value=s.email;setTimeout(()=>document.getElementById('loginPassword').focus(),50)}
+function isLoggedIn(){return !!adminToken}
+function showLogin(){document.getElementById('loginOverlay').classList.remove('hidden');setTimeout(()=>document.getElementById('loginEmail').focus(),50)}
 function hideLogin(){document.getElementById('loginOverlay').classList.add('hidden')}
-function togglePassword(inputId,btn){const input=document.getElementById(inputId);if(!input)return;const isH=input.type==='password';input.type=isH?'text':'password';btn.innerHTML=isH?'<svg class="icon" viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>':'<svg class="icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';btn.setAttribute('title',isH?'Hide password':'Show password')}
-function doLogin(e){e.preventDefault();const btn=document.getElementById('loginSubmit');const content=document.getElementById('loginBtnContent');btn.classList.add('loading');const orig=content.innerHTML;content.innerHTML='<span class="spinner"></span><span>Signing in...</span>';setTimeout(()=>{const email=document.getElementById('loginEmail').value.trim();const pass=document.getElementById('loginPassword').value;if(email!==state.settings.email){btn.classList.remove('loading');content.innerHTML=orig;toast('Invalid email','error');return}if(pass!==state.settings.password){btn.classList.remove('loading');content.innerHTML=orig;toast('Invalid password','error');return}localStorage.setItem('ad_session','yes');hideLogin();toast('Welcome back, Administrator','success');renderDashboard();btn.classList.remove('loading');content.innerHTML=orig},900);return false}
-function doLogout(){showConfirmCard({title:'Sign out of dashboard?',message:'You will need to sign in again to access the admin panel.',icon:'info',confirmText:'Sign Out',onConfirm:()=>{localStorage.removeItem('ad_session');document.getElementById('loginPassword').value='';showLogin();toast('Signed out successfully','info')}})}
+
+async function doLogin(e){
+  e.preventDefault();
+  const btn=document.getElementById('loginSubmit');
+  const content=document.getElementById('loginBtnContent');
+  btn.classList.add('loading');
+  const orig=content.innerHTML;
+  content.innerHTML='<span class="spinner"></span><span>Signing in...</span>';
+  const email=document.getElementById('loginEmail').value.trim();
+  const pass=document.getElementById('loginPassword').value;
+  try {
+    const result = await fetch(`${API_URL}/api/admin/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password: pass })
+    }).then(r => r.json());
+    if (!result.ok) {
+      btn.classList.remove('loading'); content.innerHTML=orig;
+      toast(result.error?.message || 'Login failed','error'); return false;
+    }
+    adminToken = result.data.token;
+    sessionStorage.setItem('ad_admin_token', adminToken);
+    state.settings.email = email;
+    const el = document.getElementById('adminEmail'); if (el) el.textContent = email;
+    hideLogin(); toast('Welcome back, Administrator','success');
+    await loadStateFromAPI(); renderDashboard();
+    btn.classList.remove('loading'); content.innerHTML=orig;
+  } catch (err) {
+    btn.classList.remove('loading'); content.innerHTML=orig;
+    toast('Connection error','error');
+  }
+  return false;
+}
+
+function doLogout(){showConfirmCard({title:'Sign out of dashboard?',message:'You will need to sign in again to access the admin panel.',icon:'info',confirmText:'Sign Out',onConfirm:()=>{adminToken='';sessionStorage.removeItem('ad_admin_token');document.getElementById('loginPassword').value='';showLogin();toast('Signed out successfully','info')}})}
 
 function showConfirmCard({title,message,icon='info',confirmText='Confirm',onConfirm,user=null}){
   document.getElementById('confirmTitle').textContent=title;
@@ -2000,10 +1671,12 @@ function cancelConfirm(){document.getElementById('confirmModal').classList.remov
 document.addEventListener('keydown',(e)=>{if(e.key==='Escape'){if(document.getElementById('confirmModal').classList.contains('show'))cancelConfirm()}});
 
 document.querySelectorAll('.nav-item').forEach(btn=>{btn.addEventListener('click',()=>goTo(btn.dataset.tab))});
-function goTo(tab){
+async function goTo(tab){
   document.querySelectorAll('.nav-item').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));
   document.querySelectorAll('.mobile-nav-item').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));
   document.querySelectorAll('.tab-content').forEach(s=>s.classList.toggle('active',s.id==='tab-'+tab));
+  // Refresh data from API before rendering each tab
+  await loadStateFromAPI();
   if(tab==='dashboard')renderDashboard();
   if(tab==='users')renderUsers();
   if(tab==='notifications')renderNotifHistory();
@@ -2892,10 +2565,21 @@ function updatePassword(){const current=document.getElementById('currentPass').v
 const savedTheme = localStorage.getItem('ad_theme') || 'light';
 try{applyTheme(savedTheme)}catch(e){console.warn('theme init error:',e)}
 
-if(isLoggedIn()){try{hideLogin();renderDashboard()}catch(e){console.warn('init error:',e)}}else{try{showLogin()}catch(e){console.warn('login show error:',e)}}
-// Initialize nav badges on first load (unread convos + pending payment requests)
-// (always runs, even if the dashboard init above threw)
-try{updateSupportBadge()}catch(e){console.warn('badge init error:',e)}
+// On boot: if we have an admin token, load data from API and show dashboard
+// Otherwise show the login screen
+if(isLoggedIn()){
+  // We have a token — verify it works by loading data
+  loadStateFromAPI().then(() => {
+    try { hideLogin(); renderDashboard(); } catch(e) { console.warn('render error:', e) }
+    try { updateSupportBadge() } catch(e) {}
+  }).catch(() => {
+    // Token invalid — show login
+    adminToken = ''; sessionStorage.removeItem('ad_admin_token');
+    showLogin();
+  });
+} else {
+  try { showLogin() } catch(e) { console.warn('login show error:', e) }
+}
 </script>
 </body>
 </html>
